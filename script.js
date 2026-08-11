@@ -182,3 +182,20 @@ function initTrackingScripts() {
     // Insira aqui scripts como Google Analytics ou Facebook Pixel, se houver
     console.log('LGPD: Consentimento total concedido. Carregando scripts de medição.');
 }
+// Exemplo no script.js
+const REPO_NAME = 'kywifi-telecom'; // Nome do repositório
+const COOKIE_KEY = `${REPO_NAME}_lgpd_consent`;
+
+// Ao salvar o consentimento:
+function aceitarCookies() {
+  localStorage.setItem(COOKIE_KEY, 'true');
+  document.getElementById('cookie-banner').style.display = 'none';
+}
+
+// Ao verificar se já foi aceito:
+function verificarCookies() {
+  const consentimento = localStorage.getItem(COOKIE_KEY);
+  if (consentimento === 'true') {
+    document.getElementById('cookie-banner').style.display = 'none';
+  }
+}
