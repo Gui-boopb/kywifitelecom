@@ -1,6 +1,86 @@
-const numeroWhatsApp = "5561982031828";
+/* ==========================================================================
+   KY WIFI TELECOM - SCRIPT PRINCIPAL
+   ========================================================================== */
 
-// Função para enviar mensagem personalizada para o WhatsApp
+// Configurações Globais
+const NUMERO_WHATSAPP = "5561982031828";
+const COOKIE_NAME = "ky_telecom_lgpd_consent";
+
+/* --- 1. GERENCIAMENTO REAL DE COOKIES (document.cookie) --- */
+function setCookie(name, value, days) {
+    let expires = "";
+    if (days) {
+        const date = new Date();
+        date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+        expires = "; expires=" + date.toUTCString();
+    }
+    document.cookie = `${name}=${encodeURIComponent(value)}${expires}; path=/; SameSite=Lax`;
+}
+
+function getCookie(name) {
+    const nameEQ = name + "=";
+    const ca = document.cookie.split(';');
+    for (let i = 0; i < ca.length; i++) {
+        let c = ca[i].trim();
+        if (c.indexOf(nameEQ) === 0) {
+            return decodeURIComponent(c.substring(nameEQ.length, c.length));
+        }
+    }
+    return null;
+}
+
+/* --- 2. SISTEMA DE CONSENTIMENTO LGPD / COOKIES --- */
+function initLGPD() {
+    const lgpdBanner = document.getElementById('lgpd-banner');
+    const acceptBtn = document.getElementById('lgpd-accept');
+    const rejectBtn = document.getElementById('lgpd-reject');
+
+    if (!lgpdBanner) return;
+
+    // Busca preferência salva nos Cookies de fato ou no localStorage
+    const consent = getCookie(COOKIE_NAME) || localStorage.getItem(COOKIE_NAME);
+
+    if (!consent) {
+        // Exibe o banner suavemente após 500ms
+        setTimeout(() => {
+            lgpdBanner.classList.add('active');
+        }, 500);
+    } else if (consent === 'all') {
+        initTrackingScripts();
+    }
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => registrarConsentimento('all'));
+    }
+
+    if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => registrarConsentimento('essential'));
+    }
+}
+
+function registrarConsentimento(tipo) {
+    const lgpdBanner = document.getElementById('lgpd-banner');
+
+    // Grava Cookie no navegador (válido por 1 ano / 365 dias)
+    setCookie(COOKIE_NAME, tipo, 365);
+    // Grava no LocalStorage como redundância
+    localStorage.setItem(COOKIE_NAME, tipo);
+
+    if (lgpdBanner) {
+        lgpdBanner.classList.remove('active');
+    }
+
+    if (tipo === 'all') {
+        initTrackingScripts();
+    }
+}
+
+function initTrackingScripts() {
+    console.log('LGPD: Consentimento total concedido. Cookies e Scripts de medição liberados.');
+    // Espaço reservado para carregar scripts como Google Analytics ou Meta Pixel
+}
+
+/* --- 3. INTEGRAÇÃO COM WHATSAPP --- */
 function falarComAtendente(event, planoNome = "", planoVelocidade = "") {
     if (event) event.preventDefault();
     
@@ -11,10 +91,10 @@ function falarComAtendente(event, planoNome = "", planoVelocidade = "") {
     }
     
     const mensagem = encodeURIComponent(textoBase);
-    window.open(`https://wa.me/${numeroWhatsApp}?text=${mensagem}`, '_blank', 'noopener,noreferrer');
+    window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${mensagem}`, '_blank', 'noopener,noreferrer');
 }
 
-// Alternar visibilidade do menu responsivo (Hambúrguer) e atualizar ARIA
+/* --- 4. MENU RESPONSIVO --- */
 function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
     const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -26,7 +106,6 @@ function toggleMenu() {
     }
 }
 
-// Fechar menu responsivo ao clicar num link
 function closeMenu() {
     const navMenu = document.getElementById('navMenu');
     const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -38,7 +117,7 @@ function closeMenu() {
     }
 }
 
-// Máscara dinâmica para o CPF (000.000.000-00)
+/* --- 5. MÁSCARAS DE INPUT (CPF E TELEFONE) --- */
 function aplicarMascaraCPF(input) {
     let value = input.value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
@@ -50,7 +129,6 @@ function aplicarMascaraCPF(input) {
     input.value = value;
 }
 
-// Máscara dinâmica para Telefone/WhatsApp ((00) 00000-0000)
 function aplicarMascaraTelefone(input) {
     let value = input.value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
@@ -68,30 +146,17 @@ function aplicarMascaraTelefone(input) {
     input.value = value;
 }
 
-// Inicializar máscaras de campos de formulário automaticamente se existirem
-document.addEventListener("DOMContentLoaded", () => {
-    const inputCPF = document.getElementById("cpf");
-    if (inputCPF) {
-        inputCPF.addEventListener("input", (e) => aplicarMascaraCPF(e.target));
-    }
+/* --- 6. RENDERIZAÇÃO DOS CARDS DE PLANOS --- */
+function renderizarPlanos() {
+    const containerPlanos = document.getElementById('plans-container');
+    if (!containerPlanos) return;
 
-    const inputTelefone = document.getElementById("telefone");
-    if (inputTelefone) {
-        inputTelefone.addEventListener("input", (e) => aplicarMascaraTelefone(e.target));
-    }
-});
+    const planos = [
+        { nome: 'Básico', velocidade: '400', preco: '79,90', destaque: false },
+        { nome: 'Família', velocidade: '700', preco: '99,90', destaque: true },
+        { nome: 'Gamer Ultra', velocidade: '1000', preco: '139,90', destaque: false }
+    ];
 
-// Array de Planos
-const planos = [
-    { nome: 'Básico', velocidade: '400', preco: '79,90', destaque: false },
-    { nome: 'Família', velocidade: '700', preco: '99,90', destaque: true },
-    { nome: 'Gamer Ultra', velocidade: '1000', preco: '139,90', destaque: false }
-];
-
-const containerPlanos = document.getElementById('plans-container');
-
-// Gerar e inserir dinamicamente os cards de planos no HTML
-if (containerPlanos) {
     containerPlanos.innerHTML = '';
     planos.forEach((plano, index) => {
         const delay = index * 0.2;
@@ -114,96 +179,56 @@ if (containerPlanos) {
     });
 }
 
-// Intersection Observer para animações suaves no scroll
-const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-        if (entry.isIntersecting) {
-            entry.target.classList.add('active');
-            if (entry.target.id === 'planos') {
-                document.querySelectorAll('.plan-card').forEach(card => {
-                    card.classList.add('active-reveal');
-                });
+/* --- 7. REVELAÇÃO SUAVE AO ROLAR A PÁGINA --- */
+function initObserver() {
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('active');
+                if (entry.target.id === 'planos') {
+                    document.querySelectorAll('.plan-card').forEach(card => {
+                        card.classList.add('active-reveal');
+                    });
+                }
             }
-        }
-    });
-}, { threshold: 0.1 });
+        });
+    }, { threshold: 0.1 });
 
-document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+    document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
 
-const sectionPlanos = document.getElementById('planos');
-if (sectionPlanos) {
-    observer.observe(sectionPlanos);
+    const sectionPlanos = document.getElementById('planos');
+    if (sectionPlanos) {
+        observer.observe(sectionPlanos);
+    }
 }
-// --- Gerenciamento de Cookies LGPD ---
-document.addEventListener('DOMContentLoaded', () => {
-    const lgpdBanner = document.getElementById('lgpd-banner');
-    const acceptBtn = document.getElementById('lgpd-accept');
-    const rejectBtn = document.getElementById('lgpd-reject');
 
-    // Chave utilizada para salvar no navegador
-    const STORAGE_KEY = 'ky_telecom_lgpd_consent';
+/* --- 8. REGISTRO DO SERVICE WORKER --- */
+function registerServiceWorker() {
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+            navigator.serviceWorker.register('./sw.js', { scope: './' })
+                .then(() => console.log('Service Worker registrado com sucesso.'))
+                .catch(err => console.error('Erro ao registrar Service Worker:', err));
+        });
+    }
+}
 
-    // Verifica se o usuário já definiu a preferência
-    const userConsent = localStorage.getItem(STORAGE_KEY);
-
-    if (!userConsent) {
-        // Exibe o banner após um pequeno atraso para suavizar o carregamento
-        setTimeout(() => {
-            lgpdBanner.classList.add('active');
-        }, 500);
+/* --- INICIALIZADOR PRINCIPAL --- */
+document.addEventListener("DOMContentLoaded", () => {
+    // Escutadores de input
+    const inputCPF = document.getElementById("cpf");
+    if (inputCPF) {
+        inputCPF.addEventListener("input", (e) => aplicarMascaraCPF(e.target));
     }
 
-    // Função para fechar o banner e gravar a escolha
-    const setConsent = (type) => {
-        localStorage.setItem(STORAGE_KEY, JSON.stringify({
-            consent: type,
-            timestamp: new Date().toISOString()
-        }));
-
-        lgpdBanner.classList.remove('active');
-
-        // Se aceitou todos, inicialize scripts de rastreamento (ex: Analytics/Pixel)
-        if (type === 'all') {
-            initTrackingScripts();
-        }
-    };
-
-    if (acceptBtn) {
-        acceptBtn.addEventListener('click', () => setConsent('all'));
+    const inputTelefone = document.getElementById("telefone");
+    if (inputTelefone) {
+        inputTelefone.addEventListener("input", (e) => aplicarMascaraTelefone(e.target));
     }
 
-    if (rejectBtn) {
-        rejectBtn.addEventListener('click', () => setConsent('essential'));
-    }
+    // Inicialização dos módulos do site
+    renderizarPlanos();
+    initObserver();
+    initLGPD();
+    registerServiceWorker();
 });
-
-// Função para carregar scripts não-essenciais apenas após o consentimento
-function initTrackingScripts() {
-    // Insira aqui scripts como Google Analytics ou Facebook Pixel, se houver
-    console.log('LGPD: Consentimento total concedido. Carregando scripts de medição.');
-}
-// Exemplo no script.js
-const REPO_NAME = 'kywifi-telecom'; // Nome do repositório
-const COOKIE_KEY = `${REPO_NAME}_lgpd_consent`;
-
-// Ao salvar o consentimento:
-function aceitarCookies() {
-  localStorage.setItem(COOKIE_KEY, 'true');
-  document.getElementById('cookie-banner').style.display = 'none';
-}
-
-// Ao verificar se já foi aceito:
-function verificarCookies() {
-  const consentimento = localStorage.getItem(COOKIE_KEY);
-  if (consentimento === 'true') {
-    document.getElementById('cookie-banner').style.display = 'none';
-  }
-}
-// Registro do Service Worker (no final do script.js)
-if ('serviceWorker' in navigator) {
-  window.addEventListener('load', () => {
-    navigator.serviceWorker.register('./sw.js', { scope: './' })
-      .then(() => console.log('Service Worker registrado com sucesso.'))
-      .catch(err => console.error('Erro ao registrar Service Worker:', err));
-  });
-}
