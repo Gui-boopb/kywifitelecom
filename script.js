@@ -134,3 +134,51 @@ const sectionPlanos = document.getElementById('planos');
 if (sectionPlanos) {
     observer.observe(sectionPlanos);
 }
+// --- Gerenciamento de Cookies LGPD ---
+document.addEventListener('DOMContentLoaded', () => {
+    const lgpdBanner = document.getElementById('lgpd-banner');
+    const acceptBtn = document.getElementById('lgpd-accept');
+    const rejectBtn = document.getElementById('lgpd-reject');
+
+    // Chave utilizada para salvar no navegador
+    const STORAGE_KEY = 'ky_telecom_lgpd_consent';
+
+    // Verifica se o usuário já definiu a preferência
+    const userConsent = localStorage.getItem(STORAGE_KEY);
+
+    if (!userConsent) {
+        // Exibe o banner após um pequeno atraso para suavizar o carregamento
+        setTimeout(() => {
+            lgpdBanner.classList.add('active');
+        }, 500);
+    }
+
+    // Função para fechar o banner e gravar a escolha
+    const setConsent = (type) => {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+            consent: type,
+            timestamp: new Date().toISOString()
+        }));
+
+        lgpdBanner.classList.remove('active');
+
+        // Se aceitou todos, inicialize scripts de rastreamento (ex: Analytics/Pixel)
+        if (type === 'all') {
+            initTrackingScripts();
+        }
+    };
+
+    if (acceptBtn) {
+        acceptBtn.addEventListener('click', () => setConsent('all'));
+    }
+
+    if (rejectBtn) {
+        rejectBtn.addEventListener('click', () => setConsent('essential'));
+    }
+});
+
+// Função para carregar scripts não-essenciais apenas após o consentimento
+function initTrackingScripts() {
+    // Insira aqui scripts como Google Analytics ou Facebook Pixel, se houver
+    console.log('LGPD: Consentimento total concedido. Carregando scripts de medição.');
+}

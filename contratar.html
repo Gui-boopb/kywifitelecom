@@ -15,7 +15,6 @@
 <body>
 
 <header>
-    <!-- Agrupamento da logo e do título -->
     <div class="logo-title-group">
         <a href="index.html" class="logo-area" aria-label="Voltar para a Página Inicial Ky WI-FI">
             <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Telecom Logo" class="logo-img">
@@ -46,13 +45,27 @@
                 <p>Preencha os dados abaixo para solicitar a instalação da sua internet</p>
             </div>
 
-            <!-- Formulário Formspree configurado para enviar para ambos os e-mails -->
+            <!-- Box informativo com texto em PRETO -->
+            <div class="info-token-card" style="background: #ffffff; border: 1px solid rgba(138, 43, 226, 0.35); border-radius: 10px; padding: 16px; margin-bottom: 25px; text-align: center;">
+                <p style="margin: 0 0 8px 0; font-size: 0.95rem; color: #000000;">
+                    <i class="fas fa-headset" style="color: #a855f7; margin-right: 6px;"></i>
+                    Após o envio, nosso <strong style="color: #000000;">time de vendas entrará em contato</strong> para confirmar o agendamento da instalação!
+                </p>
+                <p style="margin: 0; font-size: 0.9rem; color: #333333;">
+                    Seu Token de Serviço gerado: <strong id="token-val" style="color: #008744; font-size: 1.05rem; letter-spacing: 0.5px;">Gerando...</strong>
+                </p>
+            </div>
+
+            <!-- Formulário Formspree -->
             <form action="https://formspree.io/f/mzepbkdq" method="POST">
                 <input type="hidden" name="_cc" value="guilherme.batista15@gmail.com,kywifitelecom@gmail.com">
                 
+                <!-- Campo Oculto para Enviar o Token por E-mail -->
+                <input type="hidden" name="Token_de_Servico" id="token_servico">
+                
                 <div class="form-grid">
                     
-                    <!-- Campo do Plano Escolhido -->
+                    <!-- Plano Escolhido -->
                     <div class="form-group full-width">
                         <label for="plano"><i class="fas fa-wifi" aria-hidden="true"></i> Plano Escolhido *</label>
                         <select id="plano" name="Plano Escolhido" class="form-control" required>
@@ -110,7 +123,7 @@
     </section>
 
     <!-- Botão WhatsApp Flutuante -->
-    <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Falar pelo WhatsApp">
+    <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer" class="whatsapp-float" aria-label="Falar pelo WhatsApp" style="text-decoration: none;">
         <i class="fab fa-whatsapp" aria-hidden="true"></i>
     </a>
 
@@ -124,22 +137,24 @@
             </div>
             <div>
                 <h4>Contato Direto</h4>
-                <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer">(61) 98203-1828</a></p>
-                <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com">kywifitelecom@gmail.com</a></p>
+                <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer" style="text-decoration: none;">(61) 98203-1828</a></p>
+                <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com" style="text-decoration: none;">kywifitelecom@gmail.com</a></p>
                 <p>
-                    <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                    <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px; text-decoration: none;">
                         <i class="fab fa-instagram" aria-hidden="true"></i> @kywifitelecom
                     </a>
                 </p>
             </div>
         </div>
-        <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">© 2026 Ky WIFI Telecom. Todos os direitos reservados.</p>
+        <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">
+            © 2026 Ky WIFI Telecom. Todos os direitos reservados. | <a href="privacidade.html" style="color: inherit; text-decoration: none;">Política de Privacidade</a>
+        </p>
         <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo Rodapé" width="50" style="margin-top: 10px;">
     </footer>
 
     <script src="script.js"></script>
 
-    <!-- Script para ler o parâmetro da URL e selecionar o plano automaticamente -->
+    <!-- Automação de Seleção do Plano e Geração do Token -->
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const urlParams = new URLSearchParams(window.location.search);
@@ -154,6 +169,20 @@
                 } else if (planoParam === '1000') {
                     selectPlano.value = "1000 MEGA - R$ 139,90/mês";
                 }
+            }
+
+            const anoAtual = new Date().getFullYear();
+            const codigoAleatorio = Math.floor(100000 + Math.random() * 900000);
+            const tokenGerado = `KY-${anoAtual}-${codigoAleatorio}`;
+
+            const displayToken = document.getElementById('token-val');
+            if (displayToken) {
+                displayToken.innerText = tokenGerado;
+            }
+
+            const inputToken = document.getElementById('token_servico');
+            if (inputToken) {
+                inputToken.value = tokenGerado;
             }
         });
     </script>
