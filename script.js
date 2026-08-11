@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KY WIFI TELECOM - SCRIPT PRINCIPAL
+   KY WIFI TELECOM - SCRIPT PRINCIPAL (COMPLETO E CORRIGIDO)
    ========================================================================== */
 
 // Configurações Globais
@@ -8,6 +8,10 @@ const COOKIE_NAME = "ky_telecom_lgpd_consent";
 const FIREBASE_DB_URL = "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com/feedbacks.json";
 
 let notaSelecionada = 5;
+let feedbackIndex = 0;
+let totalFeedbacks = 0;
+let autoPlayTimer = null;
+let carregandoFeedbacks = false;
 
 /* --- UTILITÁRIOS --- */
 function escapeHTML(str) {
@@ -20,7 +24,7 @@ function escapeHTML(str) {
         .replace(/'/g, '&#039;');
 }
 
-/* --- 1. GERENCIAMENTO REAL DE COOKIES (document.cookie) --- */
+/* --- 1. GERENCIAMENTO REAL DE COOKIES --- */
 function setCookie(name, value, days) {
     let expires = "";
     if (days) {
@@ -43,7 +47,7 @@ function getCookie(name) {
     return null;
 }
 
-/* --- 2. SISTEMA DE CONSENTIMENTO LGPD / COOKIES --- */
+/* --- 2. SISTEMA DE CONSENTIMENTO LGPD --- */
 function initLGPD() {
     const lgpdBanner = document.getElementById('lgpd-banner');
     const acceptBtn = document.getElementById('lgpd-accept');
@@ -86,7 +90,7 @@ function registrarConsentimento(tipo) {
 }
 
 function initTrackingScripts() {
-    console.log('LGPD: Consentimento total concedido. Cookies e Scripts de medição liberados.');
+    console.log('LGPD: Consentimento total concedido. Cookies e Scripts liberados.');
 }
 
 /* --- 3. INTEGRAÇÃO COM WHATSAPP --- */
@@ -126,7 +130,7 @@ function closeMenu() {
     }
 }
 
-/* --- 5. MÁSCARAS DE INPUT (CPF E TELEFONE) --- */
+/* --- 5. MÁSCARAS DE INPUT --- */
 function aplicarMascaraCPF(input) {
     let value = input.value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
@@ -155,7 +159,7 @@ function aplicarMascaraTelefone(input) {
     input.value = value;
 }
 
-/* --- 6. RENDERIZAÇÃO DOS CARDS DE PLANOS --- */
+/* --- 6. RENDERIZAÇÃO DOS PLANOS --- */
 function renderizarPlanos() {
     const containerPlanos = document.getElementById('plans-container');
     if (!containerPlanos) return;
@@ -180,7 +184,6 @@ function renderizarPlanos() {
                     <li><i class="fas fa-check-circle" aria-hidden="true"></i> Roteador Wi-Fi 6</li>
                     <li><i class="fas fa-check-circle" aria-hidden="true"></i> Suporte 24/7</li>
                 </ul>
-                
                 <a href="contratar.html?plano=${plano.velocidade}" class="btn-contract" aria-label="Assinar Plano ${plano.nome} de ${plano.velocidade} Mega">Assinar Plano</a>
             </div>
         `;
@@ -188,7 +191,7 @@ function renderizarPlanos() {
     });
 }
 
-/* --- 7. REVELAÇÃO SUAVE AO ROLAR A PÁGINA --- */
+/* --- 7. REVELAÇÃO SUAVE AO ROLAR --- */
 function initObserver() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -211,7 +214,7 @@ function initObserver() {
     }
 }
 
-/* --- 8. REGISTRO DO SERVICE WORKER --- */
+/* --- 8. SERVICE WORKER --- */
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
@@ -222,7 +225,7 @@ function registerServiceWorker() {
     }
 }
 
-/* --- 9. AVALIAÇÕES E FIREBASE --- */
+/* --- 9. AVALIAÇÕES E CARROSSEL AUTOMÁTICO --- */
 function definirNota(valor) {
     notaSelecionada = valor;
     const inputNota = document.getElementById('feedbackNota');
@@ -238,43 +241,130 @@ function definirNota(valor) {
     });
 }
 
+function atualizarPosicaoCarrossel() {
+    const track = document.getElementById('carouselTrack');
+    if (!track) return;
+    track.style.transform = `translateX(-${feedbackIndex * 100}%)`;
+}
+
+function iniciarAutoPlay() {
+    pararAutoPlay();
+    if (totalFeedbacks > 1) {
+        autoPlayTimer = setInterval(() => {
+            proximoFeedback(false);
+        }, 4000);
+    }
+}
+
+function pararAutoPlay() {
+    if (autoPlayTimer) {
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = null;
+    }
+}
+
+function proximoFeedback(manual = true) {
+    if (totalFeedbacks === 0) return;
+    feedbackIndex = (feedbackIndex + 1) % totalFeedbacks;
+    atualizarPosicaoCarrossel();
+    if (manual) iniciarAutoPlay();
+}
+
+function feedbackAnterior(manual = true) {
+    if (totalFeedbacks === 0) return;
+    feedbackIndex = (feedbackIndex - 1 + totalFeedbacks) % totalFeedbacks;
+    atualizarPosicaoCarrossel();
+    if (manual) iniciarAutoPlay();
+}
+
 async function carregarFeedbacks() {
+    if (carregandoFeedbacks) return;
+    carregandoFeedbacks = true;
+
     const container = document.querySelector('.testimonials-container');
-    if (!container) return;
+    if (!container) {
+        carregandoFeedbacks = false;
+        return;
+    }
 
     try {
         const response = await fetch(FIREBASE_DB_URL);
         const data = await response.json();
 
         if (!data) {
-            container.innerHTML = '<p style="color: #64748b;">Nenhuma avaliação enviada ainda. Seja o primeiro a avaliar!</p>';
+            container.innerHTML = '<p style="color: #64748b; text-align: center;">Nenhuma avaliação enviada ainda. Seja o primeiro a avaliar!</p>';
+            totalFeedbacks = 0;
+            pararAutoPlay();
             return;
         }
 
-        container.innerHTML = '';
+        const keys = Object.keys(data).reverse();
+        totalFeedbacks = keys.length;
 
-        Object.keys(data).reverse().forEach(key => {
+        let cardsHTML = '';
+        keys.forEach(key => {
             const fb = data[key];
             const estrelasStr = '★'.repeat(fb.nota) + '☆'.repeat(5 - fb.nota);
-            
-            const card = document.createElement('div');
-            card.className = 'testimonial-card';
-            card.innerHTML = `
-                <div class="stars" style="color: #FFB800;">${estrelasStr}</div>
-                <p>"${escapeHTML(fb.comentario)}"</p>
-                <h4>${escapeHTML(fb.nome)}</h4>
-                <span>${escapeHTML(fb.plano)}</span>
+
+            cardsHTML += `
+                <div class="testimonial-card">
+                    <div class="stars" style="color: #FFB800;">${estrelasStr}</div>
+                    <p>"${escapeHTML(fb.comentario)}"</p>
+                    <h4>${escapeHTML(fb.nome)}</h4>
+                    <span>${escapeHTML(fb.plano)}</span>
+                </div>
             `;
-            container.appendChild(card);
         });
+
+        container.innerHTML = `
+            <div class="carousel-wrapper" onmouseenter="pararAutoPlay()" onmouseleave="iniciarAutoPlay()">
+                <button type="button" class="carousel-btn prev-btn" onclick="feedbackAnterior(true)" aria-label="Avaliação Anterior">‹</button>
+                <div class="carousel-viewport">
+                    <div class="carousel-track" id="carouselTrack">
+                        ${cardsHTML}
+                    </div>
+                </div>
+                <button type="button" class="carousel-btn next-btn" onclick="proximoFeedback(true)" aria-label="Próxima Avaliação">›</button>
+            </div>
+        `;
+
+        if (feedbackIndex >= totalFeedbacks) feedbackIndex = 0;
+        atualizarPosicaoCarrossel();
+        iniciarAutoPlay();
+
     } catch (error) {
         console.error("Erro ao buscar avaliações do Firebase:", error);
+    } finally {
+        carregandoFeedbacks = false;
     }
 }
 
-async function salvarFeedback(event) {
-    event.preventDefault();
+/* --- SINCRONIZAÇÃO EM TEMPO REAL --- */
+function escutarFeedbacksEmTempoReal() {
+    if (!window.EventSource) return;
 
+    const source = new EventSource(FIREBASE_DB_URL);
+
+    source.addEventListener('put', () => carregarFeedbacks());
+    source.addEventListener('patch', () => carregarFeedbacks());
+
+    source.onerror = () => {
+        console.warn("Reconectando canal em tempo real do Firebase...");
+    };
+}
+
+let enviandoFeedback = false;
+
+async function salvarFeedback(event) {
+    if (event) {
+        event.preventDefault();
+        event.stopPropagation(); // Impede propagação dupla do evento
+    }
+
+    // Se já estiver enviando, ignora o clique duplicado
+    if (enviandoFeedback) return;
+
+    const btnSubmit = event?.target?.querySelector('button[type="submit"]');
     const nome = document.getElementById('feedbackNome')?.value.trim();
     const plano = document.getElementById('feedbackTipo')?.value;
     const comentario = document.getElementById('feedbackComentario')?.value.trim();
@@ -283,6 +373,13 @@ async function salvarFeedback(event) {
     if (!nome || !plano || !comentario) {
         alert("Por favor, preencha todos os campos do formulário.");
         return;
+    }
+
+    // Ativa a trava de envio
+    enviandoFeedback = true;
+    if (btnSubmit) {
+        btnSubmit.disabled = true;
+        btnSubmit.innerText = "Enviando...";
     }
 
     const novoFeedback = {
@@ -303,22 +400,27 @@ async function salvarFeedback(event) {
         });
 
         if (response.ok) {
-            alert("Obrigado! Seu depoimento foi publicado e já está visível para todos os visitantes.");
+            alert("Obrigado! Seu depoimento foi publicado.");
             document.getElementById('feedbackForm')?.reset();
             definirNota(5);
-            carregarFeedbacks();
         } else {
-            alert("Ocorreu um erro ao gravar sua avaliação. Verifique sua conexão e tente novamente.");
+            alert("Ocorreu um erro ao gravar sua avaliação. Tente novamente.");
         }
     } catch (error) {
         console.error("Erro na comunicação com o banco de dados Firebase:", error);
-        alert("Erro ao conectar ao Firebase Realtime Database.");
+        alert("Erro ao conectar ao Firebase.");
+    } finally {
+        // Libera a trava após concluir o envio
+        enviandoFeedback = false;
+        if (btnSubmit) {
+            btnSubmit.disabled = false;
+            btnSubmit.innerText = "Enviar Avaliação";
+        }
     }
 }
 
-/* --- INICIALIZADOR PRINCIPAL DO DOM --- */
+/* --- INICIALIZADOR PRINCIPAL --- */
 document.addEventListener("DOMContentLoaded", () => {
-    // Escutadores de input para máscaras
     const inputCPF = document.getElementById("cpf");
     if (inputCPF) {
         inputCPF.addEventListener("input", (e) => aplicarMascaraCPF(e.target));
@@ -329,16 +431,17 @@ document.addEventListener("DOMContentLoaded", () => {
         inputTelefone.addEventListener("input", (e) => aplicarMascaraTelefone(e.target));
     }
 
-    // Formulário de Feedback
     const feedbackForm = document.getElementById("feedbackForm");
     if (feedbackForm) {
+        feedbackForm.removeEventListener("submit", salvarFeedback);
         feedbackForm.addEventListener("submit", salvarFeedback);
     }
 
-    // Inicialização dos módulos do site
     renderizarPlanos();
     initObserver();
     initLGPD();
     registerServiceWorker();
-    carregarFeedbacks();
+
+    // Inicia a escuta em tempo real (já realiza a renderização inicial sem duplicações)
+    escutarFeedbacksEmTempoReal();
 });
