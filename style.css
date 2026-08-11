@@ -1,8 +1,15 @@
+/* ==========================================================================
+   KY WIFI TELECOM - ESTILOS PRINCIPAIS (style.css)
+   Organizado, otimizado para desempenho e acessibilidade (WCAG 2.1)
+   ========================================================================== */
+
+/* 1. VARIÁVEIS DO SISTEMA (DESIGN TOKENS) */
 :root {
     --purple-main: #6A1B9A;
     --purple-dark: #4A148C;
     --purple-light: #9C27B0;
     --accent-orange: #E65100; /* Laranja de alto contraste WCAG */
+    --accent-orange-hover: #D84315;
     --accent-green: #1B5E20;  /* Verde escuro para texto/ícones */
     --whatsapp-green: #25D366;
     --text-dark: #121826;     /* Alto contraste para legibilidade */
@@ -13,6 +20,7 @@
     --transition-default: all 0.3s ease;
 }
 
+/* 2. RESET GLOBAL & TIPOGRAFIA */
 * {
     margin: 0;
     padding: 0;
@@ -31,8 +39,14 @@ body {
     overflow-x: hidden;
 }
 
-h1, h2, h3, h4 {
+h1, h2, h3, h4, h5, h6 {
     font-family: 'Poppins', sans-serif;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+    transition: var(--transition-default);
 }
 
 /* Indicador de foco acessível para navegação via teclado (WCAG 2.1) */
@@ -41,7 +55,7 @@ h1, h2, h3, h4 {
     outline-offset: 3px !important;
 }
 
-/* HEADER & NAVEGAÇÃO */
+/* 3. HEADER & NAVEGAÇÃO */
 header {
     background: rgba(255, 255, 255, 0.98);
     backdrop-filter: blur(15px);
@@ -50,7 +64,7 @@ header {
     position: sticky;
     top: 0;
     z-index: 1000;
-    padding: 16px 5%;
+    padding: 12px 5%;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -61,13 +75,35 @@ header {
     display: flex;
     align-items: center;
     gap: 12px;
-    text-decoration: none;
+    padding: 4px 0;
+    outline: none;
 }
 
-.ky-logo {
-    height: 58px;
+.logo-title-group {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.logo-title-group h1 {
+    margin: 0;
+    font-size: 1.8rem;
+    color: var(--text-dark);
+}
+
+.ky-logo, .logo-img {
+    height: 65px;
     width: auto;
-    filter: drop-shadow(0 4px 10px rgba(106, 27, 154, 0.2));
+    object-fit: contain;
+    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.12));
+    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                filter 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.logo-area:hover .ky-logo,
+.logo-area:hover .logo-img {
+    transform: scale(1.04);
+    filter: drop-shadow(0 6px 12px rgba(106, 27, 154, 0.25));
 }
 
 .nav-menu {
@@ -80,8 +116,6 @@ header {
 .nav-menu a {
     font-weight: 600;
     color: var(--text-dark);
-    text-decoration: none;
-    transition: var(--transition-default);
     position: relative;
 }
 
@@ -97,12 +131,19 @@ header {
     transition: var(--transition-default);
 }
 
-.nav-menu a:hover, .nav-menu a:focus {
+.nav-menu a:hover, 
+.nav-menu a:focus {
     color: var(--purple-main);
 }
 
-.nav-menu a:hover::after, .nav-menu a:focus::after {
+.nav-menu a:hover::after, 
+.nav-menu a:focus::after {
     width: 100%;
+}
+
+.btn-speedtest {
+    color: var(--purple-main) !important;
+    font-weight: 700 !important;
 }
 
 .btn-client {
@@ -115,11 +156,12 @@ header {
     cursor: pointer;
     transition: var(--transition-default);
     font-family: inherit;
-    text-decoration: none;
     display: inline-block;
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.2);
 }
 
-.btn-client:hover, .btn-client:focus {
+.btn-client:hover, 
+.btn-client:focus {
     transform: translateY(-2px);
     box-shadow: 0 6px 20px rgba(106, 27, 154, 0.35);
 }
@@ -138,7 +180,7 @@ header {
     display: none;
 }
 
-/* HERO SECTION */
+/* 4. HERO SECTION */
 .hero {
     background: linear-gradient(135deg, #1d033a 0%, var(--purple-dark) 50%, #5b117a 100%);
     color: var(--white);
@@ -216,17 +258,17 @@ header {
     cursor: pointer;
     transition: var(--transition-default);
     box-shadow: 0 8px 25px rgba(255, 109, 0, 0.4);
-    text-decoration: none;
     display: inline-block;
 }
 
-.hero .btn-primary:hover, .hero .btn-primary:focus {
+.hero .btn-primary:hover, 
+.hero .btn-primary:focus {
     transform: translateY(-3px);
     background: #E65100;
     box-shadow: 0 12px 30px rgba(255, 109, 0, 0.6);
 }
 
-/* BENEFÍCIOS */
+/* 5. BENEFÍCIOS */
 .benefits {
     background: var(--white);
     padding: 35px 5%;
@@ -262,7 +304,34 @@ header {
     border-radius: 50%;
 }
 
-/* PLANOS */
+/* 6. PLANOS */
+/* 6. PLANOS */
+#planos {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F3E8FF 50%, #FFFFFF 100%);
+    padding: 40px 0 20px;
+    border-top: 1px solid #E9D5FF;
+    border-bottom: 1px solid #E9D5FF;
+}
+.plan-speed {
+    font-size: clamp(1.8rem, 3.8vw, 2.5rem); /* Tamanho reduzido para não estourar a largura do card */
+    font-weight: 800;
+    color: var(--purple-main);
+    line-height: 1;
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin: 12px 0;
+}
+
+/* Mantém o "MEGA" proporcional, ajustado e alinhado */
+.plan-speed small {
+    font-size: 0.45em;
+    font-weight: 700;
+    color: var(--purple-dark);
+    letter-spacing: 0.5px;
+}
 .section-title {
     text-align: center;
     padding: 90px 20px 40px;
@@ -338,7 +407,7 @@ header {
 }
 
 .plan-speed {
-    font-size: 3.8rem;
+    font-size: clamp(2.2rem, 4.5vw, 3.8rem); /* Ajusta a fonte automaticamente para caber no card */
     font-weight: 800;
     color: var(--purple-main);
     line-height: 1;
@@ -346,7 +415,9 @@ header {
     align-items: baseline;
     gap: 5px;
 }
-
+.plan-speed span {
+    font-size: clamp(1rem, 2vw, 1.8rem);
+}
 .plan-price {
     font-size: 2.8rem;
     font-weight: 700;
@@ -354,7 +425,8 @@ header {
     color: var(--text-dark);
 }
 
-.plan-price .currency, .plan-price .period {
+.plan-price .currency, 
+.plan-price .period {
     font-size: 1.1rem;
     font-weight: 500;
     color: #64748B;
@@ -391,18 +463,19 @@ header {
     font-weight: 700;
     cursor: pointer;
     text-align: center;
-    text-decoration: none;
     display: block;
     transition: var(--transition-default);
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.2);
 }
 
-.btn-contract:hover, .btn-contract:focus {
+.btn-contract:hover, 
+.btn-contract:focus {
     background: linear-gradient(135deg, var(--purple-light), var(--purple-main));
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.3);
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.35);
 }
 
-/* FORMULÁRIOS & ÁREA DO CLIENTE (Acessibilidade + Contraste Alto WCAG AA) */
+/* 7. FORMULÁRIOS & ÁREA DO CLIENTE */
 .client-section {
     padding: 110px 20px 80px;
     display: flex;
@@ -472,14 +545,13 @@ header {
     color: var(--purple-main);
 }
 
-/* Ajuste de Contraste e Legibilidade no Formulário */
 .form-control {
     width: 100%;
     padding: 12px 16px;
-    background: #F1F5F9; /* Fundo claro e confortável para leitura */
-    border: 2px solid #CBD5E1; /* Borda definida */
+    background: #F1F5F9;
+    border: 2px solid #CBD5E1;
     border-radius: 8px;
-    color: #0F172A; /* Texto super escuro para altíssimo contraste */
+    color: #0F172A;
     font-family: 'Inter', sans-serif;
     font-size: 1rem;
     font-weight: 500;
@@ -497,10 +569,6 @@ header {
     border-color: var(--purple-main);
     background: var(--white);
     box-shadow: 0 0 0 4px rgba(106, 27, 154, 0.15);
-}
-
-.form-control:invalid:touched {
-    border-color: #D32F2F;
 }
 
 textarea.form-control {
@@ -528,13 +596,14 @@ textarea.form-control {
     box-shadow: 0 4px 10px rgba(106, 27, 154, 0.2);
 }
 
-.btn-submit:hover, .btn-submit:focus {
+.btn-submit:hover, 
+.btn-submit:focus {
     background: var(--purple-dark);
     transform: translateY(-1px);
     box-shadow: 0 6px 15px rgba(106, 27, 154, 0.35);
 }
 
-/* TESTIMONIALS */
+/* 8. TESTIMONIALS & FORMULÁRIO DE FEEDBACK */
 .testimonials {
     padding: 80px 5%;
     background-color: #F1F5F9;
@@ -589,7 +658,93 @@ textarea.form-control {
     font-weight: 600;
 }
 
-/* SOBRE */
+.feedback-form-container {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 28px;
+    max-width: 600px;
+    margin: 40px auto 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    text-align: center;
+}
+
+.feedback-form-container h3 {
+    color: #1E293B;
+    font-size: 1.25rem;
+    margin-bottom: 8px;
+}
+
+.star-rating-input {
+    font-size: 2.2rem;
+    color: #CBD5E1;
+    cursor: pointer;
+    margin: 10px 0 15px;
+    display: inline-flex;
+    gap: 6px;
+    direction: ltr;
+}
+
+.star-btn {
+    transition: color 0.2s, transform 0.1s;
+}
+
+.star-btn:hover,
+.star-btn.active {
+    color: #FFB800;
+    transform: scale(1.15);
+}
+
+.feedback-inputs {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.feedback-inputs input,
+.feedback-inputs select,
+.feedback-inputs textarea {
+    width: 100%;
+    padding: 12px 16px;
+    border: 1px solid #CBD5E1;
+    border-radius: 10px;
+    font-family: inherit;
+    font-size: 0.9rem;
+    outline: none;
+    transition: border-color 0.2s, background-color 0.2s;
+    background: #F8FAFC;
+    color: var(--text-dark);
+}
+
+.feedback-inputs input:focus,
+.feedback-inputs select:focus,
+.feedback-inputs textarea:focus {
+    border-color: #6A1B9A;
+    background: #FFFFFF;
+}
+
+.btn-submit-feedback {
+    align-self: center;
+    padding: 12px 28px;
+    font-size: 0.95rem;
+    margin-top: 5px;
+    background: var(--purple-main);
+    color: var(--white);
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition-default);
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
+}
+
+.btn-submit-feedback:hover {
+    background: var(--purple-dark);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.35);
+}
+
+/* 9. SOBRE NÓS */
 #sobre {
     background: var(--white);
     padding: 80px 5%;
@@ -617,7 +772,7 @@ textarea.form-control {
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
 }
 
-/* STREAMINGS */
+/* 10. STREAMINGS E PARCEIROS */
 .partners {
     background: var(--white);
     padding: 70px 5%;
@@ -652,224 +807,7 @@ textarea.form-control {
     transform: scale(1.1);
 }
 
-/* WHATSAPP FLOATING BUTTON */
-.whatsapp-float {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    background: var(--whatsapp-green);
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 32px;
-    color: var(--white);
-    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
-    z-index: 1000;
-    text-decoration: none;
-    transition: var(--transition-default);
-}
-
-.whatsapp-float:hover, .whatsapp-float:focus {
-    transform: scale(1.1);
-    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
-}
-
-/* FOOTER */
-footer {
-    background: #0F172A;
-    color: #CBD5E1;
-    padding: 70px 20px 30px;
-    text-align: center;
-}
-
-.footer-grid {
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 40px;
-    text-align: left;
-}
-
-.footer-grid h4 {
-    margin-bottom: 18px;
-    font-size: 1.25rem;
-    color: var(--white);
-}
-
-.footer-grid p {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-}
-
-.footer-grid i {
-    color: var(--purple-light);
-}
-
-.footer-grid a {
-    color: #CBD5E1;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-    transition: var(--transition-default);
-}
-
-.footer-grid a:hover, .footer-grid a:focus {
-    color: var(--white);
-}
-
-/* REVEAL ON SCROLL */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-
-/* RESPONSIVIDADE */
-@media (max-width: 768px) {
-    header {
-        padding: 14px 20px;
-    }
-
-    .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: var(--white);
-        flex-direction: column;
-        padding: 20px 0;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        transition: clip-path 0.3s ease-in-out;
-    }
-
-    .nav-menu.active {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .nav-menu a {
-        display: block;
-        padding: 12px 20px;
-        text-align: center;
-        width: 100%;
-    }
-
-    .hamburger {
-        display: block;
-    }
-
-    .sobre-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 30px;
-    }
-
-    .desktop-only-btn {
-        display: none;
-    }
-    
-    .mobile-only { 
-        display: block; 
-        width: 80%; 
-        margin: 10px auto 0;
-        text-align: center;
-    }
-
-    .mobile-only .btn-client {
-        width: 100%;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .form-group.full-width {
-        grid-column: span 1;
-    }
-
-    .client-card {
-        padding: 25px 20px;
-    }
-
-    .plan-card {
-        width: 100%;
-        max-width: 340px;
-    }
-}
-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 10px 20px;
-}
-
-/* Agrupa a logo e o h1 na mesma linha */
-.logo-title-group {
-    display: flex;
-    align-items: center;
-    gap: 15px; /* Espaço entre a logo e o texto "Planos" */
-}
-
-/* Define e aumenta o tamanho da logo */
-.logo-img {
-    width: 85px; /* Aumente ou diminua este valor conforme necessário (ex: 80px, 100px) */
-    height: auto;
-    display: block;
-}
-
-/* Remove margens padrão do título para alinhamento perfeito */
-.logo-title-group h1 {
-    margin: 0;
-    font-size: 1.8rem; /* Ajuste o tamanho da fonte se desejar */
-}
-/* Container da Logo */
-.logo-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 12px;
-    text-decoration: none;
-    outline: none;
-}
-
-/* Estilização Principal da Logo */
-.ky-logo {
-    /* Tamanho aumentado */
-    height: 65px; /* Ajuste entre 60px e 80px conforme o seu header */
-    width: auto;
-    object-fit: contain;
-    
-    /* Efeitos de elegância e fluidez */
-    filter: drop-shadow(0 2px 5px rgba(0, 0, 0, 0.12));
-    transition: transform 0.3s cubic-bezier(0.25, 0.8, 0.25, 1), 
-                filter 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-/* Efeito Interativo ao passar o mouse */
-.logo-area:hover .ky-logo {
-    transform: scale(1.04);
-    filter: drop-shadow(0 6px 12px rgba(0, 0, 0, 0.18));
-}
-
-/* Ajuste Responsivo para Celulares (para não quebrar o menu) */
-@media (max-width: 768px) {
-    .ky-logo {
-        height: 50px;
-    }
-}
-/* --- Banner LGPD Cookies --- */
+/* 11. BANNER LGPD COOKIES */
 .lgpd-banner {
     position: fixed;
     bottom: -100%;
@@ -953,7 +891,375 @@ header {
     color: #ffffff;
 }
 
-/* Responsivo para celulares */
+/* 12. BOTÃO FLUTUANTE DO WHATSAPP */
+.whatsapp-float {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    background: var(--whatsapp-green);
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 32px;
+    color: var(--white);
+    box-shadow: 0 6px 20px rgba(37, 211, 102, 0.4);
+    z-index: 1000;
+    transition: var(--transition-default);
+}
+
+.whatsapp-float:hover, 
+.whatsapp-float:focus {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
+}
+
+/* 13. RODAPÉ (FOOTER) */
+/* Remove o sublinhado de qualquer link dentro do rodapé */
+footer a, 
+.footer-grid a {
+    text-decoration: none !important;
+}
+footer {
+    background: #0F172A;
+    color: #CBD5E1;
+    padding: 70px 20px 30px;
+    text-align: center;
+}
+
+.footer-grid {
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 40px;
+    text-align: left;
+}
+
+.footer-grid h4 {
+    margin-bottom: 18px;
+    font-size: 1.25rem;
+    color: var(--white);
+}
+
+.footer-grid p {
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.footer-grid i {
+    color: var(--purple-light);
+}
+
+.footer-grid a {
+    color: #CBD5E1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.footer-grid a:hover, 
+.footer-grid a:focus {
+    color: var(--white);
+}
+
+/* 14. CHATBOT IA (KY BOT) */
+#ky-chat-widget {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 9999;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.ky-chat-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+    color: #FFFFFF;
+    border: 2px solid rgba(255, 255, 255, 0.3);
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(106, 27, 154, 0.45);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ky-chat-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 28px rgba(106, 27, 154, 0.6);
+}
+
+.ky-btn-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.ky-chat-box {
+    position: absolute;
+    bottom: 75px;
+    left: 0;
+    width: 350px;
+    height: 490px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: bottom left;
+}
+
+.ky-chat-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.92);
+    pointer-events: none;
+}
+
+.ky-chat-header {
+    background: linear-gradient(135deg, #6A1B9A 0%, #3B0975 100%);
+    color: #FFFFFF;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ky-chat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ky-header-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.ky-chat-info strong {
+    font-size: 0.95rem;
+    font-weight: 600;
+    display: block;
+}
+
+.ky-status {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.ky-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00FF88;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #00FF88;
+}
+
+.ky-chat-close {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.ky-chat-close:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.ky-chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ky-msg {
+    max-width: 88%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.ky-bot-msg {
+    background: #FFFFFF;
+    color: #1E293B;
+    border: 1px solid #E2E8F0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.ky-user-msg {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+.ky-action-card {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%);
+    color: #FFFFFF !important;
+    padding: 10px 14px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.84rem;
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
+    transition: all 0.2s ease-in-out;
+}
+
+.ky-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.4);
+}
+
+.ky-action-card-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ky-action-card-wa {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.ky-action-card-wa:hover {
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+
+.ky-chat-input-area {
+    display: flex;
+    padding: 12px;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    gap: 8px;
+    align-items: center;
+}
+
+.ky-chat-input-area input {
+    flex: 1;
+    border: 1px solid #CBD5E1;
+    border-radius: 24px;
+    padding: 10px 16px;
+    outline: none;
+    font-size: 0.88rem;
+    transition: border-color 0.2s;
+}
+
+.ky-chat-input-area input:focus {
+    border-color: #6A1B9A;
+}
+
+.ky-chat-input-area button {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+}
+
+.ky-chat-input-area button:hover {
+    background: #4A148C;
+    transform: scale(1.05);
+}
+
+.ky-svg-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* 15. REVEAL ON SCROLL UTILITY */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+/* Espaçamento superior da Hero Section */
+.hero {
+    padding: 160px 20px 130px;
+}
+
+/* Distância do bloco de benefícios */
+.benefits {
+    margin-top: -40px;
+    margin-bottom: 80px;
+    padding: 45px 5%;
+}
+
+/* Espaçamento da seção Sobre Nós */
+#sobre {
+    padding: 110px 5%;
+    margin-bottom: 40px;
+}
+
+/* Espaçamento do título das seções */
+.section-title {
+    padding: 60px 20px 50px;
+}
+
+/* Espaçamento da seção de depoimentos */
+.testimonials-section {
+    padding: 110px 5%;
+}
+
+/* Espaçamento da seção de parceiros/streamings */
+.partners {
+    padding: 100px 5%;
+}
+
+/* Espaçamento do rodapé */
+footer {
+    padding: 90px 20px 40px;
+}
+/* 16. RESPONSIVIDADE E MEDIA QUERIES (NO FINAL DO ARQUIVO) */
 @media (min-width: 768px) {
     .lgpd-content {
         flex-direction: row;
@@ -963,8 +1269,84 @@ header {
         width: auto;
     }
 }
-a, a * {
-    text-decoration: none !important;
-    border-bottom: none !important;
-    box-shadow: none !important;
+
+@media (max-width: 768px) {
+    header {
+        padding: 12px 20px;
+    }
+
+    .ky-logo, .logo-img {
+        height: 50px;
+    }
+
+    .nav-menu {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: var(--white);
+        flex-direction: column;
+        padding: 20px 0;
+        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
+        transition: clip-path 0.3s ease-in-out;
+    }
+
+    .nav-menu.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
+    }
+
+    .nav-menu a {
+        display: block;
+        padding: 12px 20px;
+        text-align: center;
+        width: 100%;
+    }
+
+    .hamburger {
+        display: block;
+    }
+
+    .desktop-only-btn {
+        display: none;
+    }
+    
+    .mobile-only { 
+        display: block; 
+        width: 80%; 
+        margin: 10px auto 0;
+        text-align: center;
+    }
+
+    .mobile-only .btn-client {
+        width: 100%;
+    }
+
+    .sobre-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+        gap: 30px;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .form-group.full-width {
+        grid-column: span 1;
+    }
+
+    .client-card {
+        padding: 25px 20px;
+    }
+
+    .plan-card {
+        width: 100%;
+        max-width: 340px;
+    }
+
+    .ky-chat-box {
+        width: calc(100vw - 40px);
+        left: 0;
+    }
 }

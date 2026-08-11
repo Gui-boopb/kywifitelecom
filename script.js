@@ -232,3 +232,84 @@ document.addEventListener("DOMContentLoaded", () => {
     initLGPD();
     registerServiceWorker();
 });
+let notaSelecionada = 5;
+
+// Configura a seleção visual das estrelas
+function definirNota(nota) {
+    notaSelecionada = nota;
+    document.getElementById('feedbackNota').value = nota;
+    
+    const estrelas = document.querySelectorAll('#starRatingInput .star-btn');
+    estrelas.forEach((estrela, index) => {
+        if (index < nota) {
+            estrela.classList.add('active');
+        } else {
+            estrela.classList.remove('active');
+        }
+    });
+}
+
+// Inicializa com 5 estrelas selecionadas por padrão
+definirNota(5);
+
+// Salva o novo feedback e insere na tela
+function salvarFeedback(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById('feedbackNome').value.trim();
+    const tipo = document.getElementById('feedbackTipo').value.trim();
+    const comentario = document.getElementById('feedbackComentario').value.trim();
+    const nota = parseInt(document.getElementById('feedbackNota').value);
+
+    if (!nome || !comentario) return;
+
+    const novoFeedback = {
+        nome: nome,
+        tipo: tipo,
+        comentario: comentario,
+        nota: nota
+    };
+
+    // Recupera depoimentos salvos no localStorage
+    let depoimentosSalvos = JSON.parse(localStorage.getItem('ky_depoimentos')) || [];
+    depoimentosSalvos.unshift(novoFeedback);
+    localStorage.setItem('ky_depoimentos', JSON.stringify(depoimentosSalvos));
+
+    // Renderiza o novo card na tela
+    adicionarCardDepoimento(novoFeedback);
+
+    // Reseta o formulário
+    document.getElementById('feedbackForm').reset();
+    definirNota(5);
+
+    alert('Obrigado pelo seu feedback! Sua avaliação foi publicada.');
+}
+
+// Cria a estrutura do card HTML do depoimento
+function adicionarCardDepoimento(depoimento) {
+    const container = document.querySelector('.testimonials-container');
+    if (!container) return;
+
+    const card = document.createElement('div');
+    card.className = 'testimonial-card';
+
+    const estrelasTexto = '★'.repeat(depoimento.nota) + '☆'.repeat(5 - depoimento.nota);
+
+    card.innerHTML = `
+        <div class="stars" role="img" aria-label="Avaliação: ${depoimento.nota} de 5 estrelas">${estrelasTexto}</div>
+        <p>"${depoimento.comentario}"</p>
+        <h4>${depoimento.nome}</h4>
+        <span>${depoimento.tipo}</span>
+    `;
+
+    // Insere o novo depoimento no topo da lista
+    container.insertBefore(card, container.firstChild);
+}
+
+// Carrega os depoimentos salvos anteriormente quando a página abre
+document.addEventListener('DOMContentLoaded', () => {
+    const depoimentosSalvos = JSON.parse(localStorage.getItem('ky_depoimentos')) || [];
+    depoimentosSalvos.reverse().forEach(depoimento => {
+        adicionarCardDepoimento(depoimento);
+    });
+});
