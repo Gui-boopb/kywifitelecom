@@ -1,0 +1,1111 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Ky WIFI Telecom - A Melhor Conexão de Fibra Óptica de Goiás. Planos com instalação grátis e roteador Wi-Fi 6.">
+    <title>Ky WIFI Telecom | A Melhor Conexão de Goiás</title>
+   
+    <!-- Fontes do Google -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+   
+    <!-- Ícones Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+   
+    <!-- Estilo CSS Principal -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- Cabeçalho / Menu de Navegação -->
+    <header>
+        <a href="index.html" class="logo-area" aria-label="Início Ky WI-FI">
+            <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Telecom Logo" class="ky-logo">
+        </a>
+        <nav aria-label="Navegação Principal">
+            <ul class="nav-menu" id="navMenu">
+                <li><a href="#planos" onclick="closeMenu()">Planos</a></li>
+                <li><a href="#sobre" onclick="closeMenu()">Sobre Nós</a></li>
+            <li>
+    <a href="https://fast.com" target="_blank" rel="noopener noreferrer" class="btn-speedtest" onclick="closeMenu()"> Testar Velocidade
+    </a>
+</li>
+                <li><a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" onclick="closeMenu()"><i class="fab fa-instagram" aria-hidden="true"></i> Instagram</a></li>
+                <li class="mobile-only">
+                    <a href="suporte.html" class="btn-client" onclick="closeMenu()">Área do Cliente</a>
+                </li>
+            </ul>
+        </nav>
+
+        <!-- Botão para Área do Cliente / Suporte -->
+        <a href="suporte.html" class="btn-client desktop-only-btn">Área do Cliente</a>
+
+        <button class="hamburger" id="hamburgerBtn" onclick="toggleMenu()" aria-label="Abrir Menu de Navegação" aria-expanded="false" aria-controls="navMenu">
+            <i class="fas fa-bars" aria-hidden="true"></i>
+        </button>
+    </header>
+
+    <!-- Seção Hero -->
+    <section class="hero">
+        <div class="fiber-container" aria-hidden="true">
+            <div class="fiber-line"></div>
+            <div class="fiber-line"></div>
+            <div class="fiber-line"></div>
+            <div class="fiber-line"></div>
+            <div class="fiber-line"></div>
+        </div>
+        <div class="hero-content reveal">
+            <h1>Simplesmente, <span>voe!</span></h1>
+            <p>Conexão de fibra óptica de verdade com velocidade e estabilidade para você e toda a sua família.</p>
+            <a href="#planos" class="btn-primary">Ver Planos Agora</a>
+        </div>
+    </section>
+
+    <!-- Benefícios -->
+    <section class="benefits reveal" aria-label="Destaques e Benefícios">
+        <div class="benefit-item"><i class="fas fa-tools" aria-hidden="true"></i> Instalação Grátis</div>
+        <div class="benefit-item"><i class="fas fa-wifi" aria-hidden="true"></i> Roteador Wi-Fi 6</div>
+        <div class="benefit-item"><i class="fas fa-headset" aria-hidden="true"></i> Suporte 24h</div>
+        <div class="benefit-item"><i class="fas fa-shield-alt" aria-hidden="true"></i> Sem Quedas</div>
+    </section>
+
+    <!-- Sobre -->
+    <section id="sobre" class="reveal">
+        <div class="sobre-container">
+            <div class="sobre-text">
+                <h2>Nossa História: Conectando Goiás</h2>
+                <p>
+                    A Ky Telecom nasceu da paixão por conectar pessoas com a melhor tecnologia. Com anos de experiência no mercado de telecomunicações em Goiás, nossa missão é entregar não apenas internet, mas uma experiência de conexão de fibra óptica de classe mundial. Com nossa infraestrutura própria e atendimento local, somos a escolha certa para quem busca velocidade e confiabilidade em Águas Lindas e região.
+                </p>
+            </div>
+            <div class="sobre-image">
+                <img src="https://img.magnific.com/fotos-premium/mulher-negra-de-lazer-moderna-usando-fones-de-ouvido-usando-tablet-digital-com-tela-brilhante_116547-47092.jpg?semt=ais_hybrid&w=740&q=80" alt="Atendente sorridente da Ky WIFI Telecom utilizando tablet digital">
+            </div>
+        </div>
+    </section>
+
+    <!-- Planos (Carregados Dinamicamente pelo script.js) -->
+    <section id="planos">
+        <div class="section-title reveal">
+            <h2>Escolha seu Plano</h2>
+            <p>Mais de 10.000 clientes satisfeitos em Goiás</p>
+        </div>
+        <div class="plans-container reveal" id="plans-container"></div>
+    </section>
+
+    <!-- Seção de Feedbacks -->
+    <section class="testimonials reveal" aria-label="Depoimentos de Clientes">
+        <div class="section-title">
+            <h2>O que nossos clientes dizem</h2>
+            <p>A opinião de quem já utiliza a Ky WIFI Telecom</p>
+        </div>
+        
+        <div class="testimonials-container">
+            <div class="testimonial-card">
+                <div class="stars" role="img" aria-label="Avaliação: 5 de 5 estrelas">★★★★★</div>
+                <p>"A internet é super rápida e estável! Consigo trabalhar de home office e fazer videochamadas sem nenhuma travada."</p>
+                <h4>Bianca Cardoso</h4>
+                <span>Cliente Fibra Residencial</span>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars" role="img" aria-label="Avaliação: 5 de 5 estrelas">★★★★★</div>
+                <p>"Instalação rápida e o roteador Wi-Fi 6 pega na casa toda com excelente sinal. Recomendo demais!"</p>
+                <h4>Ianka Thayara</h4>
+                <span>Cliente Conectada</span>
+            </div>
+
+            <div class="testimonial-card">
+                <div class="stars" role="img" aria-label="Avaliação: 5 de 5 estrelas">★★★★★</div>
+                <p>"Atendimento incrível e suporte sempre prestativo. A velocidade para jogos online é sensacional."</p>
+                <h4>Rayane Dantas</h4>
+                <span>Cliente Gamer</span>
+            </div>
+        </div>
+    </section>
+
+    <!-- Streamings -->
+    <section class="partners reveal" aria-label="Plataformas de Streaming">
+        <h2>Streamings Inclusos</h2>
+        <div class="partners-logos">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/0/08/Netflix_2015_logo.svg" alt="Logo da Netflix">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/2/26/Spotify_logo_with_text.svg" alt="Logo do Spotify">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/3/3e/Disney%2B_logo.svg" alt="Logo do Disney Plus">
+            <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="Logo do YouTube">
+        </div>
+    </section>
+
+    <!-- Botão WhatsApp Flutuante com URL de fallback direta -->
+    <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer" onclick="falarComAtendente(event)" class="whatsapp-float" aria-label="Falar com atendente pelo WhatsApp">
+        <i class="fab fa-whatsapp" aria-hidden="true"></i>
+    </a>
+
+    <!-- Rodapé / Suporte -->
+    <footer id="suporte">
+        <div class="footer-grid reveal">
+            <div>
+                <h4>Ky WI-FI Telecom</h4>
+                <p><i class="fas fa-file-alt" aria-hidden="true"></i> CNPJ: 22.131.209/0001-93</p>
+                <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Águas Lindas de Goiás - GO</p>
+            </div>
+            <div>
+                <h4>Contato Direto</h4>
+                <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer">(61) 98203-1828</a></p>
+                <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com">kywifitelecom@gmail.com</a></p>
+                <p>
+                    <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fab fa-instagram" aria-hidden="true"></i> @kywifitelecom
+                    </a>
+                </p>
+            </div>
+        </div>
+        <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">© 2026 Ky WIFI Telecom. Todos os direitos reservados.</p>
+        <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo Rodapé" width="50" style="margin-top: 10px;">
+    </footer>
+
+    <!-- Script JavaScript Exterior -->
+    <script src="script.js"></script>
+
+    <!-- Plugin VLibras -->
+    <div vw class="enabled">
+        <div vw-access-button class="active"></div>
+        <div vw-plugin-wrapper>
+            <div class="vw-plugin-top-wrapper"></div>
+        </div>
+    </div>
+    <script src="https://vlibras.gov.br/app/vlibras-plugin.js"></script>
+    <script>
+        new window.VLibras.Widget('https://vlibras.gov.br/app');
+    </script>
+<!-- ========================================================= -->
+<!-- WIDGET CHATBOT IA (KY BOT) - CÓDIGO UNIFICADO             -->
+<!-- ========================================================= -->
+
+<!-- Estilos do Chatbot -->
+<style>
+/* Container principal no canto inferior esquerdo */
+#ky-chat-widget {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Botão flutuante (Bolinha) */
+.ky-chat-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+    color: #FFFFFF;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ky-chat-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(106, 27, 154, 0.6);
+}
+
+/* Janela de conversa */
+.ky-chat-box {
+    position: absolute;
+    bottom: 75px;
+    left: 0;
+    width: 340px;
+    height: 440px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.ky-chat-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+}
+
+.ky-chat-header {
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+    color: #FFFFFF;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ky-chat-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.ky-status {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.85;
+}
+
+.ky-status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: #00FF88;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.ky-chat-close {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.ky-chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.ky-msg {
+    max-width: 85%;
+    padding: 10px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    word-break: break-word;
+}
+
+.ky-bot-msg {
+    background: #FFFFFF;
+    color: #121826;
+    border: 1px solid #E2E8F0;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.ky-user-msg {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+.ky-chat-input-area {
+    display: flex;
+    padding: 10px;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    gap: 8px;
+}
+
+.ky-chat-input-area input {
+    flex: 1;
+    border: 1px solid #CBD5E1;
+    border-radius: 20px;
+    padding: 8px 14px;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.ky-chat-input-area input:focus {
+    border-color: #6A1B9A;
+}
+
+.ky-chat-input-area button {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ky-chat-input-area button:hover {
+    background: #4A148C;
+}
+
+@media (max-width: 480px) {
+    #ky-chat-widget {
+        left: 15px;
+        bottom: 20px;
+    }
+    .ky-chat-box {
+        width: 300px;
+        height: 390px;
+    }
+}
+</style>
+
+<!-- Estrutura HTML do Chatbot -->
+<div id="ky-chat-widget">
+    <button id="ky-chat-toggle" class="ky-chat-btn" aria-label="Abrir assistente virtual" onclick="toggleKyChat()">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <div id="ky-chat-box" class="ky-chat-box ky-chat-hidden">
+        <div class="ky-chat-header">
+            <div class="ky-chat-title">
+                <i class="fas fa-robot"></i>
+                <div>
+                    <strong>Ky Bot</strong>
+                    <span class="ky-status"><span class="ky-status-dot"></span> Online</span>
+                </div>
+            </div>
+            <button onclick="toggleKyChat()" class="ky-chat-close" aria-label="Fechar Chat">&times;</button>
+        </div>
+
+        <div id="ky-chat-messages" class="ky-chat-messages">
+            <div class="ky-msg ky-bot-msg">
+                Olá! Sou o assistente virtual da <strong>Ky WIFI Telecom</strong> 📶. Como posso te ajudar hoje?
+            </div>
+        </div>
+
+        <div class="ky-chat-input-area">
+            <input type="text" id="ky-chat-input" placeholder="Digite sua dúvida..." onkeypress="handleKyKey(event)">
+            <button onclick="sendKyMessage()" aria-label="Enviar"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================= -->
+<!-- WIDGET CHATBOT IA (KY BOT) COM CARDS INTERATIVOS           -->
+<!-- ========================================================= -->
+
+<!-- Estilos do Chatbot e dos Botões Retangulares Interativos -->
+<style>
+/* Container principal no canto inferior esquerdo */
+#ky-chat-widget {
+    position: fixed;
+    bottom: 30px;
+    left: 30px;
+    z-index: 9999;
+    font-family: 'Inter', sans-serif;
+}
+
+/* Botão flutuante (Bolinha) */
+.ky-chat-btn {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+    color: #FFFFFF;
+    border: none;
+    font-size: 26px;
+    cursor: pointer;
+    box-shadow: 0 6px 20px rgba(106, 27, 154, 0.4);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.ky-chat-btn:hover {
+    transform: scale(1.1);
+    box-shadow: 0 8px 25px rgba(106, 27, 154, 0.6);
+}
+
+/* Janela de conversa */
+.ky-chat-box {
+    position: absolute;
+    bottom: 75px;
+    left: 0;
+    width: 340px;
+    height: 460px;
+    background: #FFFFFF;
+    border-radius: 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.ky-chat-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.95);
+    pointer-events: none;
+}
+
+.ky-chat-header {
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+    color: #FFFFFF;
+    padding: 14px 16px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.ky-chat-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.ky-status {
+    display: block;
+    font-size: 0.75rem;
+    opacity: 0.85;
+}
+
+.ky-status-dot {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    background-color: #00FF88;
+    border-radius: 50%;
+    margin-right: 4px;
+}
+
+.ky-chat-close {
+    background: none;
+    border: none;
+    color: #FFFFFF;
+    font-size: 24px;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.ky-chat-messages {
+    flex: 1;
+    padding: 15px;
+    overflow-y: auto;
+    background-color: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ky-msg {
+    max-width: 88%;
+    padding: 12px 14px;
+    border-radius: 12px;
+    font-size: 0.9rem;
+    line-height: 1.45;
+    word-break: break-word;
+}
+
+.ky-bot-msg {
+    background: #FFFFFF;
+    color: #121826;
+    border: 1px solid #E2E8F0;
+    align-self: flex-start;
+    border-bottom-left-radius: 2px;
+}
+
+.ky-user-msg {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 2px;
+}
+
+/* ========================================================= */
+/* ESTILO DOS RETÂNGULOS INTERATIVOS (CARDS DE AÇÃO / LINK)   */
+/* ========================================================= */
+.ky-action-card {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #6A1B9A, #8E24AA);
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    padding: 10px 14px;
+    margin-top: 8px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.85rem;
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.ky-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.4);
+    background: linear-gradient(135deg, #7B1FA2, #9C27B0);
+}
+
+.ky-action-card-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ky-action-card i {
+    font-size: 1rem;
+}
+
+/* Variação Verde para WhatsApp */
+.ky-action-card-wa {
+    background: linear-gradient(135deg, #25D366, #128C7E);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.ky-action-card-wa:hover {
+    background: linear-gradient(135deg, #20BD5A, #0E7569);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+
+.ky-chat-input-area {
+    display: flex;
+    padding: 10px;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    gap: 8px;
+}
+
+.ky-chat-input-area input {
+    flex: 1;
+    border: 1px solid #CBD5E1;
+    border-radius: 20px;
+    padding: 8px 14px;
+    outline: none;
+    font-size: 0.9rem;
+}
+
+.ky-chat-input-area input:focus {
+    border-color: #6A1B9A;
+}
+
+.ky-chat-input-area button {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.ky-chat-input-area button:hover {
+    background: #4A148C;
+}
+
+@media (max-width: 480px) {
+    #ky-chat-widget {
+        left: 15px;
+        bottom: 20px;
+    }
+    .ky-chat-box {
+        width: 300px;
+        height: 400px;
+    }
+}
+</style>
+
+<!-- Estrutura HTML do Chatbot -->
+<div id="ky-chat-widget">
+    <button id="ky-chat-toggle" class="ky-chat-btn" aria-label="Abrir assistente virtual" onclick="toggleKyChat()">
+        <i class="fas fa-robot"></i>
+    </button>
+
+    <div id="ky-chat-box" class="ky-chat-box ky-chat-hidden">
+        <div class="ky-chat-header">
+            <div class="ky-chat-title">
+                <i class="fas fa-robot"></i>
+                <div>
+                    <strong>Ky Bot</strong>
+                    <span class="ky-status"><span class="ky-status-dot"></span> Online</span>
+                </div>
+            </div>
+            <button onclick="toggleKyChat()" class="ky-chat-close" aria-label="Fechar Chat">&times;</button>
+        </div>
+
+        <div id="ky-chat-messages" class="ky-chat-messages">
+            <div class="ky-msg ky-bot-msg">
+                Olá! Sou o assistente virtual da <strong>Ky WIFI Telecom</strong> 📶. Como posso te ajudar hoje?
+                <a href="contratar.html" class="ky-action-card">
+                    <span class="ky-action-card-content"><i class="fas fa-wifi"></i> Ver Planos e Contratar</span>
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+        </div>
+
+        <div class="ky-chat-input-area">
+            <input type="text" id="ky-chat-input" placeholder="Digite sua dúvida..." onkeypress="handleKyKey(event)">
+            <button onclick="sendKyMessage()" aria-label="Enviar"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+<!-- ========================================================= -->
+<!-- WIDGET CHATBOT IA (KY BOT) - DESIGN PREMIUM COM SVGs      -->
+<!-- ========================================================= -->
+
+<style>
+/* Estilos Gerais do Widget */
+#ky-chat-widget {
+    position: fixed;
+    bottom: 25px;
+    left: 25px;
+    z-index: 9999;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Botão Flutuante Principal */
+.ky-chat-btn {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #6A1B9A 0%, #4A148C 100%);
+    color: #FFFFFF;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    cursor: pointer;
+    box-shadow: 0 8px 24px rgba(106, 27, 154, 0.45);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+}
+
+.ky-chat-btn:hover {
+    transform: scale(1.08);
+    box-shadow: 0 12px 28px rgba(106, 27, 154, 0.6);
+}
+
+.ky-btn-avatar {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Janela de Conversa */
+.ky-chat-box {
+    position: absolute;
+    bottom: 80px;
+    left: 0;
+    width: 350px;
+    height: 480px;
+    background: #FFFFFF;
+    border-radius: 20px;
+    box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+    border: 1px solid #E2E8F0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    transform-origin: bottom left;
+}
+
+.ky-chat-hidden {
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(20px) scale(0.92);
+    pointer-events: none;
+}
+
+/* Cabeçalho */
+.ky-chat-header {
+    background: linear-gradient(135deg, #6A1B9A 0%, #3B0975 100%);
+    color: #FFFFFF;
+    padding: 14px 18px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.ky-chat-title {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.ky-header-avatar {
+    width: 42px;
+    height: 42px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.ky-chat-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.ky-chat-info strong {
+    font-size: 0.98rem;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.ky-status {
+    font-size: 0.75rem;
+    opacity: 0.9;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    margin-top: 2px;
+}
+
+.ky-status-dot {
+    width: 8px;
+    height: 8px;
+    background-color: #00FF88;
+    border-radius: 50%;
+    box-shadow: 0 0 6px #00FF88;
+}
+
+.ky-chat-close {
+    background: rgba(255, 255, 255, 0.1);
+    border: none;
+    color: #FFFFFF;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.ky-chat-close:hover {
+    background: rgba(255, 255, 255, 0.25);
+}
+
+/* Área de Mensagens */
+.ky-chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.ky-chat-messages::-webkit-scrollbar {
+    width: 5px;
+}
+
+.ky-chat-messages::-webkit-scrollbar-thumb {
+    background: #CBD5E1;
+    border-radius: 4px;
+}
+
+.ky-msg {
+    max-width: 88%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    word-break: break-word;
+}
+
+.ky-bot-msg {
+    background: #FFFFFF;
+    color: #1E293B;
+    border: 1px solid #E2E8F0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.ky-user-msg {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
+/* Cards Retangulares Interativos */
+.ky-action-card {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%);
+    color: #FFFFFF !important;
+    text-decoration: none !important;
+    padding: 10px 14px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.84rem;
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
+    transition: all 0.2s ease-in-out;
+    cursor: pointer;
+}
+
+.ky-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.4);
+    background: linear-gradient(135deg, #7B1FA2 0%, #9C27B0 100%);
+}
+
+.ky-action-card-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ky-action-card-wa {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.ky-action-card-wa:hover {
+    background: linear-gradient(135deg, #20BD5A 0%, #0E7569 100%);
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+
+/* Campo de Entrada */
+.ky-chat-input-area {
+    display: flex;
+    padding: 12px;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    gap: 8px;
+    align-items: center;
+}
+
+.ky-chat-input-area input {
+    flex: 1;
+    border: 1px solid #CBD5E1;
+    border-radius: 24px;
+    padding: 10px 16px;
+    outline: none;
+    font-size: 0.88rem;
+    transition: border-color 0.2s;
+}
+
+.ky-chat-input-area input:focus {
+    border-color: #6A1B9A;
+}
+
+.ky-chat-input-area button {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s, transform 0.1s;
+    flex-shrink: 0;
+}
+
+.ky-chat-input-area button:hover {
+    background: #4A148C;
+    transform: scale(1.05);
+}
+
+.ky-svg-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+    display: inline-block;
+    vertical-align: middle;
+    flex-shrink: 0;
+}
+
+@media (max-width: 480px) {
+    #ky-chat-widget {
+        left: 15px;
+        bottom: 15px;
+    }
+    .ky-chat-box {
+        width: calc(100vw - 30px);
+        height: 430px;
+    }
+}
+</style>
+
+<!-- Estrutura HTML do Chatbot -->
+<div id="ky-chat-widget">
+    <button id="ky-chat-toggle" class="ky-chat-btn" aria-label="Abrir Chatbot Assistente Virtual" onclick="toggleKyChat()">
+        <!-- Nova Imagem de Assistente IA Futurista e Tecnológico -->
+        <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=80" alt="Avatar Chatbot IA" class="ky-btn-avatar">
+    </button>
+
+    <div id="ky-chat-box" class="ky-chat-box ky-chat-hidden">
+        <div class="ky-chat-header">
+            <div class="ky-chat-title">
+                <img src="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?w=200&auto=format&fit=crop&q=80" alt="Foto Assistente IA Chatbot" class="ky-header-avatar">
+                <div class="ky-chat-info">
+                    <strong>Ky Bot</strong>
+                    <span class="ky-status"><span class="ky-status-dot"></span> Chatbot IA Online</span>
+                </div>
+            </div>
+            <button onclick="toggleKyChat()" class="ky-chat-close" aria-label="Fechar Chat">
+                <svg style="width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:2.5" viewBox="0 0 24 24"><path d="M18 6L6 18M6 6l12 12" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </button>
+        </div>
+
+        <div id="ky-chat-messages" class="ky-chat-messages">
+            <div class="ky-msg ky-bot-msg">
+                Ola! Sou o Chatbot assistente virtual da <strong>Ky WIFI Telecom</strong>. Como posso te ajudar hoje?
+                <a href="contratar.html" class="ky-action-card">
+                    <span class="ky-action-card-content">
+                        <svg class="ky-svg-icon" viewBox="0 0 24 24"><path d="M12 3C7.58 3 3.6 4.8 0 7.69L2.35 10.82C5.33 8.37 8.5 7 12 7C15.5 7 18.67 8.37 21.65 10.82L24 7.69C20.4 4.8 16.42 3 12 3ZM12 9C8.94 9 6.13 10.22 3.53 12.21L5.88 15.34C7.8 13.82 9.8 13 12 13C14.2 13 16.2 13.82 18.12 15.34L20.47 12.21C17.87 10.22 15.06 9 12 9ZM12 15C10.27 15 8.65 15.65 7.18 16.73L12 23.16L16.82 16.73C15.35 15.65 13.73 15 12 15Z"/></svg>
+                        Ver Planos e Contratar
+                    </span>
+                    <svg class="ky-svg-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>
+                </a>
+            </div>
+        </div>
+
+        <div class="ky-chat-input-area">
+            <input type="text" id="ky-chat-input" placeholder="Digite sua duvida..." onkeypress="handleKyKey(event)">
+            <button onclick="sendKyMessage()" aria-label="Enviar">
+                <svg style="width:16px;height:16px;fill:currentColor" viewBox="0 0 24 24"><path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/></svg>
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Lógica em JavaScript -->
+<script>
+const GROQ_API_KEY = "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";
+
+function toggleKyChat() {
+    const chatBox = document.getElementById('ky-chat-box');
+    if (chatBox) {
+        chatBox.classList.toggle('ky-chat-hidden');
+    }
+}
+
+function handleKyKey(e) {
+    if (e.key === 'Enter') {
+        sendKyMessage();
+    }
+}
+
+function formatKyBotText(text) {
+    let formatted = text;
+
+    const svgCart = `<svg class="ky-svg-icon" viewBox="0 0 24 24"><path d="M7 18c-1.1 0-1.99.9-1.99 2S5.9 22 7 22s2-.9 2-2-.9-2-2-2zM1 2v2h2l3.6 7.59-1.35 2.45c-.16.28-.25.61-.25.96 0 1.1.9 2 2 2h12v-2H7.42c-.14 0-.25-.11-.25-.25l.03-.12.9-1.63h7.45c.75 0 1.41-.41 1.75-1.03l3.58-6.49c.08-.14.12-.31.12-.48 0-.55-.45-1-1-1H5.21l-.94-2H1zm16 16c-1.1 0-1.99.9-1.99 2s.89 2 1.99 2 2-.9 2-2-.9-2-2-2z"/></svg>`;
+    const svgHeadset = `<svg class="ky-svg-icon" viewBox="0 0 24 24"><path d="M12 1a9 9 0 0 0-9 9v7c0 1.66 1.34 3 3 3h3v-8H5v-2c0-3.87 3.13-7 7-7s7 3.13 7 7v2h-4v8h3c1.66 0 3-1.34 3-3v-7a9 9 0 0 0-9-9z"/></svg>`;
+    const svgWhatsapp = `<svg class="ky-svg-icon" viewBox="0 0 24 24"><path d="M12.04 2c-5.46 0-9.91 4.45-9.91 9.91 0 1.75.46 3.45 1.32 4.95L2.05 22l5.25-1.38c1.45.79 3.08 1.21 4.74 1.21 5.46 0 9.91-4.45 9.91-9.91 0-2.65-1.03-5.14-2.9-7.01A9.816 9.816 0 0 0 12.04 2zm5.95 14.13c-.25.7-.84 1.25-1.57 1.48-.48.15-1.1.28-3.23-.6-2.73-1.13-4.5-3.89-4.64-4.08-.14-.19-1.11-1.48-1.11-2.82 0-1.34.7-1.99.95-2.26.25-.26.55-.33.73-.33.19 0 .37 0 .53.01.17.01.4.01.58.44.19.45.64 1.57.7 1.69.06.12.1.26.02.42-.08.16-.12.26-.24.4-.12.14-.25.31-.36.42-.12.12-.24.25-.1.49.14.24.62 1.02 1.33 1.65.91.81 1.68 1.06 1.92 1.18.24.12.38.1.52-.06.14-.16.61-.71.77-.95.16-.24.32-.2.53-.12.21.08 1.35.64 1.58.75.23.11.38.17.44.27.06.1.06.58-.19 1.28z"/></svg>`;
+    const svgArrow = `<svg class="ky-svg-icon" viewBox="0 0 24 24"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>`;
+
+    formatted = formatted.replace(/contratar\.html(\?plano=\d+)?/gi, function(match) {
+        return `<a href="${match}" class="ky-action-card">
+            <span class="ky-action-card-content">${svgCart} Clique aqui para Contratar</span>
+            ${svgArrow}
+        </a>`;
+    });
+
+    formatted = formatted.replace(/suporte\.html/gi, function() {
+        return `<a href="suporte.html" class="ky-action-card">
+            <span class="ky-action-card-content">${svgHeadset} Ir para Area de Suporte</span>
+            ${svgArrow}
+        </a>`;
+    });
+
+    formatted = formatted.replace(/(https?:\/\/wa\.me\/\d+|wa\.me\/\d+)/gi, function(match) {
+        const url = match.startsWith('http') ? match : 'https://' + match;
+        return `<a href="${url}" target="_blank" rel="noopener noreferrer" class="ky-action-card ky-action-card-wa">
+            <span class="ky-action-card-content">${svgWhatsapp} Falar no WhatsApp</span>
+            ${svgArrow}
+        </a>`;
+    });
+
+    formatted = formatted.replace(/\n/g, '<br>');
+    return formatted;
+}
+
+async function sendKyMessage() {
+    const input = document.getElementById('ky-chat-input');
+    const text = input.value.trim();
+
+    if (!text) return;
+
+    appendKyMessage(text, 'user');
+    input.value = '';
+
+    const loadingId = appendKyMessage('Digitando...', 'bot');
+
+    try {
+        const response = await fetch("https://api.groq.com/openai/v1/chat/completions", {
+            method: "POST",
+            headers: {
+                "Authorization": `Bearer ${GROQ_API_KEY}`,
+                "Content-Type": "application/json"
+            },
+            body: JSON.stringify({
+                model: "llama-3.3-70b-versatile",
+                messages: [
+                    {
+                        role: "system",
+                        content: `Voce e o Ky Bot, chatbot assistente virtual da Ky WIFI Telecom em Aguas Lindas de Goias.
+                        Planos: 400 Mega (R$79,90), 700 Mega (R$99,90), 1000 Mega (R$139,90). Todos com Wi-Fi 6 e Instalacao Gratis.
+                        Para contratar: SEMPRE responda incluindo exatamente o link "contratar.html" (ou "contratar.html?plano=400", etc).
+                        Para suporte, faturas ou trocar senha: SEMPRE responda incluindo o link "suporte.html" ou "https://wa.me/5561982031828".
+                        REGRA OBRIGATORIA: NAO utilize nenhum emoji em suas respostas. Use apenas texto direto, amigavel e objetivo em no maximo 3 frases.`
+                    },
+                    { role: "user", content: text }
+                ],
+                max_tokens: 250
+            })
+        });
+
+        const data = await response.json();
+        const rawReply = data.choices[0]?.message?.content || "Desculpe, tive um problema ao responder. Fale conosco pelo WhatsApp: https://wa.me/5561982031828";
+
+        const formattedReply = formatKyBotText(rawReply);
+        document.getElementById(loadingId).innerHTML = formattedReply;
+
+    } catch (error) {
+        console.error("Erro na API da Groq:", error);
+        document.getElementById(loadingId).innerHTML = formatKyBotText("No momento estou indisponivel. Fale com nosso suporte no WhatsApp: https://wa.me/5561982031828");
+    }
+}
+
+function appendKyMessage(text, sender) {
+    const container = document.getElementById('ky-chat-messages');
+    const msgDiv = document.createElement('div');
+    const id = 'msg-' + Date.now();
+    msgDiv.id = id;
+    msgDiv.className = `ky-msg ${sender === 'user' ? 'ky-user-msg' : 'ky-bot-msg'}`;
+    
+    if (sender === 'user') {
+        msgDiv.innerText = text;
+    } else {
+        msgDiv.innerHTML = text;
+    }
+
+    container.appendChild(msgDiv);
+    container.scrollTop = container.scrollHeight;
+    return id;
+}
+</script>
+
+</script>
+</body>
+</html>
