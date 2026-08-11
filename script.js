@@ -5,6 +5,20 @@
 // Configurações Globais
 const NUMERO_WHATSAPP = "5561982031828";
 const COOKIE_NAME = "ky_telecom_lgpd_consent";
+const FIREBASE_DB_URL = "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com/feedbacks.json";
+
+let notaSelecionada = 5;
+
+/* --- UTILITÁRIOS --- */
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;')
+        .replace(/'/g, '&#039;');
+}
 
 /* --- 1. GERENCIAMENTO REAL DE COOKIES (document.cookie) --- */
 function setCookie(name, value, days) {
@@ -37,11 +51,9 @@ function initLGPD() {
 
     if (!lgpdBanner) return;
 
-    // Busca preferência salva nos Cookies de fato ou no localStorage
     const consent = getCookie(COOKIE_NAME) || localStorage.getItem(COOKIE_NAME);
 
     if (!consent) {
-        // Exibe o banner suavemente após 500ms
         setTimeout(() => {
             lgpdBanner.classList.add('active');
         }, 500);
@@ -61,9 +73,7 @@ function initLGPD() {
 function registrarConsentimento(tipo) {
     const lgpdBanner = document.getElementById('lgpd-banner');
 
-    // Grava Cookie no navegador (válido por 1 ano / 365 dias)
     setCookie(COOKIE_NAME, tipo, 365);
-    // Grava no LocalStorage como redundância
     localStorage.setItem(COOKIE_NAME, tipo);
 
     if (lgpdBanner) {
@@ -77,7 +87,6 @@ function registrarConsentimento(tipo) {
 
 function initTrackingScripts() {
     console.log('LGPD: Consentimento total concedido. Cookies e Scripts de medição liberados.');
-    // Espaço reservado para carregar scripts como Google Analytics ou Meta Pixel
 }
 
 /* --- 3. INTEGRAÇÃO COM WHATSAPP --- */
@@ -154,7 +163,7 @@ function renderizarPlanos() {
     const planos = [
         { nome: 'Básico', velocidade: '400', preco: '79,90', destaque: false },
         { nome: 'Família', velocidade: '700', preco: '99,90', destaque: true },
-        { nome: 'Gamer Ultra', velocidade: '1000', preco: '139,90', destaque: false }
+        { nome: 'Gramer Ultra', velocidade: '1000', preco: '139,90', destaque: false }
     ];
 
     containerPlanos.innerHTML = '';
@@ -213,9 +222,103 @@ function registerServiceWorker() {
     }
 }
 
-/* --- INICIALIZADOR PRINCIPAL --- */
+/* --- 9. AVALIAÇÕES E FIREBASE --- */
+function definirNota(valor) {
+    notaSelecionada = valor;
+    const inputNota = document.getElementById('feedbackNota');
+    if (inputNota) inputNota.value = valor;
+    
+    const estrelas = document.querySelectorAll('#starRatingInput .star-btn');
+    estrelas.forEach((estrela, index) => {
+        if (index < valor) {
+            estrela.classList.add('active');
+        } else {
+            estrela.classList.remove('active');
+        }
+    });
+}
+
+async function carregarFeedbacks() {
+    const container = document.querySelector('.testimonials-container');
+    if (!container) return;
+
+    try {
+        const response = await fetch(FIREBASE_DB_URL);
+        const data = await response.json();
+
+        if (!data) {
+            container.innerHTML = '<p style="color: #64748b;">Nenhuma avaliação enviada ainda. Seja o primeiro a avaliar!</p>';
+            return;
+        }
+
+        container.innerHTML = '';
+
+        Object.keys(data).reverse().forEach(key => {
+            const fb = data[key];
+            const estrelasStr = '★'.repeat(fb.nota) + '☆'.repeat(5 - fb.nota);
+            
+            const card = document.createElement('div');
+            card.className = 'testimonial-card';
+            card.innerHTML = `
+                <div class="stars" style="color: #FFB800;">${estrelasStr}</div>
+                <p>"${escapeHTML(fb.comentario)}"</p>
+                <h4>${escapeHTML(fb.nome)}</h4>
+                <span>${escapeHTML(fb.plano)}</span>
+            `;
+            container.appendChild(card);
+        });
+    } catch (error) {
+        console.error("Erro ao buscar avaliações do Firebase:", error);
+    }
+}
+
+async function salvarFeedback(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById('feedbackNome')?.value.trim();
+    const plano = document.getElementById('feedbackTipo')?.value;
+    const comentario = document.getElementById('feedbackComentario')?.value.trim();
+    const nota = parseInt(document.getElementById('feedbackNota')?.value, 10) || notaSelecionada;
+
+    if (!nome || !plano || !comentario) {
+        alert("Por favor, preencha todos os campos do formulário.");
+        return;
+    }
+
+    const novoFeedback = {
+        nome: nome,
+        plano: plano,
+        comentario: comentario,
+        nota: nota,
+        data: new Date().toISOString()
+    };
+
+    try {
+        const response = await fetch(FIREBASE_DB_URL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(novoFeedback)
+        });
+
+        if (response.ok) {
+            alert("Obrigado! Seu depoimento foi publicado e já está visível para todos os visitantes.");
+            document.getElementById('feedbackForm')?.reset();
+            definirNota(5);
+            carregarFeedbacks();
+        } else {
+            alert("Ocorreu um erro ao gravar sua avaliação. Verifique sua conexão e tente novamente.");
+        }
+    } catch (error) {
+        console.error("Erro na comunicação com o banco de dados Firebase:", error);
+        alert("Erro ao conectar ao Firebase Realtime Database.");
+    }
+}
+
+/* --- INICIALIZADOR PRINCIPAL DO DOM --- */
 document.addEventListener("DOMContentLoaded", () => {
-    // Escutadores de input
+    // Escutadores de input para máscaras
     const inputCPF = document.getElementById("cpf");
     if (inputCPF) {
         inputCPF.addEventListener("input", (e) => aplicarMascaraCPF(e.target));
@@ -226,90 +329,16 @@ document.addEventListener("DOMContentLoaded", () => {
         inputTelefone.addEventListener("input", (e) => aplicarMascaraTelefone(e.target));
     }
 
+    // Formulário de Feedback
+    const feedbackForm = document.getElementById("feedbackForm");
+    if (feedbackForm) {
+        feedbackForm.addEventListener("submit", salvarFeedback);
+    }
+
     // Inicialização dos módulos do site
     renderizarPlanos();
     initObserver();
     initLGPD();
     registerServiceWorker();
-});
-let notaSelecionada = 5;
-
-// Configura a seleção visual das estrelas
-function definirNota(nota) {
-    notaSelecionada = nota;
-    document.getElementById('feedbackNota').value = nota;
-    
-    const estrelas = document.querySelectorAll('#starRatingInput .star-btn');
-    estrelas.forEach((estrela, index) => {
-        if (index < nota) {
-            estrela.classList.add('active');
-        } else {
-            estrela.classList.remove('active');
-        }
-    });
-}
-
-// Inicializa com 5 estrelas selecionadas por padrão
-definirNota(5);
-
-// Salva o novo feedback e insere na tela
-function salvarFeedback(event) {
-    event.preventDefault();
-
-    const nome = document.getElementById('feedbackNome').value.trim();
-    const tipo = document.getElementById('feedbackTipo').value.trim();
-    const comentario = document.getElementById('feedbackComentario').value.trim();
-    const nota = parseInt(document.getElementById('feedbackNota').value);
-
-    if (!nome || !comentario) return;
-
-    const novoFeedback = {
-        nome: nome,
-        tipo: tipo,
-        comentario: comentario,
-        nota: nota
-    };
-
-    // Recupera depoimentos salvos no localStorage
-    let depoimentosSalvos = JSON.parse(localStorage.getItem('ky_depoimentos')) || [];
-    depoimentosSalvos.unshift(novoFeedback);
-    localStorage.setItem('ky_depoimentos', JSON.stringify(depoimentosSalvos));
-
-    // Renderiza o novo card na tela
-    adicionarCardDepoimento(novoFeedback);
-
-    // Reseta o formulário
-    document.getElementById('feedbackForm').reset();
-    definirNota(5);
-
-    alert('Obrigado pelo seu feedback! Sua avaliação foi publicada.');
-}
-
-// Cria a estrutura do card HTML do depoimento
-function adicionarCardDepoimento(depoimento) {
-    const container = document.querySelector('.testimonials-container');
-    if (!container) return;
-
-    const card = document.createElement('div');
-    card.className = 'testimonial-card';
-
-    const estrelasTexto = '★'.repeat(depoimento.nota) + '☆'.repeat(5 - depoimento.nota);
-
-    card.innerHTML = `
-        <div class="stars" role="img" aria-label="Avaliação: ${depoimento.nota} de 5 estrelas">${estrelasTexto}</div>
-        <p>"${depoimento.comentario}"</p>
-        <h4>${depoimento.nome}</h4>
-        <span>${depoimento.tipo}</span>
-    `;
-
-    // Insere o novo depoimento no topo da lista
-    container.insertBefore(card, container.firstChild);
-}
-
-// Carrega os depoimentos salvos anteriormente quando a página abre
-document.addEventListener('DOMContentLoaded', () => {
-    const depoimentosSalvos = JSON.parse(localStorage.getItem('ky_depoimentos')) || [];
-    depoimentosSalvos.reverse().forEach(depoimento => {
-        adicionarCardDepoimento(depoimento);
-    });
+    carregarFeedbacks();
 });

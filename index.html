@@ -11,8 +11,118 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+
+    <!-- ESTILOS ADICIONAIS PARA BARRA DE ANÚNCIO E FAQ -->
+    <style>
+        /* Barra de Anúncio / Promocional (Topo) */
+        .announcement-bar {
+            background: linear-gradient(90deg, #6b21a8, #a855f7);
+            color: #ffffff;
+            padding: 8px 16px;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            text-align: center;
+            position: relative;
+            z-index: 1001;
+            font-family: 'Inter', sans-serif;
+        }
+        .announcement-bar strong {
+            color: #facc15;
+        }
+        .announcement-btn {
+            background-color: #ec4899;
+            color: #ffffff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 0.8rem;
+            transition: transform 0.2s, background-color 0.2s;
+        }
+        .announcement-btn:hover {
+            background-color: #db2777;
+            transform: scale(1.05);
+        }
+        .announcement-close {
+            position: absolute;
+            right: 15px;
+            background: transparent;
+            border: none;
+            color: #ffffff;
+            font-size: 1.1rem;
+            cursor: pointer;
+            opacity: 0.8;
+        }
+        .announcement-close:hover {
+            opacity: 1;
+        }
+
+        /* Seção FAQ */
+        .faq-section {
+            padding: 60px 20px;
+            max-width: 900px;
+            margin: 0 auto;
+        }
+        .faq-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 30px;
+        }
+        .faq-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            padding: 16px 20px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .faq-item[open] {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: #a855f7;
+        }
+        .faq-item summary {
+            font-weight: 600;
+            font-size: 1.05rem;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: #1a1919;
+        }
+        .faq-item summary::-webkit-details-marker {
+            display: none;
+        }
+        .faq-item summary::after {
+            content: '\f078';
+            font-family: 'Font Awesome 6 Free';
+            font-weight: 900;
+            font-size: 0.9rem;
+            transition: transform 0.3s;
+        }
+        .faq-item[open] summary::after {
+            transform: rotate(180deg);
+            color: #a855f7;
+        }
+        .faq-item p {
+            margin-top: 12px;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #0d0e0e;
+        }
+    </style>
 </head>
 <body>
+
+    <!-- BARRA DE ANÚNCIO (PROMOÇÃO TOPO) -->
+    <div class="announcement-bar" id="announcementBar">
+        <span>🔥 <strong>OFERTA IMPERDÍVEL:</strong> Garanta 20% de desconto na 1ª mensalidade + Instalação 100% Grátis!</span>
+        <a href="#planos" class="announcement-btn">Aproveitar Agora</a>
+        <button class="announcement-close" onclick="document.getElementById('announcementBar').style.display='none'" aria-label="Fechar Anúncio">&times;</button>
+    </div>
 
     <!-- CABEÇALHO -->
     <header>
@@ -98,7 +208,7 @@
         <div class="plans-container reveal" id="plans-container"></div>
     </section>
 
-    <!-- DEPOIMENTOS E AVALIAÇÕES (ÚNICO E CORRIGIDO) -->
+    <!-- DEPOIMENTOS E AVALIAÇÕES -->
     <section id="depoimentos" class="testimonials-section reveal" aria-label="Depoimentos e Avaliações">
         <div class="section-title">
             <h2>O que nossos clientes dizem</h2>
@@ -151,6 +261,41 @@
                     </div>
                 </div>
             </form>
+        </div>
+    </section>
+
+    <!-- SEÇÃO FAQ (PERGUNTAS FREQUENTES) -->
+    <section id="faq" class="faq-section reveal">
+        <div class="section-title">
+            <h2>Perguntas Frequentes (FAQ)</h2>
+            <p>Tire suas dúvidas sobre nossa conexão e serviços</p>
+        </div>
+
+        <div class="faq-container">
+            <details class="faq-item">
+                <summary>A instalação da internet é realmente gratuita?</summary>
+                <p>Sim! Todos os nossos planos residenciais contam com instalação 100% grátis realizada por técnicos especializados.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>O Roteador Wi-Fi 6 já vem incluso no plano?</summary>
+                <p>Sim, disponibilizamos roteadores de última geração Wi-Fi 6 em comodato, garantindo maior cobertura, estabilidade e suporte a dezenas de aparelhos conectados simultaneamente.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Qual o prazo para a instalação após assinar?</summary>
+                <p>Realizamos a instalação em até 24 a 48 horas úteis após a aprovação do cadastro na região de Águas Lindas e proximidades.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>A velocidade de upload é igual à de download?</summary>
+                <p>Trabalhamos com alta taxa de upload dedicada para garantir que suas videochamadas, jogos online e transmissões aconteçam sem nenhum tipo de travamento.</p>
+            </details>
+
+            <details class="faq-item">
+                <summary>Como posso solicitar a 2ª via da fatura ou suporte?</summary>
+                <p>Você pode acessar a nossa <strong>Área do Cliente</strong> no menu superior ou entrar em contato diretamente via WhatsApp pelo número (61) 98203-1828.</p>
+            </details>
         </div>
     </section>
 
