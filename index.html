@@ -11,7 +11,24 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
+<!-- SDKs do Firebase v8 -->
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
+<script>
+  // Configuração e inicialização da base do Firebase
+  const firebaseConfig = {
+    databaseURL: "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com"
+  };
+
+  if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+  }
+</script>
+
+<!-- Carregue os scripts da aplicação sempre DEPOIS da inicialização do Firebase -->
+<script src="script.js"></script>
+<script src="chatbot.js"></script>
     <!-- ESTILOS ADICIONAIS PARA BARRA DE ANÚNCIO E FAQ -->
     <style>
         /* Barra de Anúncio / Promocional (Topo) */
@@ -317,28 +334,37 @@
 
     <!-- RODAPÉ -->
     <footer id="suporte">
-        <div class="footer-grid reveal">
-            <div>
-                <h4>Ky WI-FI Telecom</h4>
-                <p><i class="fas fa-file-alt" aria-hidden="true"></i> CNPJ: 22.131.209/0001-93</p>
-                <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Águas Lindas de Goiás - GO</p>
-            </div>
-            <div>
-                <h4>Contato Direto</h4>
-                <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer">(61) 98203-1828</a></p>
-                <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com">kywifitelecom@gmail.com</a></p>
-                <p>
-                    <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
-                        <i class="fab fa-instagram" aria-hidden="true"></i> @kywifitelecom
-                    </a>
-                </p>
-            </div>
+    <div class="footer-grid reveal">
+        <div>
+            <h4>Ky WI-FI Telecom</h4>
+            <p><i class="fas fa-file-alt" aria-hidden="true"></i> CNPJ: 22.131.209/0001-93</p>
+            <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Águas Lindas de Goiás - GO</p>
         </div>
-        <p style="margin-top: 30px; font-size: 0.9rem; opacity: 0.7;">
-            © 2026 Ky WIFI Telecom. Todos os direitos reservados. | <a href="privacidade.html" style="color: inherit;">Política de Privacidade</a>
-        </p>
-        <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo Rodapé" width="50" style="margin-top: 10px;">
-    </footer>
+        <div>
+            <h4>Contato Direto</h4>
+            <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer">(61) 98203-1828</a></p>
+            <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com">kywifitelecom@gmail.com</a></p>
+            <p>
+                <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                    <i class="fab fa-instagram" aria-hidden="true"></i> @kywifitelecom
+                </a>
+            </p>
+        </div>
+
+        <!-- NOVA COLUNA: ÁREA DO COLABORADOR -->
+        <div>
+            <h4>Acesso Interno</h4>
+            <a href="login.html" class="btn-colaborador">
+                <i class="fas fa-user-shield" aria-hidden="true"></i> Área do Colaborador
+            </a>
+        </div>
+    </div>
+
+    <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">
+        © 2026 Ky WIFI Telecom. Todos os direitos reservados. | <a href="privacidade.html" style="color: inherit;">Política de Privacidade</a>
+    </p>
+    <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo Rodapé" width="50" style="margin-top: 10px;">
+</footer>
 
     <!-- LGPD COOKIES BANNER -->
     <div id="lgpd-banner" class="lgpd-banner" role="dialog" aria-live="polite" aria-label="Aviso de Privacidade e Cookies">

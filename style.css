@@ -1458,3 +1458,284 @@ footer {
 
 .prev-btn { left: 0; }
 .next-btn { right: 0; }
+/* ==========================================================================
+   MELHORIAS DE ANIMAÇÃO E INTERFACE DO KY BOT (CHATBOT)
+   ========================================================================== */
+
+/* Botão Flutuante do Bot com Animação Pulse */
+.ky-avatar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: visible;
+}
+
+.ky-pulse-ring {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid #a855f7;
+    border-radius: 50%;
+    animation: pulseGlow 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 0; }
+    100% { transform: scale(0.95); opacity: 0; }
+}
+
+/* Status no Cabeçalho */
+.ky-header-avatar-container {
+    position: relative;
+}
+
+.ky-header-avatar-container .ky-status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid #6A1B9A;
+}
+
+/* Atalhos Rápidos (Quick Chips) */
+.ky-quick-chips {
+    display: flex;
+    gap: 8px;
+    padding: 10px 14px;
+    background: #f1f5f9;
+    border-bottom: 1px solid #e2e8f0;
+    overflow-x: auto;
+    white-space: nowrap;
+    scrollbar-width: none;
+}
+
+.ky-quick-chips::-webkit-scrollbar {
+    display: none;
+}
+
+.ky-chip {
+    background: #ffffff;
+    border: 1px solid #cbd5e1;
+    color: #475569;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    transition: all 0.2s ease;
+    flex-shrink: 0;
+}
+
+.ky-chip:hover {
+    background: #6A1B9A;
+    color: #ffffff;
+    border-color: #6A1B9A;
+    transform: translateY(-1px);
+}
+
+.ky-chip i {
+    font-size: 0.85rem;
+}
+
+/* Animações das Mensagens */
+.ky-msg {
+    animation: msgSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes msgSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.ky-chat-link {
+    color: #6A1B9A;
+    font-weight: 700;
+    text-decoration: underline;
+    word-break: break-all;
+}
+
+/* Card Interativo de Boleto no Chat */
+.ky-boleto-card {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 12px;
+    margin-top: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+.ky-boleto-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #f1f5f9;
+    margin-bottom: 8px;
+}
+
+.ky-boleto-header i {
+    font-size: 1.5rem;
+    color: #6A1B9A;
+}
+
+.ky-boleto-header strong {
+    display: block;
+    font-size: 0.85rem;
+    color: #1e293b;
+}
+
+.ky-boleto-header span {
+    font-size: 0.75rem;
+    color: #64748b;
+}
+
+.ky-boleto-valor {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #f8fafc;
+    padding: 8px 10px;
+    border-radius: 8px;
+    margin-bottom: 10px;
+}
+
+.ky-boleto-valor span {
+    font-size: 0.8rem;
+    color: #475569;
+}
+
+.ky-boleto-valor strong {
+    font-size: 1.05rem;
+    color: #16a34a;
+}
+
+.ky-boleto-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.ky-boleto-btn-main {
+    background: linear-gradient(135deg, #6A1B9A, #4A148C);
+    color: #ffffff;
+    border: none;
+    padding: 10px;
+    border-radius: 8px;
+    font-size: 0.82rem;
+    font-weight: 700;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: all 0.2s;
+}
+
+.ky-boleto-btn-main:hover {
+    background: linear-gradient(135deg, #7B1FA2, #6A1B9A);
+    transform: translateY(-1px);
+}
+
+.ky-boleto-btn-sec {
+    background: #f1f5f9;
+    color: #334155;
+    border: 1px solid #cbd5e1;
+    padding: 8px;
+    border-radius: 8px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    transition: all 0.2s;
+}
+
+.ky-boleto-btn-sec:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+}
+
+/* Indicador de Digitação (Typing Indicator) */
+.ky-typing-indicator {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    padding: 4px 0;
+}
+
+.ky-typing-indicator span {
+    width: 6px;
+    height: 6px;
+    background: #a855f7;
+    border-radius: 50%;
+    animation: dotsWave 1.4s infinite ease-in-out both;
+}
+
+.ky-typing-indicator span:nth-child(1) { animation-delay: -0.32s; }
+.ky-typing-indicator span:nth-child(2) { animation-delay: -0.16s; }
+
+@keyframes dotsWave {
+    0%, 80%, 100% { transform: scale(0); }
+    40% { transform: scale(1); }
+}
+
+/* Toast de Notificação no Chat */
+.ky-chat-toast {
+    background: #1e293b;
+    color: #ffffff;
+    font-size: 0.78rem;
+    padding: 8px 14px;
+    border-radius: 20px;
+    text-align: center;
+    align-self: center;
+    margin: 4px 0;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    animation: msgSlideIn 0.2s ease;
+}
+
+.ky-chat-toast.fade-out {
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.ky-chat-header-btn {
+    background: rgba(255, 255, 255, 0.15);
+    border: none;
+    color: #ffffff;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    transition: background 0.2s;
+}
+
+.ky-chat-header-btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
+
+.ky-chat-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}

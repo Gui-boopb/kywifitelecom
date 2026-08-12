@@ -1,8 +1,7 @@
 /* ==========================================================================
-   KY WIFI TELECOM - SCRIPT PRINCIPAL (COMPLETO E CORRIGIDO)
+   KY WIFI TELECOM - SCRIPT PRINCIPAL
    ========================================================================== */
 
-// Configurações Globais
 const NUMERO_WHATSAPP = "5561982031828";
 const COOKIE_NAME = "ky_telecom_lgpd_consent";
 const FIREBASE_DB_URL = "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com/feedbacks.json";
@@ -13,7 +12,6 @@ let totalFeedbacks = 0;
 let autoPlayTimer = null;
 let carregandoFeedbacks = false;
 
-/* --- UTILITÁRIOS --- */
 function escapeHTML(str) {
     if (!str) return '';
     return String(str)
@@ -24,7 +22,7 @@ function escapeHTML(str) {
         .replace(/'/g, '&#039;');
 }
 
-/* --- 1. GERENCIAMENTO REAL DE COOKIES --- */
+/* --- COOKIES E LGPD --- */
 function setCookie(name, value, days) {
     let expires = "";
     if (days) {
@@ -47,7 +45,6 @@ function getCookie(name) {
     return null;
 }
 
-/* --- 2. SISTEMA DE CONSENTIMENTO LGPD --- */
 function initLGPD() {
     const lgpdBanner = document.getElementById('lgpd-banner');
     const acceptBtn = document.getElementById('lgpd-accept');
@@ -76,7 +73,6 @@ function initLGPD() {
 
 function registrarConsentimento(tipo) {
     const lgpdBanner = document.getElementById('lgpd-banner');
-
     setCookie(COOKIE_NAME, tipo, 365);
     localStorage.setItem(COOKIE_NAME, tipo);
 
@@ -90,24 +86,20 @@ function registrarConsentimento(tipo) {
 }
 
 function initTrackingScripts() {
-    console.log('LGPD: Consentimento total concedido. Cookies e Scripts liberados.');
+    console.log('LGPD: Consentimento total concedido.');
 }
 
-/* --- 3. INTEGRAÇÃO COM WHATSAPP --- */
+/* --- NAVEGAÇÃO E MÁSCARAS --- */
 function falarComAtendente(event, planoNome = "", planoVelocidade = "") {
     if (event) event.preventDefault();
-    
     let textoBase = "Olá! Estou acessando o site e gostaria de saber mais informações sobre a Ky WIFI.";
-    
     if (planoNome && planoVelocidade) {
         textoBase = `Olá! Gostaria de contratar o Plano ${planoNome} de ${planoVelocidade} MEGA com Instalação Grátis e Wi-Fi 6!`;
     }
-    
     const mensagem = encodeURIComponent(textoBase);
     window.open(`https://wa.me/${NUMERO_WHATSAPP}?text=${mensagem}`, '_blank', 'noopener,noreferrer');
 }
 
-/* --- 4. MENU RESPONSIVO --- */
 function toggleMenu() {
     const navMenu = document.getElementById('navMenu');
     const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -130,15 +122,12 @@ function closeMenu() {
     }
 }
 
-/* --- 5. MÁSCARAS DE INPUT --- */
 function aplicarMascaraCPF(input) {
     let value = input.value.replace(/\D/g, "");
     if (value.length > 11) value = value.slice(0, 11);
-    
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d)/, "$1.$2");
     value = value.replace(/(\d{3})(\d{1,2})$/, "$1-$2");
-    
     input.value = value;
 }
 
@@ -159,7 +148,7 @@ function aplicarMascaraTelefone(input) {
     input.value = value;
 }
 
-/* --- 6. RENDERIZAÇÃO DOS PLANOS --- */
+/* --- RENDERIZAÇÃO DE PLANOS --- */
 function renderizarPlanos() {
     const containerPlanos = document.getElementById('plans-container');
     if (!containerPlanos) return;
@@ -191,7 +180,6 @@ function renderizarPlanos() {
     });
 }
 
-/* --- 7. REVELAÇÃO SUAVE AO ROLAR --- */
 function initObserver() {
     const observer = new IntersectionObserver((entries) => {
         entries.forEach(entry => {
@@ -207,25 +195,21 @@ function initObserver() {
     }, { threshold: 0.1 });
 
     document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-
     const sectionPlanos = document.getElementById('planos');
-    if (sectionPlanos) {
-        observer.observe(sectionPlanos);
-    }
+    if (sectionPlanos) observer.observe(sectionPlanos);
 }
 
-/* --- 8. SERVICE WORKER --- */
 function registerServiceWorker() {
     if ('serviceWorker' in navigator) {
         window.addEventListener('load', () => {
             navigator.serviceWorker.register('./sw.js', { scope: './' })
-                .then(() => console.log('Service Worker registrado com sucesso.'))
-                .catch(err => console.error('Erro ao registrar Service Worker:', err));
+                .then(() => console.log('Service Worker registrado.'))
+                .catch(err => console.error('Erro ao registrar SW:', err));
         });
     }
 }
 
-/* --- 9. AVALIAÇÕES E CARROSSEL AUTOMÁTICO --- */
+/* --- DEPOIMENTOS E CARROSSEL --- */
 function definirNota(valor) {
     notaSelecionada = valor;
     const inputNota = document.getElementById('feedbackNota');
@@ -250,9 +234,7 @@ function atualizarPosicaoCarrossel() {
 function iniciarAutoPlay() {
     pararAutoPlay();
     if (totalFeedbacks > 1) {
-        autoPlayTimer = setInterval(() => {
-            proximoFeedback(false);
-        }, 4000);
+        autoPlayTimer = setInterval(() => proximoFeedback(false), 4000);
     }
 }
 
@@ -298,20 +280,35 @@ async function carregarFeedbacks() {
             return;
         }
 
-        const keys = Object.keys(data).reverse();
-        totalFeedbacks = keys.length;
+        // Filtra apenas depoimentos que possuem texto válido (ignora vazios, nulos e apenas aspas)
+        const validKeys = Object.keys(data).reverse().filter(key => {
+            const fb = data[key];
+            if (!fb || !fb.comentario) return false;
+            const comentarioLimpo = String(fb.comentario).trim();
+            return comentarioLimpo !== '' && comentarioLimpo !== '""';
+        });
+
+        if (validKeys.length === 0) {
+            container.innerHTML = '<p style="color: #64748b; text-align: center;">Nenhuma avaliação enviada ainda. Seja o primeiro a avaliar!</p>';
+            totalFeedbacks = 0;
+            pararAutoPlay();
+            return;
+        }
+
+        totalFeedbacks = validKeys.length;
 
         let cardsHTML = '';
-        keys.forEach(key => {
+        validKeys.forEach(key => {
             const fb = data[key];
-            const estrelasStr = '★'.repeat(fb.nota) + '☆'.repeat(5 - fb.nota);
+            const nota = Math.min(Math.max(parseInt(fb.nota, 10) || 5, 1), 5);
+            const estrelasStr = '★'.repeat(nota) + '☆'.repeat(5 - nota);
 
             cardsHTML += `
                 <div class="testimonial-card">
                     <div class="stars" style="color: #FFB800;">${estrelasStr}</div>
-                    <p>"${escapeHTML(fb.comentario)}"</p>
-                    <h4>${escapeHTML(fb.nome)}</h4>
-                    <span>${escapeHTML(fb.plano)}</span>
+                    <p>"${escapeHTML(fb.comentario.trim())}"</p>
+                    <h4>${escapeHTML(fb.nome || 'Cliente')}</h4>
+                    <span>${escapeHTML(fb.plano || '')}</span>
                 </div>
             `;
         });
@@ -333,24 +330,17 @@ async function carregarFeedbacks() {
         iniciarAutoPlay();
 
     } catch (error) {
-        console.error("Erro ao buscar avaliações do Firebase:", error);
+        console.error("Erro ao carregar avaliações:", error);
     } finally {
         carregandoFeedbacks = false;
     }
 }
 
-/* --- SINCRONIZAÇÃO EM TEMPO REAL --- */
 function escutarFeedbacksEmTempoReal() {
     if (!window.EventSource) return;
-
     const source = new EventSource(FIREBASE_DB_URL);
-
     source.addEventListener('put', () => carregarFeedbacks());
     source.addEventListener('patch', () => carregarFeedbacks());
-
-    source.onerror = () => {
-        console.warn("Reconectando canal em tempo real do Firebase...");
-    };
 }
 
 let enviandoFeedback = false;
@@ -358,10 +348,9 @@ let enviandoFeedback = false;
 async function salvarFeedback(event) {
     if (event) {
         event.preventDefault();
-        event.stopPropagation(); // Impede propagação dupla do evento
+        event.stopPropagation();
     }
 
-    // Se já estiver enviando, ignora o clique duplicado
     if (enviandoFeedback) return;
 
     const btnSubmit = event?.target?.querySelector('button[type="submit"]');
@@ -370,12 +359,12 @@ async function salvarFeedback(event) {
     const comentario = document.getElementById('feedbackComentario')?.value.trim();
     const nota = parseInt(document.getElementById('feedbackNota')?.value, 10) || notaSelecionada;
 
-    if (!nome || !plano || !comentario) {
-        alert("Por favor, preencha todos os campos do formulário.");
+    // Validação estrita: não permite salvar se qualquer campo obrigatório estiver em branco ou apenas com espaços
+    if (!nome || !plano || !comentario || comentario === '""') {
+        alert("Por favor, preencha todos os campos e digite seu comentário antes de enviar.");
         return;
     }
 
-    // Ativa a trava de envio
     enviandoFeedback = true;
     if (btnSubmit) {
         btnSubmit.disabled = true;
@@ -393,9 +382,7 @@ async function salvarFeedback(event) {
     try {
         const response = await fetch(FIREBASE_DB_URL, {
             method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify(novoFeedback)
         });
 
@@ -407,10 +394,9 @@ async function salvarFeedback(event) {
             alert("Ocorreu um erro ao gravar sua avaliação. Tente novamente.");
         }
     } catch (error) {
-        console.error("Erro na comunicação com o banco de dados Firebase:", error);
-        alert("Erro ao conectar ao Firebase.");
+        console.error("Erro ao conectar ao banco de dados:", error);
+        alert("Erro ao conectar ao servidor.");
     } finally {
-        // Libera a trava após concluir o envio
         enviandoFeedback = false;
         if (btnSubmit) {
             btnSubmit.disabled = false;
@@ -419,17 +405,12 @@ async function salvarFeedback(event) {
     }
 }
 
-/* --- INICIALIZADOR PRINCIPAL --- */
 document.addEventListener("DOMContentLoaded", () => {
     const inputCPF = document.getElementById("cpf");
-    if (inputCPF) {
-        inputCPF.addEventListener("input", (e) => aplicarMascaraCPF(e.target));
-    }
+    if (inputCPF) inputCPF.addEventListener("input", (e) => aplicarMascaraCPF(e.target));
 
     const inputTelefone = document.getElementById("telefone");
-    if (inputTelefone) {
-        inputTelefone.addEventListener("input", (e) => aplicarMascaraTelefone(e.target));
-    }
+    if (inputTelefone) inputTelefone.addEventListener("input", (e) => aplicarMascaraTelefone(e.target));
 
     const feedbackForm = document.getElementById("feedbackForm");
     if (feedbackForm) {
@@ -441,7 +422,5 @@ document.addEventListener("DOMContentLoaded", () => {
     initObserver();
     initLGPD();
     registerServiceWorker();
-
-    // Inicia a escuta em tempo real (já realiza a renderização inicial sem duplicações)
     escutarFeedbacksEmTempoReal();
 });
