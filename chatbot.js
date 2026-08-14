@@ -602,3 +602,17 @@ function scrollToBottom() {
 }
 
 document.addEventListener('DOMContentLoaded', renderKyChatWidget);
+// Dentro de validarEBuscarBoleto():
+if (boletoPendente) {
+    const boletoCompleto = {
+        ...boletoPendente,
+        cliente_nome: cliente.nome
+    };
+
+    // 1. Exibe a mensagem e card com opções no chat
+    appendKyMessage(`Olá **${cliente.nome || 'Cliente'}**! Localizamos o seu boleto:`, 'bot');
+    appendKyMessage(cardBoletoHTML, 'bot', true);
+
+    // 2. DISPARO AUTOMÁTICO: Abre a janela do boleto para visualização/impressão imediata
+    gerarEImprimirBoletoAutomatico(boletoCompleto);
+}

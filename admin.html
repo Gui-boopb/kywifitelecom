@@ -25,7 +25,14 @@
         <a href="#" class="brand-logo">
             <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo" class="ky-logo">
         </a>
-        <button onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair do Painel</button>
+        <div class="header-user">
+            <div class="user-chip" id="userChip">
+                <i class="fas fa-user-circle"></i>
+                <span id="userNomeDisplay">Carregando...</span>
+                <span class="user-role" id="userRoleDisplay"></span>
+            </div>
+            <button onclick="logout()" class="btn-logout"><i class="fas fa-sign-out-alt"></i> Sair</button>
+        </div>
     </header>
 
     <!-- CONTEÚDO PRINCIPAL -->
@@ -34,8 +41,8 @@
         <!-- BANNER -->
         <section class="welcome-card">
             <div>
-                <h2>Painel de Gestão e Administração</h2>
-                <p>Gerencie contratos, emissão de boletos e privilégios de acesso do sistema.</p>
+                <h2 id="welcomeTitle">Painel de Gestão</h2>
+                <p id="welcomeSub">Gerencie contratos, boletos e status dos clientes de forma rápida.</p>
             </div>
             <button class="btn-action btn-orange" onclick="abrirModalContrato()">
                 <i class="fas fa-plus-circle"></i> Novo Contrato
@@ -82,7 +89,7 @@
             <button class="nav-tab" onclick="openTab(event, 'tabBoletos')">
                 <i class="fas fa-barcode"></i> Emissão de Boletos
             </button>
-            <button class="nav-tab" onclick="openTab(event, 'tabAdmin')">
+            <button class="nav-tab" id="tabBtnAdmin" onclick="openTab(event, 'tabAdmin')">
                 <i class="fas fa-user-shield"></i> Usuários do Sistema
             </button>
         </nav>
@@ -162,7 +169,7 @@
                             <th>Nome</th>
                             <th>CPF</th>
                             <th>Tipo de Acesso</th>
-                            <th>Data de Cadastro</th>
+                            <th>E-mail</th>
                             <th>Status</th>
                             <th>Ações</th>
                         </tr>
@@ -207,6 +214,10 @@
                         <input type="text" id="telefone" class="input-control" placeholder="(61) 99999-9999" maxlength="15">
                     </div>
                     <div class="form-group">
+                        <label>E-mail</label>
+                        <input type="email" id="emailCliente" class="input-control" placeholder="cliente@email.com">
+                    </div>
+                    <div class="form-group">
                         <label>CEP</label>
                         <input type="text" id="cep" class="input-control" placeholder="00000-000">
                     </div>
@@ -216,10 +227,10 @@
                     </div>
                     <div class="form-group">
                         <label>Plano Contratado</label>
-                        <select id="plano" class="input-control">
-                            <option value="400 Mega Fibra">400 Mega Fibra - R$ 79,90</option>
-                            <option value="700 Mega Fibra" selected>700 Mega Fibra - R$ 99,90</option>
-                            <option value="1000 Mega Ultra">1000 Mega Ultra - R$ 139,90</option>
+                        <select id="plano" class="input-control" onchange="atualizarValorPlano()">
+                            <option value="400 Mega Fibra" data-valor="79.90">400 Mega Fibra - R$ 79,90</option>
+                            <option value="700 Mega Fibra" data-valor="99.90" selected>700 Mega Fibra - R$ 99,90</option>
+                            <option value="1000 Mega Ultra" data-valor="139.90">1000 Mega Ultra - R$ 139,90</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -239,13 +250,15 @@
                         <label>Status do Contrato</label>
                         <select id="status" class="input-control">
                             <option value="ativo">Ativo</option>
+                            <option value="finalizado">Finalizado</option>
+                            <option value="interrompido">Interrompido</option>
                             <option value="suspenso">Suspenso</option>
                             <option value="cancelado">Cancelado</option>
                         </select>
                     </div>
                 </div>
 
-                <button type="submit" class="btn-action" style="width: 100%; margin-top: 25px; justify-content: center;">
+                <button type="submit" id="btnSalvarContrato" class="btn-action" style="width: 100%; margin-top: 25px; justify-content: center;">
                     <i class="fas fa-save"></i> Salvar Contrato
                 </button>
             </form>
@@ -253,56 +266,57 @@
     </div>
 
     <!-- MODAL NOVO BOLETO -->
-<div id="modalBoleto" class="modal">
-    <div class="modal-content">
-        <span class="close-modal" onclick="fecharModalBoleto()">&times;</span>
-        <h3 style="color: var(--purple-main); margin-bottom: 20px; font-family: 'Poppins', sans-serif;">Gerar Novo Boleto</h3>
+    <div id="modalBoleto" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="fecharModalBoleto()">&times;</span>
+            <h3 style="color: var(--purple-main); margin-bottom: 20px; font-family: 'Poppins', sans-serif;">Gerar Novo Boleto</h3>
 
-        <form id="formBoleto" onsubmit="salvarNovoBoleto(event)">
-            <div class="form-grid">
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Selecionar Cliente</label>
-                    <select id="bolClienteSelect" class="input-control" onchange="selecionarClienteBoleto()" required>
-                        <option value="">Carregando lista de clientes...</option>
-                    </select>
+            <form id="formBoleto" onsubmit="salvarNovoBoleto(event)">
+                <div class="form-grid">
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Selecionar Cliente</label>
+                        <select id="bolClienteSelect" class="input-control" onchange="selecionarClienteBoleto()" required>
+                            <option value="">Carregando lista de clientes...</option>
+                        </select>
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>CPF do Cliente</label>
+                        <input type="text" id="bolCpf" class="input-control" required placeholder="000.000.000-00" maxlength="14" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Mês de Referência</label>
+                        <select id="bolMes" class="input-control" required>
+                            <option value="Janeiro">Janeiro</option>
+                            <option value="Fevereiro">Fevereiro</option>
+                            <option value="Março">Março</option>
+                            <option value="Abril">Abril</option>
+                            <option value="Maio">Maio</option>
+                            <option value="Junho">Junho</option>
+                            <option value="Julho">Julho</option>
+                            <option value="Agosto" selected>Agosto</option>
+                            <option value="Setembro">Setembro</option>
+                            <option value="Outubro">Outubro</option>
+                            <option value="Novembro">Novembro</option>
+                            <option value="Dezembro">Dezembro</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Valor (R$)</label>
+                        <input type="text" id="bolValor" class="input-control" required placeholder="99.90">
+                    </div>
+                    <div class="form-group" style="grid-column: span 2;">
+                        <label>Data de Vencimento</label>
+                        <input type="date" id="bolVencimento" class="input-control" required>
+                    </div>
                 </div>
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>CPF do Cliente</label>
-                    <input type="text" id="bolCpf" class="input-control" required placeholder="000.000.000-00" maxlength="14" readonly>
-                </div>
-                <div class="form-group">
-                    <label>Mês de Referência</label>
-                    <select id="bolMes" class="input-control" required>
-                        <option value="Janeiro">Janeiro</option>
-                        <option value="Fevereiro">Fevereiro</option>
-                        <option value="Março">Março</option>
-                        <option value="Abril">Abril</option>
-                        <option value="Maio">Maio</option>
-                        <option value="Junho">Junho</option>
-                        <option value="Julho">Julho</option>
-                        <option value="Agosto" selected>Agosto</option>
-                        <option value="Setembro">Setembro</option>
-                        <option value="Outubro">Outubro</option>
-                        <option value="Novembro">Novembro</option>
-                        <option value="Dezembro">Dezembro</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>Valor (R$)</label>
-                    <input type="text" id="bolValor" class="input-control" required placeholder="99.90">
-                </div>
-                <div class="form-group" style="grid-column: span 2;">
-                    <label>Data de Vencimento</label>
-                    <input type="date" id="bolVencimento" class="input-control" required>
-                </div>
-            </div>
 
-            <button type="submit" class="btn-action btn-orange" style="width: 100%; margin-top: 25px; justify-content: center;">
-                <i class="fas fa-barcode"></i> Gerar Boleto
-            </button>
-        </form>
+                <button type="submit" class="btn-action btn-orange" style="width: 100%; margin-top: 25px; justify-content: center;">
+                    <i class="fas fa-barcode"></i> Gerar Boleto
+                </button>
+            </form>
+        </div>
     </div>
-</div>
+
     <!-- MODAL USUÁRIO ADMIN -->
     <div id="modalUsuario" class="modal">
         <div class="modal-content">
@@ -318,10 +332,13 @@
                         <input type="text" id="usrNome" class="input-control" required placeholder="Ex: Maria Oliveira">
                     </div>
                     <div class="form-group">
-    <label>Data de Nascimento</label>
-    <input type="date" id="usrDataNascimento" class="input-control" required>
-</div>
-                </div>
+                        <label>Data de Nascimento</label>
+                        <input type="date" id="usrDataNascimento" class="input-control" required>
+                    </div>
+                    <div class="form-group">
+                        <label>E-mail (Recuperação de Senha)</label>
+                        <input type="email" id="usrEmail" class="input-control" required placeholder="email@exemplo.com">
+                    </div>
                     <div class="form-group">
                         <label>CPF (Acesso)</label>
                         <input type="text" id="usrCpf" class="input-control" required placeholder="000.000.000-00" maxlength="14">

@@ -363,6 +363,10 @@ header {
   padding: 20px;
 }
 
+.modal.open {
+  display: flex !important;
+}
+
 .modal-content {
   background: #FFFFFF;
   border: 2px solid var(--purple-main);
@@ -388,11 +392,11 @@ header {
 .close-modal:hover {
   color: #DC2626;
 }
-/* CONTAINER E ESTILOS DAS NOTIFICAÇÕES TOAST */
+
+/* TOASTS */
 #toast-container {
   position: fixed;
-  top: 20px;
-  right: 20px;
+  top: 20px; right: 20px;
   z-index: 9999;
   display: flex;
   flex-direction: column;
@@ -413,36 +417,41 @@ header {
   animation: slideIn 0.3s ease-out forwards;
 }
 
-.toast-success {
-  background-color: #10B981;
-}
-
-.toast-error {
-  background-color: #EF4444;
-}
-
-.toast-info {
-  background-color: #2563EB;
-}
+.toast-success { background-color: #10B981; }
+.toast-error { background-color: #EF4444; }
+.toast-info { background-color: #2563EB; }
 
 @keyframes slideIn {
-  from {
-    transform: translateX(100%);
-    opacity: 0;
-  }
-  to {
-    transform: translateX(0);
-    opacity: 1;
-  }
+  from { transform: translateX(100%); opacity: 0; }
+  to { transform: translateX(0); opacity: 1; }
 }
 
 @keyframes fadeOut {
-  from {
-    opacity: 1;
-    transform: translateX(0);
-  }
-  to {
-    opacity: 0;
-    transform: translateX(100%);
-  }
+  from { opacity: 1; transform: translateX(0); }
+  to { opacity: 0; transform: translateX(100%); }
 }
+
+/* USUÁRIO & AÇÕES */
+.header-user { display: flex; align-items: center; gap: 12px; }
+.user-chip {
+  display: flex; align-items: center; gap: 8px;
+  background: rgba(106, 27, 154, 0.08);
+  border: 1px solid rgba(106, 27, 154, 0.2);
+  padding: 8px 14px; border-radius: 999px;
+  font-size: 0.85rem; font-weight: 600; color: #4A148C;
+}
+.user-chip i { font-size: 1.2rem; color: #6A1B9A; }
+.user-role {
+  background: #6A1B9A; color: #fff; font-size: 0.7rem;
+  padding: 2px 8px; border-radius: 999px; text-transform: uppercase;
+}
+.user-role.role-operador { background: #2563EB; }
+
+.actions-row { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.actions-row .btn-action { padding: 7px 10px; font-size: 0.8rem; }
+.btn-success { background: #059669; color: #fff; }
+.btn-success:hover { background: #047857; }
+.btn-warn { background: #D97706; color: #fff; }
+.btn-warn:hover { background: #B45309; }
+.btn-muted { background: #64748B; color: #fff; }
+.btn-muted:hover { background: #475569; }

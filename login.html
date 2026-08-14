@@ -13,6 +13,12 @@
 
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+  <script>
+    // Configure sua PUBLIC KEY do EmailJS (painel EmailJS > Account > API Keys)
+    // Se não configurar, o código será exibido em toast para testes.
+    try { emailjs.init("zmhykQRk6bxPR2WJt"); } catch(e) {}
+  </script>
 
   <style>
     :root {
@@ -73,8 +79,6 @@
   <div id="toast-container"></div>
 
   <div class="card-login">
-    
-    </a>
 
     <div class="brand-header">
       <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Telecom" class="brand-logo">
@@ -111,46 +115,59 @@
         <button class="close-btn" onclick="fecharModalRecuperacao()"><i class="fas fa-times"></i></button>
       </div>
 
-      <form id="formValidacao">
+      <!-- PASSO 1: CPF -->
+      <form id="formEtapa1_CPF">
         <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">
-          Informe seu CPF e sua Data de Nascimento para confirmar sua identidade.
+          Informe o CPF cadastrado. Enviaremos um código de segurança para o e-mail vinculado.
         </p>
-
         <div class="form-group">
           <label for="recCpf">CPF</label>
           <input type="text" id="recCpf" class="input-control" placeholder="000.000.000-00" maxlength="14" required>
         </div>
-
-        <div class="form-group">
-          <label for="recDataNasc">Data de Nascimento</label>
-          <input type="date" id="recDataNasc" class="input-control" required>
-        </div>
-
-        <button type="submit" id="btnValidar" class="btn-submit">Verificar Dados</button>
+        <button type="submit" id="btnEnviarCodigo" class="btn-submit">Enviar Código por E-mail</button>
       </form>
 
-      <form id="formNovaSenha" style="display: none;">
+      <!-- PASSO 2: TOKEN -->
+      <form id="formEtapa2_Token" style="display: none;">
         <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">
-          Identidade confirmada! Digite sua nova senha de acesso.
+          Digite o código de 6 dígitos enviado para o seu e-mail (válido por 15 minutos).
         </p>
+        <div class="form-group">
+          <label for="inputToken">Código de Segurança</label>
+          <input type="text" id="inputToken" class="input-control" placeholder="000000" maxlength="6" required>
+        </div>
+        <button type="submit" id="btnValidarToken" class="btn-submit">Validar Código</button>
+      </form>
 
+      <!-- PASSO 3: NOVA SENHA -->
+      <form id="formEtapa3_NovaSenha" style="display: none;">
+        <p style="font-size: 0.875rem; color: var(--text-muted); margin-bottom: 16px;">
+          Código verificado! Digite sua nova senha de acesso.
+        </p>
         <div class="form-group">
           <label for="novaSenha">Nova Senha</label>
           <input type="password" id="novaSenha" class="input-control" placeholder="Digite a nova senha" minlength="4" required>
         </div>
-
         <div class="form-group">
           <label for="confirmaSenha">Confirmar Nova Senha</label>
           <input type="password" id="confirmaSenha" class="input-control" placeholder="Repita a nova senha" minlength="4" required>
         </div>
-
         <button type="submit" id="btnSalvarSenha" class="btn-submit">Salvar Nova Senha</button>
       </form>
     </div>
   </div>
 
   <script>
-    const firebaseConfig = { databaseURL: "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com/" };
+    const firebaseConfig = {
+      apiKey: "AIzaSyA0XjvmilmpNwBVDHuVRdyF8YCQ0SimvJA",
+      authDomain: "ky-wi-fi-telecom.firebaseapp.com",
+      databaseURL: "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com",
+      projectId: "ky-wi-fi-telecom",
+      storageBucket: "ky-wi-fi-telecom.appspot.com",
+      messagingSenderId: "222931880150",
+      appId: "1:222931880150:web:4224128a5b03022e3f6177",
+      measurementId: "G-RYJLD3M3HY"
+    };
     if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
     const db = firebase.database();
 
@@ -207,58 +224,151 @@
       }
     });
 
-    let usuarioValidoCpf = '';
+    // ========== RECUPERAÇÃO DE SENHA (CPF + TOKEN + E-MAIL) ==========
+    let cpfRecuperacao = '';
 
     function abrirModalRecuperacao() {
       document.getElementById('modalRecuperacao').style.display = 'flex';
-      document.getElementById('formValidacao').style.display = 'block';
-      document.getElementById('formNovaSenha').style.display = 'none';
-      document.getElementById('formValidacao').reset();
-      document.getElementById('formNovaSenha').reset();
+      document.getElementById('formEtapa1_CPF').style.display = 'block';
+      document.getElementById('formEtapa2_Token').style.display = 'none';
+      document.getElementById('formEtapa3_NovaSenha').style.display = 'none';
+      document.getElementById('formEtapa1_CPF').reset();
+      document.getElementById('formEtapa2_Token').reset();
+      document.getElementById('formEtapa3_NovaSenha').reset();
+      cpfRecuperacao = '';
     }
 
     function fecharModalRecuperacao() {
       document.getElementById('modalRecuperacao').style.display = 'none';
     }
 
-    document.getElementById('formValidacao').addEventListener('submit', async function (e) {
+    // PASSO 1: Buscar CPF e enviar token
+    document.getElementById('formEtapa1_CPF').addEventListener('submit', async function (e) {
       e.preventDefault();
-      const btn = document.getElementById('btnValidar');
+      const btn = document.getElementById('btnEnviarCodigo');
       const cpfLimpo = document.getElementById('recCpf').value.replace(/\D/g, '');
-      const dataNascInput = document.getElementById('recDataNasc').value;
-
       btn.disabled = true;
-      btn.innerText = 'Verificando...';
+      btn.innerText = 'Buscando cadastro...';
 
       try {
         const snapUsuario = await db.ref(`usuarios/${cpfLimpo}`).once('value');
-        const usuario = snapUsuario.val();
-
         const snapCliente = await db.ref(`clientes/${cpfLimpo}`).once('value');
+        const usuario = snapUsuario.val();
         const cliente = snapCliente.val();
 
-        if (!usuario && !cliente) throw new Error('Usuário/CPF não encontrado no sistema.');
-
-        const dataNascCadastrada = (usuario && usuario.data_nascimento) || (cliente && cliente.data_nascimento);
-
-        if (!dataNascCadastrada || dataNascCadastrada !== dataNascInput) {
-          throw new Error('Data de nascimento incorreta ou não confere com o CPF.');
+        if (!usuario && !cliente) {
+          throw new Error('CPF não encontrado no sistema.');
         }
 
-        usuarioValidoCpf = cpfLimpo;
-        showToast('Dados confirmados com sucesso!', 'success');
-        document.getElementById('formValidacao').style.display = 'none';
-        document.getElementById('formNovaSenha').style.display = 'block';
+        // Preferência: e-mail do usuário admin/operador; senão do cliente
+        const emailDestino = (usuario && usuario.email) || (cliente && cliente.email);
+        const nomeDestino = (usuario && usuario.nome) || (cliente && cliente.nome) || 'Usuário';
+
+        if (!emailDestino) {
+          throw new Error('Este CPF não possui e-mail cadastrado. Solicite ao administrador.');
+        }
+
+        // Token 6 dígitos, válido 15 min
+        const token = Math.floor(100000 + Math.random() * 900000).toString();
+        const expiracao = Date.now() + (15 * 60 * 1000);
+
+        await db.ref(`resets_senha/${cpfLimpo}`).set({
+          token: token,
+          expira_em: expiracao,
+          email: emailDestino
+        });
+
+        btn.innerText = 'Enviando e-mail...';
+
+        // Tenta enviar via EmailJS (Service ID do PDF: service_uuczxm4)
+        // Substitua SEU_TEMPLATE_ID e a PUBLIC KEY no script do head.
+        let emailEnviado = false;
+        let mailErrorMsg = '';
+        try {
+          if (typeof emailjs !== 'undefined' && emailjs.send) {
+            // Service ID: use o ID exato do painel EmailJS (geralmente service_xxxxx)
+            await emailjs.send("service_uuczxm4", "template_nbdfq2p", {
+              to_email: emailDestino,
+              user_name: nomeDestino,
+              token_code: token,
+              message: `Seu código de recuperação é: ${token}`
+            });
+            emailEnviado = true;
+          }
+        } catch (mailErr) {
+          console.warn('EmailJS falhou:', mailErr);
+          mailErrorMsg = (mailErr && (mailErr.text || mailErr.message)) ? String(mailErr.text || mailErr.message) : 'falha no envio';
+          // Tenta com Service capitalizado (caso o ID no painel seja Service_uuczxm4)
+          try {
+            await emailjs.send("Service_uuczxm4", "template_nbdfq2p", {
+              to_email: emailDestino,
+              user_name: nomeDestino,
+              token_code: token,
+              message: `Seu código de recuperação é: ${token}`
+            });
+            emailEnviado = true;
+            mailErrorMsg = '';
+          } catch (e2) {
+            console.warn('EmailJS (Service_*) também falhou:', e2);
+          }
+        }
+
+        cpfRecuperacao = cpfLimpo;
+
+        if (emailEnviado) {
+          showToast('Código enviado para o e-mail cadastrado! Verifique a caixa de entrada e o spam.', 'success', 5000);
+        } else {
+          // Fallback para testes: mostra o token
+          showToast(`Código (teste): ${token}` + (mailErrorMsg ? ` | EmailJS: ${mailErrorMsg}` : ''), 'info', 10000);
+        }
+
+        document.getElementById('formEtapa1_CPF').style.display = 'none';
+        document.getElementById('formEtapa2_Token').style.display = 'block';
 
       } catch (err) {
-        showToast(err.message, 'error');
+        showToast(err.message || 'Erro ao processar a solicitação.', 'error');
       } finally {
         btn.disabled = false;
-        btn.innerText = 'Verificar Dados';
+        btn.innerText = 'Enviar Código por E-mail';
       }
     });
 
-    document.getElementById('formNovaSenha').addEventListener('submit', async function (e) {
+    // PASSO 2: Validar token
+    document.getElementById('formEtapa2_Token').addEventListener('submit', async function (e) {
+      e.preventDefault();
+      const btn = document.getElementById('btnValidarToken');
+      const tokenDigitado = document.getElementById('inputToken').value.trim();
+      btn.disabled = true;
+      btn.innerText = 'Validando...';
+
+      try {
+        const snap = await db.ref(`resets_senha/${cpfRecuperacao}`).once('value');
+        const dadosReset = snap.val();
+
+        if (!dadosReset) {
+          throw new Error('Solicitação de redefinição não encontrada. Tente novamente.');
+        }
+        if (Date.now() > dadosReset.expira_em) {
+          throw new Error('O código expirou. Solicite um novo código.');
+        }
+        if (String(dadosReset.token) !== String(tokenDigitado)) {
+          throw new Error('Código incorreto. Verifique o e-mail recebido.');
+        }
+
+        showToast('Código verificado com sucesso!', 'success');
+        document.getElementById('formEtapa2_Token').style.display = 'none';
+        document.getElementById('formEtapa3_NovaSenha').style.display = 'block';
+
+      } catch (err) {
+        showToast(err.message || 'Erro ao validar código.', 'error');
+      } finally {
+        btn.disabled = false;
+        btn.innerText = 'Validar Código';
+      }
+    });
+
+    // PASSO 3: Salvar nova senha
+    document.getElementById('formEtapa3_NovaSenha').addEventListener('submit', async function (e) {
       e.preventDefault();
       const btn = document.getElementById('btnSalvarSenha');
       const novaSenha = document.getElementById('novaSenha').value;
@@ -268,13 +378,26 @@
         showToast('As senhas digitadas não coincidem.', 'error');
         return;
       }
+      if (novaSenha.length < 4) {
+        showToast('A senha deve ter pelo menos 4 caracteres.', 'error');
+        return;
+      }
 
       btn.disabled = true;
       btn.innerText = 'Atualizando...';
 
       try {
-        await db.ref(`usuarios/${usuarioValidoCpf}`).update({ senha: novaSenha });
-        showToast('Senha alterada com sucesso! Redirecionando...', 'success');
+        // Atualiza senha em usuarios (admins/operadores). Se for só cliente, pode adaptar.
+        const snapU = await db.ref(`usuarios/${cpfRecuperacao}`).once('value');
+        if (snapU.exists()) {
+          await db.ref(`usuarios/${cpfRecuperacao}`).update({ senha: novaSenha });
+        } else {
+          // Opcional: se existir senha em clientes no futuro
+          await db.ref(`clientes/${cpfRecuperacao}`).update({ senha: novaSenha });
+        }
+
+        await db.ref(`resets_senha/${cpfRecuperacao}`).remove();
+        showToast('Senha alterada com sucesso! Faça login novamente.', 'success');
         setTimeout(() => { fecharModalRecuperacao(); }, 1500);
       } catch (err) {
         showToast('Erro ao atualizar a senha. Tente novamente.', 'error');
