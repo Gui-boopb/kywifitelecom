@@ -5,37 +5,35 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Ky WIFI Telecom - A Melhor Conexão de Fibra Óptica de Goiás. Planos com instalação grátis e roteador Wi-Fi 6.">
     <title>Ky WIFI Telecom | A Melhor Conexão de Goiás</title>
-   
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
-<!-- SDKs do Firebase v8 -->
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
-<script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-<script>
-  // Configuração e inicialização da base do Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyA0XjvmilmpNwBVDHuVRdyF8YCQ0SimvJA",
-    authDomain: "ky-wi-fi-telecom.firebaseapp.com",
-    databaseURL: "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com",
-    projectId: "ky-wi-fi-telecom",
-    storageBucket: "ky-wi-fi-telecom.appspot.com",
-    messagingSenderId: "222931880150",
-    appId: "1:222931880150:web:4224128a5b03022e3f6177",
-    measurementId: "G-RYJLD3M3HY"
-  };
+    <!-- SDKs do Firebase v8 -->
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
 
-  if (!firebase.apps.length) {
-    firebase.initializeApp(firebaseConfig);
-  }
-</script>
+    <script>
+      // Configuração e inicialização do Firebase
+      const firebaseConfig = {
+        apiKey: "AIzaSyA0XjvmilmpNwBVDHuVRdyF8YCQ0SimvJA",
+        authDomain: "ky-wi-fi-telecom.firebaseapp.com",
+        databaseURL: "https://ky-wi-fi-telecom-default-rtdb.firebaseio.com",
+        projectId: "ky-wi-fi-telecom",
+        storageBucket: "ky-wi-fi-telecom.appspot.com",
+        messagingSenderId: "222931880150",
+        appId: "1:222931880150:web:4224128a5b03022e3f6177",
+        measurementId: "G-RYJLD3M3HY"
+      };
 
-<!-- Carregue os scripts da aplicação sempre DEPOIS da inicialização do Firebase -->
-<script src="script.js"></script>
-<script src="chatbot.js"></script>
+      if (!firebase.apps.length) {
+        firebase.initializeApp(firebaseConfig);
+      }
+    </script>
+
     <!-- ESTILOS ADICIONAIS PARA BARRA DE ANÚNCIO E FAQ -->
     <style>
         /* Barra de Anúncio / Promocional (Topo) */
@@ -97,16 +95,17 @@
             margin-top: 30px;
         }
         .faq-item {
-            background: rgba(255, 255, 255, 0.05);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            border-radius: 10px;
-            padding: 16px 20px;
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 18px 22px;
             cursor: pointer;
-            transition: background 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+            transition: all 0.3s ease;
         }
         .faq-item[open] {
-            background: rgba(255, 255, 255, 0.08);
-            border-color: #a855f7;
+            border-color: #6a1b9a;
+            box-shadow: 0 6px 18px rgba(106, 27, 154, 0.12);
         }
         .faq-item summary {
             font-weight: 600;
@@ -115,7 +114,7 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            color: #1a1919;
+            color: #1e293b;
         }
         .faq-item summary::-webkit-details-marker {
             display: none;
@@ -125,17 +124,17 @@
             font-family: 'Font Awesome 6 Free';
             font-weight: 900;
             font-size: 0.9rem;
+            color: #6a1b9a;
             transition: transform 0.3s;
         }
         .faq-item[open] summary::after {
             transform: rotate(180deg);
-            color: #a855f7;
         }
         .faq-item p {
             margin-top: 12px;
             font-size: 0.95rem;
             line-height: 1.6;
-            color: #0d0e0e;
+            color: #475569;
         }
     </style>
 </head>
@@ -159,7 +158,8 @@
                 </li>
                 <li>
                     <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" onclick="closeMenu()">
-                        <i class="fab fa-instagram" aria-hidden="true"></i> Instagram
+                        <i class="fab fa-instagram" aria-hidden="true"></i>
+                        <span>Instagram</span>
                     </a>
                 </li>
                 <li class="mobile-only">
@@ -333,37 +333,37 @@
 
     <!-- RODAPÉ -->
     <footer id="suporte">
-    <div class="footer-grid reveal">
-        <div>
-            <h4>Ky WI-FI Telecom</h4>
-            <p><i class="fas fa-file-alt" aria-hidden="true"></i> CNPJ: 22.131.209/0001-93</p>
-            <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Águas Lindas de Goiás - GO</p>
-        </div>
-        <div>
-            <h4>Contato </h4>
-            <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer">(61) 98203-1828</a></p>
-            <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com">kywifitelecom@gmail.com</a></p>
-            <p>
-                <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
-                    <i class="fab fa-instagram" aria-hidden="true"></i> @kywifitelecom
+        <div class="footer-grid reveal">
+            <div>
+                <h4>Ky WI-FI Telecom</h4>
+                <p><i class="fas fa-file-alt" aria-hidden="true"></i> CNPJ: 22.131.209/0001-93</p>
+                <p><i class="fas fa-map-marker-alt" aria-hidden="true"></i> Águas Lindas de Goiás - GO</p>
+            </div>
+            <div>
+                <h4>Contato</h4>
+                <p><i class="fab fa-whatsapp" aria-hidden="true"></i> <a href="https://wa.me/5561982031828" target="_blank" rel="noopener noreferrer">(61) 98203-1828</a></p>
+                <p><i class="fas fa-envelope" aria-hidden="true"></i> <a href="mailto:kywifitelecom@gmail.com">kywifitelecom@gmail.com</a></p>
+                <p>
+                    <a href="https://www.instagram.com/kywifitelecom" target="_blank" rel="noopener noreferrer" style="display: flex; align-items: center; gap: 10px;">
+                        <i class="fab fa-instagram" aria-hidden="true"></i> @kywifitelecom
+                    </a>
+                </p>
+            </div>
+
+            <!-- ÁREA DO COLABORADOR -->
+            <div>
+                <h4>Acesso Interno</h4>
+                <a href="login.html" class="btn-colaborador">
+                    <i class="fas fa-user-shield" aria-hidden="true"></i> Área do Colaborador
                 </a>
-            </p>
+            </div>
         </div>
 
-        <!-- ÁREA DO COLABORADOR -->
-        <div>
-            <h4>Acesso Interno</h4>
-            <a href="login.html" class="btn-colaborador">
-                <i class="fas fa-user-shield" aria-hidden="true"></i> Área do Colaborador
-            </a>
-        </div>
-    </div>
-
-    <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">
-        © 2026 Ky WIFI Telecom. Todos os direitos reservados. | <a href="privacidade.html" style="color: inherit;">Política de Privacidade</a>
-    </p>
-    <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo Rodapé" width="50" style="margin-top: 10px;">
-</footer>
+        <p style="margin-top: 40px; font-size: 0.9rem; opacity: 0.7;">
+            © 2026 Ky WIFI Telecom. Todos os direitos reservados. | <a href="privacidade.html" style="color: inherit;">Política de Privacidade</a>
+        </p>
+        <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Logo Rodapé" width="50" style="margin-top: 10px;">
+    </footer>
 
     <!-- LGPD COOKIES BANNER -->
     <div id="lgpd-banner" class="lgpd-banner" role="dialog" aria-live="polite" aria-label="Aviso de Privacidade e Cookies">
@@ -380,10 +380,6 @@
         </div>
     </div>
 
-    <!-- SCRIPTS JS -->
-    <script src="script.js"></script>
-    <script src="chatbot.js"></script>
-
     <!-- PLUGIN VLIBRAS -->
     <div vw class="enabled">
         <div vw-access-button class="active"></div>
@@ -395,5 +391,9 @@
     <script>
         new window.VLibras.Widget('https://vlibras.gov.br/app');
     </script>
+
+    <!-- SCRIPTS DA APLICAÇÃO -->
+    <script src="script.js"></script>
+    <script src="chatbot.js"></script>
 </body>
 </html>
