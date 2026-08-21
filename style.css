@@ -1259,95 +1259,98 @@ footer {
 footer {
     padding: 90px 20px 40px;
 }
-/* 16. RESPONSIVIDADE E MEDIA QUERIES (NO FINAL DO ARQUIVO) */
-@media (min-width: 768px) {
-    .lgpd-content {
-        flex-direction: row;
-    }
-
-    .lgpd-buttons {
-        width: auto;
-    }
-}
-
+/* Otimizações Responsivas de IHC e Tamanho de Topo */
 @media (max-width: 768px) {
     header {
-        padding: 12px 20px;
+        padding: 6px 16px; /* Altura reduzida[cite: 1] */
     }
 
     .ky-logo, .logo-img {
-        height: 50px;
-    }
-
-    .nav-menu {
-        position: absolute;
-        top: 100%;
-        left: 0;
-        width: 100%;
-        background: var(--white);
-        flex-direction: column;
-        padding: 20px 0;
-        box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
-        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0);
-        transition: clip-path 0.3s ease-in-out;
-    }
-
-    .nav-menu.active {
-        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%);
-    }
-
-    .nav-menu a {
-        display: block;
-        padding: 12px 20px;
-        text-align: center;
-        width: 100%;
+        height: 38px; /* Logotipo menor[cite: 1] */
     }
 
     .hamburger {
-        display: block;
+        display: flex; /*[cite: 1] */
+        align-items: center;
+        justify-content: center;
+        min-width: 44px; /* Área de toque recomendada para ergonomia do polegar */
+        min-height: 44px;
+        padding: 8px;
+        font-size: 24px;
+        background: none; /*[cite: 1] */
+        border: none; /*[cite: 1] */
+    }
+
+    .nav-menu {
+        position: absolute; /*[cite: 1] */
+        top: 100%; /*[cite: 1] */
+        left: 0; /*[cite: 1] */
+        width: 100%; /*[cite: 1] */
+        background: var(--white); /*[cite: 1] */
+        flex-direction: column; /*[cite: 1] */
+        padding: 10px 0 20px;
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.15);
+        clip-path: polygon(0 0, 100% 0, 100% 0, 0 0); /*[cite: 1] */
+        transition: clip-path 0.3s ease-in-out; /*[cite: 1] */
+        max-height: calc(100vh - 60px);
+        overflow-y: auto; /* Rolagem quando o menu for maior que a tela */
+        border-bottom: 3px solid var(--purple-main);
+    }
+
+    .nav-menu.active {
+        clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%); /*[cite: 1] */
+    }
+
+    .nav-menu a {
+        display: block; /*[cite: 1] */
+        padding: 16px 20px; /* Área de clique expandida[cite: 1] */
+        text-align: center; /*[cite: 1] */
+        width: 100%; /*[cite: 1] */
+        font-size: 1.05rem;
     }
 
     .desktop-only-btn {
-        display: none;
+        display: none; /*[cite: 1] */
     }
     
     .mobile-only { 
-        display: block; 
-        width: 80%; 
-        margin: 10px auto 0;
-        text-align: center;
+        display: block; /*[cite: 1] */
+        width: 85%; 
+        margin: 12px auto 0;
+        text-align: center; /*[cite: 1] */
     }
 
     .mobile-only .btn-client {
-        width: 100%;
+        width: 100%; /*[cite: 1] */
+        padding: 14px 20px;
     }
 
     .sobre-container {
-        grid-template-columns: 1fr;
-        text-align: center;
-        gap: 30px;
+        grid-template-columns: 1fr; /*[cite: 1] */
+        text-align: center; /*[cite: 1] */
+        gap: 30px; /*[cite: 1] */
     }
 
     .form-grid {
-        grid-template-columns: 1fr;
+        grid-template-columns: 1fr; /*[cite: 1] */
     }
 
     .form-group.full-width {
-        grid-column: span 1;
+        grid-column: span 1; /*[cite: 1] */
     }
 
     .client-card {
-        padding: 25px 20px;
+        padding: 25px 20px; /*[cite: 1] */
     }
 
     .plan-card {
-        width: 100%;
-        max-width: 340px;
+        width: 100%; /*[cite: 1] */
+        max-width: 340px; /*[cite: 1] */
     }
 
     .ky-chat-box {
-        width: calc(100vw - 40px);
-        left: 0;
+        width: calc(100vw - 40px); /*[cite: 1] */
+        left: 0; /*[cite: 1] */
     }
 }
 /* Seção FAQ Ajustada com Alto Contraste */
