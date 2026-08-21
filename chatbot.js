@@ -1,15 +1,14 @@
 /* ==========================================================================
-   KY BOT - CHATBOT IA DA KY WIFI TELECOM (CÓDIGO COMPLETO E ATUALIZADO)
+   KY BOT - CHATBOT IA DA KY WIFI TELECOM (ATUALIZADO)
    ========================================================================== */
 
 const GROQ_API_KEY = "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";
 
-// Estados do fluxo de boleto
 let isWaitingForResponse = false;
-let fluxoBoletoState = 'IDLE'; // 'IDLE', 'AGUARDANDO_CPF', 'AGUARDANDO_ANO'
+let fluxoBoletoState = 'IDLE'; 
 let dadosVerificacao = { cpf: '', anoNascimento: '' };
 
-/* --- 1. PARSER E FORMATAÇÃO DE TEXTO DO BOT --- */
+/* --- 1. PARSER E FORMATAÇÃO DE TEXTO --- */
 function escapeHTML(str) {
     if (!str) return '';
     return String(str)
@@ -23,22 +22,14 @@ function escapeHTML(str) {
 function formatKyBotText(text) {
     if (!text) return '';
     let formatted = escapeHTML(text);
-    
-    // Converte **texto** em negrito HTML
     formatted = formatted.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
-    
-    // Converte *texto* em itálico HTML
     formatted = formatted.replace(/\*(.*?)\*/g, '<em>$1</em>');
-    
-    // Converte URLs em links clicáveis estilizados
     formatted = formatted.replace(/(https?:\/\/[^\s<]+)/g, '<a href="$1" target="_blank" rel="noopener noreferrer" class="ky-chat-link">$1</a>');
-    
-    // Quebras de linha
     formatted = formatted.replace(/\n/g, '<br>');
     return formatted;
 }
 
-/* --- 2. RENDERIZAÇÃO E WIDGET DO CHAT --- */
+/* --- 2. RENDERIZAÇÃO E HISTÓRICO LOCAL --- */
 function renderKyChatWidget() {
     if (document.getElementById('ky-chat-widget')) return;
 
@@ -75,11 +66,12 @@ function renderKyChatWidget() {
                     </div>
                 </div>
 
-                <!-- ATALHOS RÁPIDOS (QUICK CHIPS) -->
+                <!-- QUICK CHIPS ATUALIZADOS -->
                 <div class="ky-quick-chips">
                     <button class="ky-chip" onclick="iniciarFluxoBoleto()"><i class="fas fa-barcode"></i> 2ª Via Boleto</button>
+                    <button class="ky-chip" onclick="iniciarDiagnostico()"><i class="fas fa-wrench"></i> Testar Conexão</button>
+                    <button class="ky-chip" onclick="enviarPerguntaRapida('Como mudo a senha do Wi-Fi?')"><i class="fas fa-key"></i> Trocar Wi-Fi</button>
                     <button class="ky-chip" onclick="enviarPerguntaRapida('Quais são os planos de internet?')"><i class="fas fa-wifi"></i> Planos</button>
-                    <button class="ky-chip" onclick="enviarPerguntaRapida('Como funciona o suporte técnico?')"><i class="fas fa-tools"></i> Suporte</button>
                     <button class="ky-chip" onclick="falarComAtendente(event)"><i class="fab fa-whatsapp"></i> Atendente</button>
                 </div>
 
@@ -100,7 +92,24 @@ function renderKyChatWidget() {
     `;
 
     document.body.insertAdjacentHTML('beforeend', widgetHTML);
-    formatInitialMessages();
+    carregarHistoricoLocal();
+}
+
+function salvarHistoricoLocal() {
+    const container = document.getElementById('ky-chat-messages');
+    if (container) {
+        localStorage.setItem('ky_chat_history', container.innerHTML);
+    }
+}
+
+function carregarHistoricoLocal() {
+    const historico = localStorage.getItem('ky_chat_history');
+    if (historico) {
+        const container = document.getElementById('ky-chat-messages');
+        if (container) container.innerHTML = historico;
+    } else {
+        formatInitialMessages();
+    }
 }
 
 function formatInitialMessages() {
@@ -129,6 +138,7 @@ function toggleKyChat() {
 function reiniciarChat() {
     fluxoBoletoState = 'IDLE';
     dadosVerificacao = { cpf: '', anoNascimento: '' };
+    localStorage.removeItem('ky_chat_history');
     const messagesContainer = document.getElementById('ky-chat-messages');
     if (messagesContainer) {
         messagesContainer.innerHTML = `
@@ -160,7 +170,6 @@ function falarComAtendente(e) {
     window.open("https://wa.me/5561982031828", "_blank");
 }
 
-/* --- 3. COPIAR PARA ÁREA DE TRANSFERÊNCIA COM NOTIFICAÇÃO --- */
 function copiarTexto(texto, mensagemToast) {
     navigator.clipboard.writeText(texto).then(() => {
         exibirToast(mensagemToast || "Copiado com sucesso!");
@@ -185,8 +194,12 @@ function exibirToast(msg) {
     }, 2500);
 }
 
-/* --- 4. FLUXO INTERATIVO DE BOLETO --- */
+/* --- 3. NOVO FLUXO: DIAGNÓSTICO DE REDE --- */
+function iniciarDiagnostico() {
+    appendKyMessage("🔧 **Diagnóstico Automático de Conexão**\n\nSiga estes passos rápidos:\n1️⃣ Remova o roteador da tomada.\n2️⃣ Aguarde 20 segundos.\n3️⃣ Ligue novamente e espere as luzes estabilizarem.\n\nSua conexão voltou ao normal?", 'bot');
+}
 
+/* --- 4. FLUXO INTERATIVO DE BOLETO --- */
 function iniciarFluxoBoleto() {
     fluxoBoletoState = 'AGUARDANDO_CPF';
     dadosVerificacao = { cpf: '', anoNascimento: '' };
@@ -267,10 +280,10 @@ async function validarEBuscarBoleto() {
 
         if (boletoPendente) {
             const valorFormatado = parseFloat(boletoPendente.valor || 0).toFixed(2).replace('.', ',');
-            const linhaDigitavel = boletoPendente.linha_digitavel || "75691.40333 40333.000000 40333.000010 7 00000000009990";
             const chavePix = boletoPendente.chave_pix || "kywifitelecom@gmail.com";
             const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(chavePix)}`;
 
+            /* CARD SEM O BOTÃO DE COPIAR CÓDIGO DE BARRAS */
             const cardBoletoHTML = `
                 <div class="ky-boleto-card">
                     <div class="ky-boleto-header">
@@ -286,17 +299,12 @@ async function validarEBuscarBoleto() {
                         <strong>R$ ${valorFormatado}</strong>
                     </div>
 
-                    <!-- Exibição do QR Code PIX diretamente no Chat -->
                     <div style="text-align: center; margin: 12px 0; padding: 10px; background: #ffffff; border-radius: 8px; border: 1px solid #e2e8f0;">
                         <img src="${qrCodeUrl}" alt="QR Code PIX" style="width: 130px; height: 130px; display: block; margin: 0 auto 6px auto; border-radius: 4px;">
                         <span style="font-size: 11px; color: #4a5568; font-weight: 600; display: block;">Escaneie para pagar via PIX</span>
                     </div>
 
                     <div class="ky-boleto-actions">
-                        <button onclick="copiarTexto('${linhaDigitavel.replace(/\s+/g, '')}', 'Linha digitável copiada!')" class="ky-boleto-btn-sec">
-                            <i class="fas fa-copy"></i> Copiar Código de Barras
-                        </button>
-                        
                         <button onclick="copiarTexto('${chavePix}', 'Chave PIX copiada!')" class="ky-boleto-btn-sec">
                             <i class="fas fa-qrcode"></i> Copiar Chave PIX
                         </button>
@@ -319,7 +327,7 @@ async function validarEBuscarBoleto() {
     }
 }
 
-/* --- 5. IMPRESSÃO DO BOLETO COM FORMATO BANCÁRIO (SICOOB / FEBRABAN) --- */
+/* --- 5. IMPRESSÃO DO BOLETO BANCÁRIO --- */
 function imprimirBoletoChat(id) {
     if (typeof firebase === 'undefined' || !firebase.database) return;
     const db = firebase.database();
@@ -346,46 +354,31 @@ function imprimirBoletoChat(id) {
                     * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Arial', sans-serif; }
                     body { background: #f5f5f5; color: #000; padding: 20px; font-size: 10px; }
                     .boleto-paper { max-width: 800px; margin: 0 auto; background: #fff; padding: 25px; border: 1px solid #ccc; box-shadow: 0 4px 12px rgba(0,0,0,0.1); }
-                    
-                    /* Recibo do Sacado */
                     .recibo-header { display: flex; justify-content: space-between; align-items: center; border-bottom: 2px solid #6A1B9A; padding-bottom: 10px; margin-bottom: 15px; }
                     .recibo-header img { height: 45px; }
                     .recibo-header .empresa-info { text-align: right; font-size: 11px; line-height: 1.4; color: #333; }
-                    
-                    /* Linha de Corte */
                     .linha-corte { border-top: 1px dashed #777; margin: 20px 0; position: relative; text-align: right; }
                     .linha-corte span { font-size: 9px; background: #fff; padding: 0 5px; position: relative; top: -7px; color: #555; }
-                    
-                    /* Tabela do Boleto */
                     .banco-header { display: flex; align-items: flex-end; border-bottom: 2px solid #000; padding-bottom: 4px; margin-bottom: 2px; }
                     .banco-logo { font-size: 22px; font-weight: 900; color: #003366; width: 130px; letter-spacing: -0.5px; }
                     .codigo-banco { font-size: 18px; font-weight: bold; padding: 0 12px; border-left: 2px solid #000; border-right: 2px solid #000; }
                     .linha-digitavel { font-size: 13px; font-weight: bold; margin-left: auto; letter-spacing: 0.8px; font-family: monospace; }
-                    
                     table.b-table { width: 100%; border-collapse: collapse; margin-bottom: -1px; }
                     table.b-table td { border: 1px solid #000; padding: 5px 7px; vertical-align: top; }
                     .lbl { font-size: 8px; font-weight: bold; text-transform: uppercase; color: #444; display: block; margin-bottom: 2px; }
                     .val { font-size: 11px; font-weight: bold; color: #000; }
                     .val-destaque { font-size: 13px; font-weight: 800; text-align: right; color: #000; }
-                    
                     .pix-section { display: flex; gap: 15px; align-items: center; margin-top: 8px; background: #f9f9f9; padding: 8px; border-radius: 6px; border: 1px solid #ddd; }
-                    .pix-qr { text-align: center; }
                     .pix-qr img { width: 100px; height: 100px; display: block; border: 1px solid #bbb; border-radius: 4px; }
                     .pix-txt { font-size: 10px; line-height: 1.5; color: #222; }
                     .pix-txt code { background: #eee; padding: 2px 6px; border-radius: 3px; font-family: monospace; font-size: 11px; font-weight: bold; }
-                    
                     .barcode-container { text-align: center; margin-top: 20px; padding-top: 10px; }
                     .barcode-container img { max-width: 100%; height: 55px; }
-                    
-                    @media print {
-                        body { background: #fff; padding: 0; }
-                        .boleto-paper { border: none; box-shadow: none; padding: 0; }
-                    }
+                    @media print { body { background: #fff; padding: 0; } .boleto-paper { border: none; box-shadow: none; padding: 0; } }
                 </style>
             </head>
             <body>
                 <div class="boleto-paper">
-                    <!-- COMPROVANTE / RECIBO DO PAGADOR -->
                     <div class="recibo-header">
                         <img src="https://i.ibb.co/Xrz7n7dX/image-9658f0-removebg-preview.png" alt="Ky WIFI Telecom">
                         <div class="empresa-info">
@@ -394,7 +387,6 @@ function imprimirBoletoChat(id) {
                             Atendimento: (61) 98203-1828 | Águas Lindas de Goiás - GO
                         </div>
                     </div>
-                    
                     <table class="b-table">
                         <tr>
                             <td colspan="3"><span class="lbl">Beneficiário</span><span class="val">KY TELECOMUNICACOES LTDA - CNPJ: 22.131.209/0001-93</span></td>
@@ -405,18 +397,12 @@ function imprimirBoletoChat(id) {
                             <td><span class="lbl">Valor do Documento</span><span class="val-destaque">R$ ${valorDoc}</span></td>
                         </tr>
                     </table>
-
-                    <div class="linha-corte">
-                        <span>✂ Corte na linha pontilhada</span>
-                    </div>
-
-                    <!-- FICHA DE COMPENSAÇÃO BANCÁRIA -->
+                    <div class="linha-corte"><span>✂ Corte na linha pontilhada</span></div>
                     <div class="banco-header">
                         <div class="banco-logo">SICOOB</div>
                         <div class="codigo-banco">756-0</div>
                         <div class="linha-digitavel">${linhaDigitavel}</div>
                     </div>
-
                     <table class="b-table">
                         <tr>
                             <td colspan="3"><span class="lbl">Local de Pagamento</span><span class="val">Pagável em qualquer banco ou via PIX até o vencimento</span></td>
@@ -434,19 +420,17 @@ function imprimirBoletoChat(id) {
                         </tr>
                         <tr>
                             <td colspan="3" rowspan="2">
-                                <span class="lbl">Instruções (Texto de Responsabilidade do Beneficiário)</span>
+                                <span class="lbl">Instruções</span>
                                 <div style="font-size: 10px; line-height: 1.4; color: #222; margin-bottom: 6px;">
                                     • Não receber após 30 dias do vencimento.<br>
                                     • Sujeito a suspensão dos serviços em caso de inadimplência.<br>
                                     • Dúvidas ou suporte: (61) 98203-1828.
                                 </div>
                                 <div class="pix-section">
-                                    <div class="pix-qr">
-                                        <img src="${qrCodeUrl}" alt="QR Code PIX">
-                                    </div>
+                                    <div class="pix-qr"><img src="${qrCodeUrl}" alt="QR Code PIX"></div>
                                     <div class="pix-txt">
                                         <strong style="color: #6A1B9A; font-size: 11px;">PAGUE MAIS RÁPIDO COM PIX</strong><br>
-                                        Escaneie o QR Code ao lado pelo app do seu banco ou utilize a chave PIX:<br>
+                                        Escaneie o QR Code ao lado ou utilize a chave PIX:<br>
                                         <code>${pixChave}</code>
                                     </div>
                                 </div>
@@ -457,7 +441,6 @@ function imprimirBoletoChat(id) {
                             <td><span class="lbl">(=) Valor Cobrado</span></td>
                         </tr>
                     </table>
-
                     <div class="barcode-container">
                         <img src="${codigoBarrasUrl}" alt="Código de Barras Boleto">
                     </div>
@@ -470,7 +453,7 @@ function imprimirBoletoChat(id) {
     });
 }
 
-/* --- 6. ENVIO DE MENSAGENS E INTEGRAÇÃO COM A IA GROQ --- */
+/* --- 6. ENVIO DE MENSAGENS E INTEGRAÇÃO GROQ IA --- */
 async function sendKyMessage() {
     if (isWaitingForResponse) return;
 
@@ -491,6 +474,11 @@ async function sendKyMessage() {
     const textLower = userText.toLowerCase();
     if (textLower.includes('boleto') || textLower.includes('2 via') || textLower.includes('fatura') || textLower.includes('segunda via') || textLower.includes('pagamento')) {
         iniciarFluxoBoleto();
+        return;
+    }
+
+    if (textLower.includes('lento') || textLower.includes('lentidão') || textLower.includes('caiu') || textLower.includes('sem sinal') || textLower.includes('reiniciar')) {
+        iniciarDiagnostico();
         return;
     }
 
@@ -518,7 +506,7 @@ async function sendKyMessage() {
                         role: "system",
                         content: `Você é o Ky Bot, assistente virtual exclusivo da Ky WIFI Telecom em Águas Lindas de Goiás.
 
-DADOS OFICIAIS DA EMPRESA (UTILIZE APENAS ESTAS INFORMAÇÕES REAIS):
+DADOS OFICIAIS DA EMPRESA:
 - WhatsApp de Atendimento: (61) 98203-1828
 - Cidade de Cobertura: Águas Lindas de Goiás - GO
 
@@ -526,18 +514,18 @@ BENEFÍCIOS INCLUSOS EM TODOS OS PLANOS:
 - Instalação Grátis
 - Roteador Wi-Fi 6
 - Suporte 24/7
-- Acesso aos streamings: Spotify, YouTube Premium, Netflix e Disney+
+- Streamings: Spotify, YouTube Premium, Netflix e Disney+
 
-PLANOS DE INTERNET DISPONÍVEIS:
+PLANOS DE INTERNET:
 1. Básico: 400 MEGA - R$ 79,90 /mês
 2. Família (Mais Vendido): 700 MEGA - R$ 99,90 /mês
 3. Gramer Ultra: 1000 MEGA - R$ 139,90 /mês
 
-REGRAS RIGOROSAS DA IA:
-1. Responda DÚVIDAS E CONSULTAS APENAS com base nos planos e benefícios listados acima.
-2. NUNCA invente outros valores, velocidades, combos ou promoções fora da lista oficial.
-3. Caso o usuário pergunte algo sobre o qual você não tem confirmação, diga exatamente: "Não tenho essa informação no momento. Por favor, entre em contato com nosso atendimento via WhatsApp: https://wa.me/5561982031828".
-4. Para dúvidas sobre boletos ou faturas, oriente o cliente a usar o botão "2ª Via Boleto" no topo da tela ou digitar a palavra "boleto".`
+REGRAS:
+1. Responda apenas sobre os planos e benefícios oficiais acima.
+2. NUNCA invente outros valores ou ofertas.
+3. Se não tiver certeza, encaminhe para o WhatsApp: https://wa.me/5561982031828.
+4. Para boletos, mande o cliente clicar no botão "2ª Via Boleto".`
                     },
                     { role: "user", content: userText }
                 ],
@@ -555,10 +543,10 @@ REGRAS RIGOROSAS DA IA:
         }
 
     } catch (error) {
-        console.error("Erro na integração com a IA:", error);
+        console.error("Erro na IA:", error);
         const loadingElement = document.getElementById(loadingId);
         if (loadingElement) {
-            loadingElement.innerHTML = formatKyBotText("Estamos enfrentando uma oscilação temporária no chat. Fale diretamente com nossa equipe no WhatsApp: https://wa.me/5561982031828");
+            loadingElement.innerHTML = formatKyBotText("Oscilação temporária no chat. Fale conosco no WhatsApp: https://wa.me/5561982031828");
         }
     } finally {
         isWaitingForResponse = false;
@@ -566,6 +554,7 @@ REGRAS RIGOROSAS DA IA:
         if (sendBtn) sendBtn.disabled = false;
         input.focus();
         scrollToBottom();
+        salvarHistoricoLocal();
     }
 }
 
@@ -588,6 +577,7 @@ function appendKyMessage(content, sender, isHTML = false) {
 
     container.appendChild(msgDiv);
     scrollToBottom();
+    salvarHistoricoLocal();
     return id;
 }
 
@@ -602,17 +592,3 @@ function scrollToBottom() {
 }
 
 document.addEventListener('DOMContentLoaded', renderKyChatWidget);
-// Dentro de validarEBuscarBoleto():
-if (boletoPendente) {
-    const boletoCompleto = {
-        ...boletoPendente,
-        cliente_nome: cliente.nome
-    };
-
-    // 1. Exibe a mensagem e card com opções no chat
-    appendKyMessage(`Olá **${cliente.nome || 'Cliente'}**! Localizamos o seu boleto:`, 'bot');
-    appendKyMessage(cardBoletoHTML, 'bot', true);
-
-    // 2. DISPARO AUTOMÁTICO: Abre a janela do boleto para visualização/impressão imediata
-    gerarEImprimirBoletoAutomatico(boletoCompleto);
-}
