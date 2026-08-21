@@ -1662,11 +1662,11 @@ footer a,
         width: 100%;
         list-style: none;
     }
-
-    .nav-menu a {
+.nav-menu a {
         display: flex !important;
         align-items: center !important;
-        justify-content: space-between !important;
+        justify-content: flex-start !important; /* Alinha ícone e texto juntos à esquerda */
+        gap: 12px !important;                    /* Espaçamento uniforme entre ícone e texto */
         padding: 14px 18px !important;
         font-size: 1rem !important;
         font-weight: 600 !important;
