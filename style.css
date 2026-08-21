@@ -185,7 +185,7 @@ header {
     background: linear-gradient(135deg, #1d033a 0%, var(--purple-dark) 50%, #5b117a 100%);
     color: var(--white);
     text-align: center;
-    padding: 140px 20px 110px;
+    padding: 160px 20px 130px;
     position: relative;
     overflow: hidden;
 }
@@ -271,13 +271,14 @@ header {
 /* 5. BENEFÍCIOS */
 .benefits {
     background: var(--white);
-    padding: 35px 5%;
+    padding: 45px 5%;
     display: flex;
     justify-content: center;
     gap: 40px;
     flex-wrap: wrap;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-    margin-top: -50px;
+    margin-top: -40px;
+    margin-bottom: 80px;
     position: relative;
     z-index: 10;
     border-radius: 20px;
@@ -305,36 +306,16 @@ header {
 }
 
 /* 6. PLANOS */
-/* 6. PLANOS */
 #planos {
     background: linear-gradient(180deg, #FFFFFF 0%, #F3E8FF 50%, #FFFFFF 100%);
     padding: 40px 0 20px;
     border-top: 1px solid #E9D5FF;
     border-bottom: 1px solid #E9D5FF;
 }
-.plan-speed {
-    font-size: clamp(1.8rem, 3.8vw, 2.5rem); /* Tamanho reduzido para não estourar a largura do card */
-    font-weight: 800;
-    color: var(--purple-main);
-    line-height: 1;
-    display: flex;
-    align-items: baseline;
-    justify-content: center;
-    gap: 6px;
-    width: 100%;
-    margin: 12px 0;
-}
 
-/* Mantém o "MEGA" proporcional, ajustado e alinhado */
-.plan-speed small {
-    font-size: 0.45em;
-    font-weight: 700;
-    color: var(--purple-dark);
-    letter-spacing: 0.5px;
-}
 .section-title {
     text-align: center;
-    padding: 90px 20px 40px;
+    padding: 60px 20px 50px;
 }
 
 .section-title h2 {
@@ -407,17 +388,26 @@ header {
 }
 
 .plan-speed {
-    font-size: clamp(2.2rem, 4.5vw, 3.8rem); /* Ajusta a fonte automaticamente para caber no card */
+    font-size: clamp(1.8rem, 3.8vw, 2.5rem);
     font-weight: 800;
     color: var(--purple-main);
     line-height: 1;
     display: flex;
     align-items: baseline;
-    gap: 5px;
+    justify-content: center;
+    gap: 6px;
+    width: 100%;
+    margin: 12px 0;
 }
+
+.plan-speed small,
 .plan-speed span {
-    font-size: clamp(1rem, 2vw, 1.8rem);
+    font-size: 0.45em;
+    font-weight: 700;
+    color: var(--purple-dark);
+    letter-spacing: 0.5px;
 }
+
 .plan-price {
     font-size: 2.8rem;
     font-weight: 700;
@@ -604,8 +594,9 @@ textarea.form-control {
 }
 
 /* 8. TESTIMONIALS & FORMULÁRIO DE FEEDBACK */
-.testimonials {
-    padding: 80px 5%;
+.testimonials,
+.testimonials-section {
+    padding: 110px 5%;
     background-color: #F1F5F9;
     text-align: center;
 }
@@ -621,15 +612,41 @@ textarea.form-control {
     margin-right: auto;
 }
 
+.carousel-wrapper {
+    position: relative;
+    width: 100%;
+    max-width: 700px;
+    margin: 0 auto;
+    padding: 0 40px;
+    box-sizing: border-box;
+}
+
+.carousel-viewport {
+    overflow: hidden;
+    width: 100%;
+}
+
+.carousel-track {
+    display: flex;
+    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    width: 100%;
+}
+
 .testimonial-card {
     background: var(--white);
     border: 2px solid #E2E8F0;
     border-radius: 16px;
-    padding: 30px 25px;
-    max-width: 350px;
+    padding: 25px 20px;
     width: 100%;
+    max-width: 350px;
     text-align: left;
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    box-sizing: border-box;
+}
+
+.carousel-track .testimonial-card {
+    min-width: 100%;
+    text-align: center;
 }
 
 .testimonial-card .stars {
@@ -657,6 +674,30 @@ textarea.form-control {
     font-size: 0.85rem;
     font-weight: 600;
 }
+
+.carousel-btn {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: transparent;
+    color: #94a3b8;
+    border: none;
+    font-size: 2.2rem;
+    line-height: 1;
+    cursor: pointer;
+    padding: 10px;
+    z-index: 10;
+    transition: color 0.3s ease, transform 0.2s ease;
+    user-select: none;
+}
+
+.carousel-btn:hover {
+    color: #0284c7;
+    transform: translateY(-50%) scale(1.15);
+}
+
+.prev-btn { left: 0; }
+.next-btn { right: 0; }
 
 .feedback-form-container {
     background: #FFFFFF;
@@ -747,7 +788,8 @@ textarea.form-control {
 /* 9. SOBRE NÓS */
 #sobre {
     background: var(--white);
-    padding: 80px 5%;
+    padding: 110px 5%;
+    margin-bottom: 40px;
     border-top: 1px solid #E2E8F0;
 }
 
@@ -775,7 +817,7 @@ textarea.form-control {
 /* 10. STREAMINGS E PARCEIROS */
 .partners {
     background: var(--white);
-    padding: 70px 5%;
+    padding: 100px 5%;
     text-align: center;
     border-top: 1px solid #E2E8F0;
 }
@@ -807,7 +849,72 @@ textarea.form-control {
     transform: scale(1.1);
 }
 
-/* 11. BANNER LGPD COOKIES */
+/* 11. FAQ SECTION */
+.faq-section {
+    padding: 60px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.faq-container {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.faq-item {
+    background: #ffffff;
+    border: 1px solid #e2e8f0;
+    border-radius: 12px;
+    padding: 18px 22px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+    transition: all 0.3s ease;
+}
+
+.faq-item[open] {
+    background: #ffffff;
+    border-color: #6a1b9a;
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.12);
+}
+
+.faq-item summary {
+    font-weight: 600;
+    font-size: 1.05rem;
+    list-style: none;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: #1e293b;
+}
+
+.faq-item summary::-webkit-details-marker {
+    display: none;
+}
+
+.faq-item summary::after {
+    content: '\f078';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    font-size: 0.9rem;
+    color: #6a1b9a;
+    transition: transform 0.3s;
+}
+
+.faq-item[open] summary::after {
+    transform: rotate(180deg);
+    color: #6a1b9a;
+}
+
+.faq-item p {
+    margin-top: 12px;
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: #475569;
+}
+
+/* 12. BANNER LGPD COOKIES */
 .lgpd-banner {
     position: fixed;
     bottom: -100%;
@@ -891,7 +998,7 @@ textarea.form-control {
     color: #ffffff;
 }
 
-/* 12. BOTÃO FLUTUANTE DO WHATSAPP */
+/* 13. BOTÃO FLUTUANTE DO WHATSAPP */
 .whatsapp-float {
     position: fixed;
     bottom: 30px;
@@ -916,58 +1023,6 @@ textarea.form-control {
     box-shadow: 0 8px 25px rgba(37, 211, 102, 0.6);
 }
 
-/* 13. RODAPÉ (FOOTER) */
-/* Remove o sublinhado de qualquer link dentro do rodapé */
-footer a, 
-.footer-grid a {
-    text-decoration: none !important;
-}
-footer {
-    background: #0F172A;
-    color: #CBD5E1;
-    padding: 70px 20px 30px;
-    text-align: center;
-}
-
-.footer-grid {
-    max-width: 1000px;
-    margin: 0 auto 40px;
-    display: flex;
-    justify-content: space-around;
-    flex-wrap: wrap;
-    gap: 40px;
-    text-align: left;
-}
-
-.footer-grid h4 {
-    margin-bottom: 18px;
-    font-size: 1.25rem;
-    color: var(--white);
-}
-
-.footer-grid p {
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 0.95rem;
-}
-
-.footer-grid i {
-    color: var(--purple-light);
-}
-
-.footer-grid a {
-    color: #CBD5E1;
-    text-decoration: underline;
-    text-underline-offset: 3px;
-}
-
-.footer-grid a:hover, 
-.footer-grid a:focus {
-    color: var(--white);
-}
-
 /* 14. CHATBOT IA (KY BOT) */
 #ky-chat-widget {
     position: fixed;
@@ -975,6 +1030,32 @@ footer {
     left: 25px;
     z-index: 9999;
     font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.ky-avatar-wrapper {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    overflow: visible;
+}
+
+.ky-pulse-ring {
+    position: absolute;
+    top: -4px;
+    left: -4px;
+    right: -4px;
+    bottom: -4px;
+    border: 2px solid #a855f7;
+    border-radius: 50%;
+    animation: pulseGlow 2s infinite;
+    pointer-events: none;
+}
+
+@keyframes pulseGlow {
+    0% { transform: scale(0.95); opacity: 0.8; }
+    50% { transform: scale(1.15); opacity: 0; }
+    100% { transform: scale(0.95); opacity: 0; }
 }
 
 .ky-chat-btn {
@@ -1044,12 +1125,23 @@ footer {
     gap: 12px;
 }
 
+.ky-header-avatar-container {
+    position: relative;
+}
+
 .ky-header-avatar {
     width: 40px;
     height: 40px;
     border-radius: 50%;
     object-fit: cover;
     border: 2px solid rgba(255, 255, 255, 0.8);
+}
+
+.ky-header-avatar-container .ky-status-dot {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    border: 2px solid #6A1B9A;
 }
 
 .ky-chat-info strong {
@@ -1075,6 +1167,13 @@ footer {
     box-shadow: 0 0 6px #00FF88;
 }
 
+.ky-chat-actions {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.ky-chat-header-btn,
 .ky-chat-close {
     background: rgba(255, 255, 255, 0.15);
     border: none;
@@ -1089,678 +1188,11 @@ footer {
     transition: background 0.2s;
 }
 
+.ky-chat-header-btn:hover,
 .ky-chat-close:hover {
     background: rgba(255, 255, 255, 0.3);
 }
 
-.ky-chat-messages {
-    flex: 1;
-    padding: 16px;
-    overflow-y: auto;
-    background-color: #F8FAFC;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-}
-
-.ky-msg {
-    max-width: 88%;
-    padding: 12px 16px;
-    border-radius: 14px;
-    font-size: 0.88rem;
-    line-height: 1.5;
-    word-break: break-word;
-}
-
-.ky-bot-msg {
-    background: #FFFFFF;
-    color: #1E293B;
-    border: 1px solid #E2E8F0;
-    align-self: flex-start;
-    border-bottom-left-radius: 4px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
-}
-
-.ky-user-msg {
-    background: #6A1B9A;
-    color: #FFFFFF;
-    align-self: flex-end;
-    border-bottom-right-radius: 4px;
-}
-
-.ky-action-card {
-    display: flex !important;
-    align-items: center;
-    justify-content: space-between;
-    background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%);
-    color: #FFFFFF !important;
-    padding: 10px 14px;
-    margin-top: 10px;
-    border-radius: 10px;
-    font-weight: 600;
-    font-size: 0.84rem;
-    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
-    transition: all 0.2s ease-in-out;
-}
-
-.ky-action-card:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.4);
-}
-
-.ky-action-card-content {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-}
-
-.ky-action-card-wa {
-    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
-    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
-}
-
-.ky-action-card-wa:hover {
-    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
-}
-
-.ky-chat-input-area {
-    display: flex;
-    padding: 12px;
-    background: #FFFFFF;
-    border-top: 1px solid #E2E8F0;
-    gap: 8px;
-    align-items: center;
-}
-
-.ky-chat-input-area input {
-    flex: 1;
-    border: 1px solid #CBD5E1;
-    border-radius: 24px;
-    padding: 10px 16px;
-    outline: none;
-    font-size: 0.88rem;
-    transition: border-color 0.2s;
-}
-
-.ky-chat-input-area input:focus {
-    border-color: #6A1B9A;
-}
-
-.ky-chat-input-area button {
-    background: #6A1B9A;
-    color: #FFFFFF;
-    border: none;
-    border-radius: 50%;
-    width: 38px;
-    height: 38px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.2s, transform 0.1s;
-}
-
-.ky-chat-input-area button:hover {
-    background: #4A148C;
-    transform: scale(1.05);
-}
-
-.ky-svg-icon {
-    width: 18px;
-    height: 18px;
-    fill: currentColor;
-}
-
-/* 15. REVEAL ON SCROLL UTILITY */
-.reveal {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: all 0.6s ease;
-}
-
-.reveal.active {
-    opacity: 1;
-    transform: translateY(0);
-}
-/* Espaçamento superior da Hero Section */
-.hero {
-    padding: 160px 20px 130px;
-}
-
-/* Distância do bloco de benefícios */
-.benefits {
-    margin-top: -40px;
-    margin-bottom: 80px;
-    padding: 45px 5%;
-}
-
-/* Espaçamento da seção Sobre Nós */
-#sobre {
-    padding: 110px 5%;
-    margin-bottom: 40px;
-}
-
-/* Espaçamento do título das seções */
-.section-title {
-    padding: 60px 20px 50px;
-}
-
-/* Espaçamento da seção de depoimentos */
-.testimonials-section {
-    padding: 110px 5%;
-}
-
-/* Espaçamento da seção de parceiros/streamings */
-.partners {
-    padding: 100px 5%;
-}
-
-/* Espaçamento do rodapé */
-footer {
-    padding: 90px 20px 40px;
-}
-/* ==========================================================================
-   16. REFORMULAÇÃO COMPLETA DE RESPONSIVIDADE E IHC MOBILE
-   ========================================================================== */
-
-/* Prevenção de Zoom automático do iOS ao focar em inputs */
-@media (max-width: 768px) {
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="tel"],
-    select,
-    textarea,
-    .form-control {
-        font-size: 16px !important;
-    }
-}
-
-/* ==========================================================================
-   16. REFORMULAÇÃO COMPLETA DE RESPONSIVIDADE E IHC MOBILE
-   ========================================================================== */
-
-@media (max-width: 768px) {
-
-    /* Prevenção de Zoom em campos de formulário */
-    input[type="text"],
-    input[type="number"],
-    input[type="email"],
-    input[type="tel"],
-    select,
-    textarea,
-    .form-control {
-        font-size: 16px !important;
-    }
-
-    /* BARRA SUPERIOR FIXA E OPACA */
-    header {
-        position: fixed !important;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 65px !important;
-        padding: 0 18px !important;
-        background: #ffffff !important;
-        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
-        z-index: 100000 !important; /* Fica por cima de todos os widgets flutuantes */
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-    }
-
-    .ky-logo, .logo-img {
-        height: 38px !important;
-        width: auto !important;
-    }
-
-    /* BOTÃO HAMBÚRGUER COM ÁREA DE TOQUE 44x44px */
-    .hamburger {
-        display: flex !important;
-        align-items: center;
-        justify-content: center;
-        width: 44px;
-        height: 44px;
-        background: transparent !important;
-        border: none !important;
-        font-size: 26px !important;
-        color: var(--purple-dark) !important;
-        cursor: pointer;
-    }
-
-    /* GAVETA DE NAVEGAÇÃO 100% SÓLIDA */
-    .nav-menu {
-        position: fixed !important;
-        top: 65px !important;
-        left: 0 !important;
-        width: 100% !important;
-        height: calc(100vh - 65px) !important;
-        background: #ffffff !important; /* Fundo 100% branco e sem vazamento */
-        flex-direction: column !important;
-        justify-content: flex-start !important;
-        align-items: stretch !important;
-        padding: 20px 20px 30px !important;
-        gap: 10px !important;
-        z-index: 99999 !important;
-        
-        /* Estado Fechado */
-        opacity: 0;
-        visibility: hidden;
-        transform: translateY(-10px);
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
-        
-        overflow-y: auto !important;
-    }
-
-    /* Estado Aberto */
-    .nav-menu.active {
-        opacity: 1 !important;
-        visibility: visible !important;
-        transform: translateY(0) !important;
-    }
-
-    .nav-menu li {
-        width: 100%;
-        list-style: none;
-    }
-
-    /* LINKS FORMATADOS EM CARDS INTERATIVOS */
-    .nav-menu a {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: space-between !important;
-        padding: 14px 18px !important;
-        font-size: 1rem !important;
-        font-weight: 600 !important;
-        color: #1e293b !important;
-        background: #f8fafc !important;
-        border-radius: 12px !important;
-        border: 1px solid #e2e8f0 !important;
-        text-align: left !important;
-        text-decoration: none !important;
-        transition: background 0.2s ease, border-color 0.2s ease !important;
-    }
-
-    .nav-menu a:active,
-    .nav-menu a:hover {
-        background: #f1f5f9 !important;
-        color: var(--purple-main) !important;
-        border-color: var(--purple-light) !important;
-    }
-
-    .nav-menu a::after {
-        display: none !important;
-    }
-
-    /* BOTÃO ÁREA DO CLIENTE DESTACADO NO RODAPÉ DO MENU */
-    .mobile-only {
-        display: block !important;
-        width: 100% !important;
-        margin-top: auto !important;
-        padding-top: 15px !important;
-    }
-
-    .mobile-only .btn-client {
-        display: flex !important;
-        align-items: center !important;
-        justify-content: center !important;
-        width: 100% !important;
-        padding: 16px !important;
-        background: linear-gradient(135deg, var(--purple-main), var(--purple-dark)) !important;
-        color: #ffffff !important;
-        font-weight: 700 !important;
-        font-size: 1.05rem !important;
-        border-radius: 14px !important;
-        box-shadow: 0 4px 16px rgba(106, 27, 154, 0.3) !important;
-        text-align: center !important;
-        border: none !important;
-    }
-
-    .desktop-only-btn {
-        display: none !important;
-    }
-
-    /* COMPENSAÇÃO DO HEADER FIXO NO CORPO DA PÁGINA */
-    body {
-        padding-top: 65px !important;
-    }
-
-    .hero {
-        padding-top: 40px !important;
-    }
-}
-    /* 2. HERO SECTION OTIMIZADA */
-    .hero {
-        padding: 90px 16px 50px !important;
-        text-align: center;
-    }
-
-    .hero h1 {
-        font-size: 2.1rem !important;
-        margin-bottom: 14px;
-    }
-
-    .hero p {
-        font-size: 1rem !important;
-        margin-bottom: 24px;
-    }
-
-    .hero .btn-primary {
-        width: 100%;
-        max-width: 320px;
-        padding: 16px 20px;
-        font-size: 1.1rem;
-    }
-
-    /* 3. BLOCO DE BENEFÍCIOS (GRID MOBILE 2x2) */
-    .benefits {
-        margin: -25px 16px 40px !important;
-        padding: 20px 16px !important;
-        display: grid !important;
-        grid-template-columns: 1fr 1fr;
-        gap: 16px !important;
-        border-radius: 16px;
-    }
-
-    .benefit-item {
-        font-size: 0.88rem !important;
-        gap: 8px !important;
-    }
-
-    .benefit-item i {
-        font-size: 1.2rem !important;
-        padding: 8px !important;
-    }
-
-    /* 4. PLANOS E CARDS FLEXÍVEIS */
-    .section-title {
-        padding: 30px 16px 20px !important;
-    }
-
-    .section-title h2 {
-        font-size: 1.8rem !important;
-    }
-
-    .plans-container {
-        padding: 0 16px 50px !important;
-        gap: 20px !important;
-    }
-
-    .plan-card {
-        width: 100% !important;
-        max-width: 100% !important;
-        padding: 30px 20px !important;
-    }
-
-    .plan-speed {
-        font-size: 2.8rem !important;
-    }
-
-    .plan-price {
-        font-size: 2.3rem !important;
-    }
-
-    /* 5. SOBRE NÓS E FORMULÁRIOS */
-    #sobre {
-        padding: 50px 16px !important;
-        margin-bottom: 0 !important;
-    }
-
-    .sobre-container {
-        grid-template-columns: 1fr !important;
-        gap: 24px !important;
-        text-align: left !important;
-    }
-
-    .client-section {
-        padding: 80px 16px 40px !important;
-    }
-
-    .client-card {
-        padding: 20px 16px !important;
-    }
-
-    .form-grid {
-        grid-template-columns: 1fr !important;
-    }
-
-    /* 6. AVALIAÇÕES E CARROSSEL */
-    .testimonials-section {
-        padding: 50px 16px !important;
-    }
-
-    .carousel-wrapper {
-        padding: 0 20px !important;
-    }
-
-    .carousel-btn {
-        font-size: 1.8rem !important;
-        padding: 5px !important;
-    }
-
-    .feedback-form-container {
-        padding: 20px 16px !important;
-        margin-top: 30px !important;
-    }
-
-    /* 7. ELEMENTOS FLUTUANTES (WHATSAPP E CHATBOT) */
-    .whatsapp-float {
-        bottom: 20px !important;
-        right: 16px !important;
-        width: 52px !important;
-        height: 52px !important;
-        font-size: 28px !important;
-    }
-
-    #ky-chat-widget {
-        bottom: 20px !important;
-        left: 16px !important;
-    }
-
-    .ky-chat-btn {
-        width: 52px !important;
-        height: 52px !important;
-    }
-
-    .ky-chat-box {
-        width: calc(100vw - 32px) !important;
-        height: 80vh !important;
-        max-height: 520px;
-        bottom: 65px !important;
-        left: 0 !important;
-    }
-
-    /* 8. FOOTER E PARCEIROS */
-    .partners {
-        padding: 40px 16px !important;
-    }
-
-    .partners-logos {
-        gap: 24px !important;
-    }
-
-    .partners-logos img {
-        height: 30px !important;
-    }
-
-    footer {
-        padding: 50px 16px 30px !important;
-    }
-
-    .footer-grid {
-        display: flex !important;
-        flex-direction: column !important;
-        gap: 28px !important;
-        text-align: left !important;
-    }
-}
-
-/* Ajustes para Smartphones Pequenos (até 380px) */
-@media (max-width: 380px) {
-    .benefits {
-        grid-template-columns: 1fr !important;
-    }
-
-    .hero h1 {
-        font-size: 1.8rem !important;
-    }
-
-    .plan-speed {
-        font-size: 2.2rem !important;
-    }
-}
-/* Seção FAQ Ajustada com Alto Contraste */
-.faq-section {
-    padding: 60px 20px;
-    max-width: 900px;
-    margin: 0 auto;
-}
-.faq-container {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    margin-top: 30px;
-}
-.faq-item {
-    background: #ffffff;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 18px 22px;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
-    transition: all 0.3s ease;
-}
-.faq-item[open] {
-    background: #ffffff;
-    border-color: #6a1b9a;
-    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.12);
-}
-.faq-item summary {
-    font-weight: 600;
-    font-size: 1.05rem;
-    list-style: none;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    color: #1e293b; /* Texto escuro e visível */
-}
-.faq-item summary::-webkit-details-marker {
-    display: none;
-}
-.faq-item summary::after {
-    content: '\f078';
-    font-family: 'Font Awesome 6 Free';
-    font-weight: 900;
-    font-size: 0.9rem;
-    color: #6a1b9a;
-    transition: transform 0.3s;
-}
-.faq-item[open] summary::after {
-    transform: rotate(180deg);
-    color: #6a1b9a;
-}
-.faq-item p {
-    margin-top: 12px;
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: #475569; /* Texto escuro contrastante */
-}
-/* --- CARROSSEL DE DEPOIMENTOS DISCRETO --- */
-.carousel-wrapper {
-    position: relative;
-    width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 0 40px; /* Espaço para as setas nas pontas */
-    box-sizing: border-box;
-}
-
-.carousel-viewport {
-    overflow: hidden;
-    width: 100%;
-}
-
-.carousel-track {
-    display: flex;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
-    width: 100%;
-}
-
-.testimonial-card {
-    min-width: 100%;
-    box-sizing: border-box;
-    padding: 25px 20px;
-    text-align: center;
-}
-
-/* SETAS DISCRETAS */
-.carousel-btn {
-    position: absolute;
-    top: 50%;
-    transform: translateY(-50%);
-    background: transparent;
-    color: #94a3b8; /* Cor discreta (cinza suave) */
-    border: none;
-    font-size: 2.2rem;
-    line-height: 1;
-    cursor: pointer;
-    padding: 10px;
-    z-index: 10;
-    transition: color 0.3s ease, transform 0.2s ease;
-    user-select: none;
-}
-
-.carousel-btn:hover {
-    color: #0284c7; /* Ganha destaque suave no hover */
-    transform: translateY(-50%) scale(1.15);
-}
-
-.prev-btn { left: 0; }
-.next-btn { right: 0; }
-/* ==========================================================================
-   MELHORIAS DE ANIMAÇÃO E INTERFACE DO KY BOT (CHATBOT)
-   ========================================================================== */
-
-/* Botão Flutuante do Bot com Animação Pulse */
-.ky-avatar-wrapper {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    border-radius: 50%;
-    overflow: visible;
-}
-
-.ky-pulse-ring {
-    position: absolute;
-    top: -4px;
-    left: -4px;
-    right: -4px;
-    bottom: -4px;
-    border: 2px solid #a855f7;
-    border-radius: 50%;
-    animation: pulseGlow 2s infinite;
-    pointer-events: none;
-}
-
-@keyframes pulseGlow {
-    0% { transform: scale(0.95); opacity: 0.8; }
-    50% { transform: scale(1.15); opacity: 0; }
-    100% { transform: scale(0.95); opacity: 0; }
-}
-
-/* Status no Cabeçalho */
-.ky-header-avatar-container {
-    position: relative;
-}
-
-.ky-header-avatar-container .ky-status-dot {
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    border: 2px solid #6A1B9A;
-}
-
-/* Atalhos Rápidos (Quick Chips) */
 .ky-quick-chips {
     display: flex;
     gap: 8px;
@@ -1803,8 +1235,23 @@ footer {
     font-size: 0.85rem;
 }
 
-/* Animações das Mensagens */
+.ky-chat-messages {
+    flex: 1;
+    padding: 16px;
+    overflow-y: auto;
+    background-color: #F8FAFC;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
 .ky-msg {
+    max-width: 88%;
+    padding: 12px 16px;
+    border-radius: 14px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+    word-break: break-word;
     animation: msgSlideIn 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
 }
 
@@ -1819,6 +1266,22 @@ footer {
     }
 }
 
+.ky-bot-msg {
+    background: #FFFFFF;
+    color: #1E293B;
+    border: 1px solid #E2E8F0;
+    align-self: flex-start;
+    border-bottom-left-radius: 4px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.03);
+}
+
+.ky-user-msg {
+    background: #6A1B9A;
+    color: #FFFFFF;
+    align-self: flex-end;
+    border-bottom-right-radius: 4px;
+}
+
 .ky-chat-link {
     color: #6A1B9A;
     font-weight: 700;
@@ -1826,7 +1289,41 @@ footer {
     word-break: break-all;
 }
 
-/* Card Interativo de Boleto no Chat */
+.ky-action-card {
+    display: flex !important;
+    align-items: center;
+    justify-content: space-between;
+    background: linear-gradient(135deg, #6A1B9A 0%, #8E24AA 100%);
+    color: #FFFFFF !important;
+    padding: 10px 14px;
+    margin-top: 10px;
+    border-radius: 10px;
+    font-weight: 600;
+    font-size: 0.84rem;
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
+    transition: all 0.2s ease-in-out;
+}
+
+.ky-action-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.4);
+}
+
+.ky-action-card-content {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.ky-action-card-wa {
+    background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+    box-shadow: 0 4px 12px rgba(37, 211, 102, 0.25);
+}
+
+.ky-action-card-wa:hover {
+    box-shadow: 0 6px 18px rgba(37, 211, 102, 0.4);
+}
+
 .ky-boleto-card {
     background: #ffffff;
     border: 1px solid #e2e8f0;
@@ -1929,7 +1426,6 @@ footer {
     color: #0f172a;
 }
 
-/* Indicador de Digitação (Typing Indicator) */
 .ky-typing-indicator {
     display: inline-flex;
     align-items: center;
@@ -1953,7 +1449,6 @@ footer {
     40% { transform: scale(1); }
 }
 
-/* Toast de Notificação no Chat */
 .ky-chat-toast {
     background: #1e293b;
     color: #ffffff;
@@ -1975,26 +1470,434 @@ footer {
     transition: opacity 0.3s ease;
 }
 
-.ky-chat-header-btn {
-    background: rgba(255, 255, 255, 0.15);
+.ky-chat-input-area {
+    display: flex;
+    padding: 12px;
+    background: #FFFFFF;
+    border-top: 1px solid #E2E8F0;
+    gap: 8px;
+    align-items: center;
+}
+
+.ky-chat-input-area input {
+    flex: 1;
+    border: 1px solid #CBD5E1;
+    border-radius: 24px;
+    padding: 10px 16px;
+    outline: none;
+    font-size: 0.88rem;
+    transition: border-color 0.2s;
+}
+
+.ky-chat-input-area input:focus {
+    border-color: #6A1B9A;
+}
+
+.ky-chat-input-area button {
+    background: #6A1B9A;
+    color: #FFFFFF;
     border: none;
-    color: #ffffff;
+    border-radius: 50%;
+    width: 38px;
+    height: 38px;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    width: 28px;
-    height: 28px;
-    border-radius: 50%;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.1s;
 }
 
-.ky-chat-header-btn:hover {
-    background: rgba(255, 255, 255, 0.3);
+.ky-chat-input-area button:hover {
+    background: #4A148C;
+    transform: scale(1.05);
 }
 
-.ky-chat-actions {
+.ky-svg-icon {
+    width: 18px;
+    height: 18px;
+    fill: currentColor;
+}
+
+/* 15. RODAPÉ (FOOTER) */
+footer {
+    background: #0F172A;
+    color: #CBD5E1;
+    padding: 90px 20px 40px;
+    text-align: center;
+}
+
+footer a, 
+.footer-grid a {
+    text-decoration: none !important;
+}
+
+.footer-grid {
+    max-width: 1000px;
+    margin: 0 auto 40px;
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 40px;
+    text-align: left;
+}
+
+.footer-grid h4 {
+    margin-bottom: 18px;
+    font-size: 1.25rem;
+    color: var(--white);
+}
+
+.footer-grid p {
+    margin-bottom: 10px;
     display: flex;
     align-items: center;
-    gap: 6px;
+    gap: 10px;
+    font-size: 0.95rem;
+}
+
+.footer-grid i {
+    color: var(--purple-light);
+}
+
+.footer-grid a {
+    color: #CBD5E1;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.footer-grid a:hover, 
+.footer-grid a:focus {
+    color: var(--white);
+}
+
+/* 16. REVEAL ON SCROLL UTILITY */
+.reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.6s ease;
+}
+
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ==========================================================================
+   17. RESPONSIVIDADE E IHC MOBILE
+   ========================================================================== */
+
+@media (max-width: 768px) {
+    /* Prevenção de Zoom automático no iOS ao focar em inputs */
+    input[type="text"],
+    input[type="number"],
+    input[type="email"],
+    input[type="tel"],
+    select,
+    textarea,
+    .form-control {
+        font-size: 16px !important;
+    }
+
+    /* Barra Superior Fixa */
+    header {
+        position: fixed !important;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 65px !important;
+        padding: 0 18px !important;
+        background: #ffffff !important;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08) !important;
+        z-index: 100000 !important;
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+    }
+
+    .ky-logo, .logo-img {
+        height: 38px !important;
+        width: auto !important;
+    }
+
+    .hamburger {
+        display: flex !important;
+        align-items: center;
+        justify-content: center;
+        width: 44px;
+        height: 44px;
+        background: transparent !important;
+        border: none !important;
+        font-size: 26px !important;
+        color: var(--purple-dark) !important;
+        cursor: pointer;
+    }
+
+    .nav-menu {
+        position: fixed !important;
+        top: 65px !important;
+        left: 0 !important;
+        width: 100% !important;
+        height: calc(100vh - 65px) !important;
+        background: #ffffff !important;
+        flex-direction: column !important;
+        justify-content: flex-start !important;
+        align-items: stretch !important;
+        padding: 20px 20px 30px !important;
+        gap: 10px !important;
+        z-index: 99999 !important;
+        opacity: 0;
+        visibility: hidden;
+        transform: translateY(-10px);
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1) !important;
+        overflow-y: auto !important;
+    }
+
+    .nav-menu.active {
+        opacity: 1 !important;
+        visibility: visible !important;
+        transform: translateY(0) !important;
+    }
+
+    .nav-menu li {
+        width: 100%;
+        list-style: none;
+    }
+
+    .nav-menu a {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: space-between !important;
+        padding: 14px 18px !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        color: #1e293b !important;
+        background: #f8fafc !important;
+        border-radius: 12px !important;
+        border: 1px solid #e2e8f0 !important;
+        text-align: left !important;
+        text-decoration: none !important;
+        transition: background 0.2s ease, border-color 0.2s ease !important;
+    }
+
+    .nav-menu a:active,
+    .nav-menu a:hover {
+        background: #f1f5f9 !important;
+        color: var(--purple-main) !important;
+        border-color: var(--purple-light) !important;
+    }
+
+    .nav-menu a::after {
+        display: none !important;
+    }
+
+    .mobile-only {
+        display: block !important;
+        width: 100% !important;
+        margin-top: auto !important;
+        padding-top: 15px !important;
+    }
+
+    .mobile-only .btn-client {
+        display: flex !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+        padding: 16px !important;
+        background: linear-gradient(135deg, var(--purple-main), var(--purple-dark)) !important;
+        color: #ffffff !important;
+        font-weight: 700 !important;
+        font-size: 1.05rem !important;
+        border-radius: 14px !important;
+        box-shadow: 0 4px 16px rgba(106, 27, 154, 0.3) !important;
+        text-align: center !important;
+        border: none !important;
+    }
+
+    .desktop-only-btn {
+        display: none !important;
+    }
+
+    body {
+        padding-top: 65px !important;
+    }
+
+    /* Hero */
+    .hero {
+        padding: 90px 16px 50px !important;
+        text-align: center;
+    }
+
+    .hero h1 {
+        font-size: 2.1rem !important;
+        margin-bottom: 14px;
+    }
+
+    .hero p {
+        font-size: 1rem !important;
+        margin-bottom: 24px;
+    }
+
+    .hero .btn-primary {
+        width: 100%;
+        max-width: 320px;
+        padding: 16px 20px;
+        font-size: 1.1rem;
+    }
+
+    /* Benefícios */
+    .benefits {
+        margin: -25px 16px 40px !important;
+        padding: 20px 16px !important;
+        display: grid !important;
+        grid-template-columns: 1fr 1fr;
+        gap: 16px !important;
+        border-radius: 16px;
+    }
+
+    .benefit-item {
+        font-size: 0.88rem !important;
+        gap: 8px !important;
+    }
+
+    .benefit-item i {
+        font-size: 1.2rem !important;
+        padding: 8px !important;
+    }
+
+    /* Planos */
+    .section-title {
+        padding: 30px 16px 20px !important;
+    }
+
+    .section-title h2 {
+        font-size: 1.8rem !important;
+    }
+
+    .plans-container {
+        padding: 0 16px 50px !important;
+        gap: 20px !important;
+    }
+
+    .plan-card {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 30px 20px !important;
+    }
+
+    .plan-speed {
+        font-size: 2.8rem !important;
+    }
+
+    .plan-price {
+        font-size: 2.3rem !important;
+    }
+
+    /* Sobre Nós e Formulários */
+    #sobre {
+        padding: 50px 16px !important;
+        margin-bottom: 0 !important;
+    }
+
+    .sobre-container {
+        grid-template-columns: 1fr !important;
+        gap: 24px !important;
+        text-align: left !important;
+    }
+
+    .client-section {
+        padding: 80px 16px 40px !important;
+    }
+
+    .client-card {
+        padding: 20px 16px !important;
+    }
+
+    .form-grid {
+        grid-template-columns: 1fr !important;
+    }
+
+    /* Avaliações e Carrossel */
+    .testimonials-section {
+        padding: 50px 16px !important;
+    }
+
+    .carousel-wrapper {
+        padding: 0 20px !important;
+    }
+
+    .carousel-btn {
+        font-size: 1.8rem !important;
+        padding: 5px !important;
+    }
+
+    .feedback-form-container {
+        padding: 20px 16px !important;
+        margin-top: 30px !important;
+    }
+
+    /* Flutuantes */
+    .whatsapp-float {
+        bottom: 20px !important;
+        right: 16px !important;
+        width: 52px !important;
+        height: 52px !important;
+        font-size: 28px !important;
+    }
+
+    #ky-chat-widget {
+        bottom: 20px !important;
+        left: 16px !important;
+    }
+
+    .ky-chat-btn {
+        width: 52px !important;
+        height: 52px !important;
+    }
+
+    .ky-chat-box {
+        width: calc(100vw - 32px) !important;
+        height: 80vh !important;
+        max-height: 520px;
+        bottom: 65px !important;
+        left: 0 !important;
+    }
+
+    /* Rodapé e Parceiros */
+    .partners {
+        padding: 40px 16px !important;
+    }
+
+    .partners-logos {
+        gap: 24px !important;
+    }
+
+    .partners-logos img {
+        height: 30px !important;
+    }
+
+    footer {
+        padding: 50px 16px 30px !important;
+    }
+
+    .footer-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 28px !important;
+        text-align: left !important;
+    }
+}
+
+/* Ajustes para Smartphones Pequenos (até 380px) */
+@media (max-width: 380px) {
+    .benefits {
+        grid-template-columns: 1fr !important;
+    }
+
+    .hero h1 {
+        font-size: 1.8rem !important;
+    }
+
+    .plan-speed {
+        font-size: 2.2rem !important;
+    }
 }
