@@ -1,5 +1,5 @@
 /* ==========================================================================
-   KY BOT - CHATBOT IA DA KY WIFI TELECOM (ATUALIZADO)
+   KY BOT - CHATBOT IA DA KY WIFI TELECOM (CORRIGIDO)
    ========================================================================== */
 
 const GROQ_API_KEY = "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";
@@ -66,7 +66,6 @@ function renderKyChatWidget() {
                     </div>
                 </div>
 
-                <!-- QUICK CHIPS ATUALIZADOS -->
                 <div class="ky-quick-chips">
                     <button class="ky-chip" onclick="iniciarFluxoBoleto()"><i class="fas fa-barcode"></i> 2ª Via Boleto</button>
                     <button class="ky-chip" onclick="iniciarDiagnostico()"><i class="fas fa-wrench"></i> Testar Conexão</button>
@@ -137,6 +136,7 @@ function toggleKyChat() {
 
 function reiniciarChat() {
     fluxoBoletoState = 'IDLE';
+    isWaitingForResponse = false;
     dadosVerificacao = { cpf: '', anoNascimento: '' };
     localStorage.removeItem('ky_chat_history');
     const messagesContainer = document.getElementById('ky-chat-messages');
@@ -253,7 +253,15 @@ async function validarEBuscarBoleto() {
 
         let anoCliente = '';
         if (cliente.data_nascimento) {
-            anoCliente = cliente.data_nascimento.split('-')[0].split('/')[2] || cliente.data_nascimento.substring(0, 4);
+            const dataStr = String(cliente.data_nascimento);
+            if (dataStr.includes('-')) {
+                anoCliente = dataStr.split('-')[0];
+            } else if (dataStr.includes('/')) {
+                const partes = dataStr.split('/');
+                anoCliente = partes[2] || partes[0];
+            } else {
+                anoCliente = dataStr.substring(0, 4);
+            }
         } else if (cliente.ano_nascimento) {
             anoCliente = String(cliente.ano_nascimento);
         }
@@ -283,7 +291,6 @@ async function validarEBuscarBoleto() {
             const chavePix = boletoPendente.chave_pix || "kywifitelecom@gmail.com";
             const qrCodeUrl = `https://api.qrserver.com/v1/create-qr-code/?size=130x130&data=${encodeURIComponent(chavePix)}`;
 
-            /* CARD SEM O BOTÃO DE COPIAR CÓDIGO DE BARRAS */
             const cardBoletoHTML = `
                 <div class="ky-boleto-card">
                     <div class="ky-boleto-header">
