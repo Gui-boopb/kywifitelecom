@@ -593,153 +593,239 @@ textarea.form-control {
     box-shadow: 0 6px 15px rgba(106, 27, 154, 0.35);
 }
 
-/* 8. TESTIMONIALS & FORMULÁRIO DE FEEDBACK */
-.testimonials,
+/* ==========================================================================
+   8. TESTIMONIALS & FORMULÁRIO DE FEEDBACK (DESIGN MODERNO)
+   ========================================================================== */
 .testimonials-section {
-    padding: 110px 5%;
-    background-color: #F1F5F9;
-    text-align: center;
+    padding: 100px 5%;
+    background: linear-gradient(180deg, #F8FAFC 0%, #F1F5F9 100%);
+    position: relative;
 }
 
 .testimonials-container {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 30px;
-    margin-top: 20px;
-    max-width: 1200px;
-    margin-left: auto;
-    margin-right: auto;
+    max-width: 850px;
+    margin: 0 auto 50px;
+    position: relative;
 }
 
+/* Carrossel e Cards */
 .carousel-wrapper {
     position: relative;
     width: 100%;
-    max-width: 700px;
-    margin: 0 auto;
-    padding: 0 40px;
+    padding: 10px 50px;
     box-sizing: border-box;
 }
 
 .carousel-viewport {
     overflow: hidden;
     width: 100%;
+    border-radius: 20px;
+    box-shadow: 0 12px 32px rgba(106, 27, 154, 0.08);
 }
 
 .carousel-track {
     display: flex;
-    transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+    transition: transform 0.45s cubic-bezier(0.25, 1, 0.5, 1);
     width: 100%;
 }
 
 .testimonial-card {
-    background: var(--white);
-    border: 2px solid #E2E8F0;
-    border-radius: 16px;
-    padding: 25px 20px;
-    width: 100%;
-    max-width: 350px;
-    text-align: left;
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.04);
+    min-width: 100%;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 20px;
+    padding: 35px 30px;
     box-sizing: border-box;
+    text-align: center;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
-.carousel-track .testimonial-card {
-    min-width: 100%;
-    text-align: center;
+.testimonial-card::before {
+    content: "“";
+    position: absolute;
+    top: 15px;
+    right: 35px;
+    font-size: 5rem;
+    color: var(--purple-main);
+    opacity: 0.12;
+    font-family: Georgia, serif;
+    line-height: 1;
+    pointer-events: none;
+}
+
+.avatar-badge {
+    width: 52px;
+    height: 52px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-dark));
+    color: #FFFFFF;
+    font-weight: 700;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 12px;
+    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
 }
 
 .testimonial-card .stars {
-    color: #D97706;
-    font-size: 1.2rem;
-    margin-bottom: 12px;
+    color: #FFB800;
+    font-size: 1.25rem;
+    letter-spacing: 3px;
+    margin-bottom: 14px;
 }
 
 .testimonial-card p {
-    color: var(--text-dark);
-    font-size: 0.95rem;
-    line-height: 1.6;
-    margin-bottom: 18px;
+    color: #334155;
+    font-size: 1.05rem;
+    line-height: 1.7;
+    margin-bottom: 20px;
     font-style: italic;
+    max-width: 650px;
 }
 
 .testimonial-card h4 {
     color: var(--text-dark);
-    font-size: 1.05rem;
+    font-size: 1.1rem;
     font-weight: 700;
+    margin-bottom: 4px;
 }
 
-.testimonial-card span {
-    color: var(--purple-main);
+.testimonial-meta {
+    display: flex;
+    align-items: center;
+    gap: 8px;
     font-size: 0.85rem;
+}
+
+.testimonial-plan {
+    color: var(--purple-main);
     font-weight: 600;
 }
 
+.verified-badge {
+    background: #DCFCE7;
+    color: #15803D;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+}
+
+/* Botões de Navegação */
 .carousel-btn {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    background: transparent;
-    color: #94a3b8;
-    border: none;
-    font-size: 2.2rem;
-    line-height: 1;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: #FFFFFF;
+    border: 1px solid #CBD5E1;
+    color: var(--purple-dark);
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
-    padding: 10px;
     z-index: 10;
-    transition: color 0.3s ease, transform 0.2s ease;
-    user-select: none;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
+    transition: all 0.25s ease;
 }
 
 .carousel-btn:hover {
-    color: #0284c7;
-    transform: translateY(-50%) scale(1.15);
+    background: var(--purple-main);
+    color: #FFFFFF;
+    border-color: var(--purple-main);
+    transform: translateY(-50%) scale(1.1);
 }
 
 .prev-btn { left: 0; }
 .next-btn { right: 0; }
 
+/* Formulário de Avaliação */
 .feedback-form-container {
     background: #FFFFFF;
     border: 1px solid #E2E8F0;
-    border-radius: 16px;
-    padding: 28px;
-    max-width: 600px;
-    margin: 40px auto 0;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 24px;
+    padding: 36px 30px;
+    max-width: 680px;
+    margin: 0 auto;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
     text-align: center;
 }
 
 .feedback-form-container h3 {
-    color: #1E293B;
-    font-size: 1.25rem;
-    margin-bottom: 8px;
+    color: #0F172A;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin-bottom: 6px;
+}
+
+.feedback-form-container .subtitle {
+    color: #64748B;
+    font-size: 0.92rem;
+    margin-bottom: 20px;
+}
+
+.star-rating-wrapper {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 16px;
+    padding: 12px 20px;
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    margin-bottom: 22px;
+}
+
+.star-rating-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
 }
 
 .star-rating-input {
-    font-size: 2.2rem;
+    font-size: 2rem;
     color: #CBD5E1;
     cursor: pointer;
-    margin: 10px 0 15px;
-    display: inline-flex;
-    gap: 6px;
-    direction: ltr;
+    display: flex;
+    gap: 8px;
 }
 
 .star-btn {
-    transition: color 0.2s, transform 0.1s;
+    transition: transform 0.15s ease, color 0.15s ease;
+    user-select: none;
 }
 
 .star-btn:hover,
 .star-btn.active {
     color: #FFB800;
-    transform: scale(1.15);
+    transform: scale(1.2);
 }
 
 .feedback-inputs {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 16px;
+    text-align: left;
+}
+
+.feedback-inputs label {
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 6px;
+    display: block;
 }
 
 .feedback-inputs input,
@@ -747,44 +833,46 @@ textarea.form-control {
 .feedback-inputs textarea {
     width: 100%;
     padding: 12px 16px;
-    border: 1px solid #CBD5E1;
-    border-radius: 10px;
+    border: 1.5px solid #CBD5E1;
+    border-radius: 12px;
     font-family: inherit;
-    font-size: 0.9rem;
-    outline: none;
-    transition: border-color 0.2s, background-color 0.2s;
+    font-size: 0.95rem;
     background: #F8FAFC;
     color: var(--text-dark);
+    transition: all 0.2s ease;
 }
 
 .feedback-inputs input:focus,
 .feedback-inputs select:focus,
 .feedback-inputs textarea:focus {
-    border-color: #6A1B9A;
+    border-color: var(--purple-main);
     background: #FFFFFF;
+    box-shadow: 0 0 0 4px rgba(106, 27, 154, 0.12);
+    outline: none;
 }
 
 .btn-submit-feedback {
-    align-self: center;
-    padding: 12px 28px;
-    font-size: 0.95rem;
-    margin-top: 5px;
-    background: var(--purple-main);
-    color: var(--white);
+    width: 100%;
+    padding: 14px;
+    font-size: 1rem;
+    font-weight: 700;
+    background: linear-gradient(135deg, var(--purple-main), var(--purple-dark));
+    color: #FFFFFF;
     border: none;
-    border-radius: 8px;
-    font-weight: 600;
+    border-radius: 12px;
     cursor: pointer;
-    transition: var(--transition-default);
-    box-shadow: 0 4px 12px rgba(106, 27, 154, 0.25);
+    transition: all 0.25s ease;
+    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.25);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
 }
 
 .btn-submit-feedback:hover {
-    background: var(--purple-dark);
     transform: translateY(-2px);
-    box-shadow: 0 6px 18px rgba(106, 27, 154, 0.35);
+    box-shadow: 0 8px 22px rgba(106, 27, 154, 0.38);
 }
-
 /* 9. SOBRE NÓS */
 #sobre {
     background: var(--white);
