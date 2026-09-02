@@ -424,3 +424,72 @@ document.addEventListener("DOMContentLoaded", () => {
     registerServiceWorker();
     escutarFeedbacksEmTempoReal();
 });
+// Função para Sanitização de HTML (Evita erros ao renderizar comentários)
+function escapeHTML(str) {
+    if (!str) return '';
+    return String(str).replace(/[&<>'"]/g, tag => ({
+        '&': '&amp;',
+        '<': '&lt;',
+        '>': '&gt;',
+        "'": '&#39;',
+        '"': '&quot;'
+    }[tag] || tag));
+}
+
+// Sistema de Notificação Toast Personalizada
+function showToast(mensagem, tipo = 'success') {
+    let container = document.getElementById('toast-container');
+    if (!container) {
+        container = document.createElement('div');
+        container.id = 'toast-container';
+        document.body.appendChild(container);
+    }
+
+    const toast = document.createElement('div');
+    toast.className = `custom-toast toast-${tipo}`;
+    const icone = tipo === 'success' ? 'fa-check-circle' : 'fa-exclamation-circle';
+    toast.innerHTML = `<i class="fas ${icone}"></i><span>${mensagem}</span>`;
+
+    container.appendChild(toast);
+
+    setTimeout(() => toast.classList.add('show'), 10);
+    setTimeout(() => {
+        toast.classList.remove('show');
+        setTimeout(() => toast.remove(), 300);
+    }, 4000);
+}
+
+// Função de Envio do Formulário integrada ao Toast
+async function salvarFeedback(event) {
+    event.preventDefault();
+
+    const nome = document.getElementById('feedbackNome').value.trim();
+    const plano = document.getElementById('feedbackTipo').value;
+    const comentario = document.getElementById('feedbackComentario').value.trim();
+    const nota = document.getElementById('feedbackNota').value;
+
+    if (!nome || !plano || !comentario) {
+        showToast('Por favor, preencha todos os campos.', 'error');
+        return;
+    }
+
+    try {
+        const payload = { nome, plano, comentario, nota, data: new Date().toISOString() };
+        const response = await fetch(FIREBASE_DB_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            showToast('Avaliação enviada com sucesso!', 'success');
+            document.getElementById('feedbackForm').reset();
+            definirNota(5);
+            carregarFeedbacks();
+        } else {
+            throw new Error();
+        }
+    } catch (error) {
+        showToast('Erro ao enviar avaliação. Tente novamente.', 'error');
+    }
+}
