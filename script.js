@@ -156,7 +156,7 @@ function renderizarPlanos() {
     const planos = [
         { nome: 'Básico', velocidade: '400', preco: '79,90', destaque: false },
         { nome: 'Família', velocidade: '700', preco: '99,90', destaque: true },
-        { nome: 'Gramer Ultra', velocidade: '1000', preco: '139,90', destaque: false }
+        { nome: 'Gamer Ultra', velocidade: '1000', preco: '139,90', destaque: false }
     ];
 
     containerPlanos.innerHTML = '';
