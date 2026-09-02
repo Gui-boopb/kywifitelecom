@@ -225,60 +225,52 @@
     </section>
 
     <!-- DEPOIMENTOS E AVALIAÇÕES -->
-    <section id="depoimentos" class="testimonials-section reveal" aria-label="Depoimentos e Avaliações">
-        <div class="section-title">
-            <h2>O que nossos clientes dizem</h2>
-            <p>Veja as avaliações de quem já usa a Ky WIFI Telecom</p>
+<div class="feedback-form-container">
+    <h3>Deixe sua Avaliação</h3>
+    <p class="subtitle">Sua opinião é fundamental para evoluirmos continuamente!</p>
+
+    <form id="feedbackForm" onsubmit="salvarFeedback(event)">
+        <div class="star-rating-wrapper">
+            <span class="star-rating-label">Sua Nota</span>
+            <div class="star-rating-input" id="starRatingInput" title="Selecione sua nota">
+                <span class="star-btn active" data-value="1" onclick="definirNota(1)">★</span>
+                <span class="star-btn active" data-value="2" onclick="definirNota(2)">★</span>
+                <span class="star-btn active" data-value="3" onclick="definirNota(3)">★</span>
+                <span class="star-btn active" data-value="4" onclick="definirNota(4)">★</span>
+                <span class="star-btn active" data-value="5" onclick="definirNota(5)">★</span>
+            </div>
         </div>
+        <input type="hidden" id="feedbackNota" value="5">
 
-        <div class="testimonials-container"></div>
+        <div class="feedback-inputs">
+            <div class="input-group">
+                <label for="feedbackNome">Seu Nome Completo</label>
+                <input type="text" id="feedbackNome" placeholder="Ex: Maria Silva" required autocomplete="name">
+            </div>
 
-        <div class="feedback-form-container">
-            <h3>Deixe sua Avaliação</h3>
-            <p class="subtitle">Sua opinião é fundamental para evoluirmos continuamente!</p>
+            <div class="input-group">
+                <label for="feedbackTipo">Qual é o seu Plano Atual?</label>
+                <select id="feedbackTipo" required>
+                    <option value="" disabled selected>Escolha o seu plano contratado...</option>
+                    <option value="Plano 400 MEGA - Fibra">Plano 400 MEGA (R$ 79,90/mês)</option>
+                    <option value="Plano 700 MEGA - Fibra">Plano 700 MEGA (R$ 99,90/mês)</option>
+                    <option value="Plano 1000 MEGA - Fibra">Plano 1000 MEGA (R$ 139,90/mês)</option>
+                    <option value="Cliente Corporativo / Empresa">Cliente Corporativo / Empresa</option>
+                    <option value="Outro Plano / Antigo">Outro Plano Ky Telecom</option>
+                </select>
+            </div>
 
-            <form id="feedbackForm" onsubmit="salvarFeedback(event)">
-                <div class="star-rating-input" id="starRatingInput" title="Selecione sua nota">
-                    <span class="star-btn active" data-value="1" onclick="definirNota(1)">★</span>
-                    <span class="star-btn active" data-value="2" onclick="definirNota(2)">★</span>
-                    <span class="star-btn active" data-value="3" onclick="definirNota(3)">★</span>
-                    <span class="star-btn active" data-value="4" onclick="definirNota(4)">★</span>
-                    <span class="star-btn active" data-value="5" onclick="definirNota(5)">★</span>
-                </div>
-                <input type="hidden" id="feedbackNota" value="5">
+            <div class="input-group">
+                <label for="feedbackComentario">Seu Depoimento ou Experiência</label>
+                <textarea id="feedbackComentario" rows="3" placeholder="Conte como tem sido sua velocidade, suporte e atendimento..." required></textarea>
+            </div>
 
-                <div class="feedback-inputs">
-                    <div class="input-group">
-                        <label for="feedbackNome">Seu Nome Completo</label>
-                        <input type="text" id="feedbackNome" placeholder="Ex: Maria Silva" required autocomplete="name">
-                    </div>
-
-                    <div class="input-group">
-                        <label for="feedbackTipo">Qual é o seu Plano Atual?</label>
-                        <select id="feedbackTipo" required>
-                            <option value="" disabled selected>Escolha o seu plano contratado...</option>
-                            <option value="Plano 400 MEGA - Fibra">Plano 400 MEGA (R$ 79,90/mês)</option>
-                            <option value="Plano 700 MEGA - Fibra">Plano 700 MEGA (R$ 99,90/mês)</option>
-                            <option value="Plano 1000 MEGA - Fibra">Plano 1000 MEGA (R$ 139,90/mês)</option>
-                            <option value="Cliente Corporativo / Empresa">Cliente Corporativo / Empresa</option>
-                            <option value="Outro Plano / Antigo">Outro Plano Ky Telecom</option>
-                        </select>
-                    </div>
-
-                    <div class="input-group">
-                        <label for="feedbackComentario">Seu Depoimento ou Experiência</label>
-                        <textarea id="feedbackComentario" rows="3" placeholder="Conte como tem sido sua velocidade, suporte e atendimento..." required></textarea>
-                    </div>
-
-                    <div class="feedback-actions">
-                        <button type="submit" class="btn-submit-feedback">
-                            <i class="fas fa-paper-plane" aria-hidden="true"></i> Publicar Depoimento
-                        </button>
-                    </div>
-                </div>
-            </form>
+            <button type="submit" class="btn-submit-feedback">
+                <i class="fas fa-paper-plane" aria-hidden="true"></i> Publicar Depoimento
+            </button>
         </div>
-    </section>
+    </form>
+</div>
 
     <!-- SEÇÃO FAQ (PERGUNTAS FREQUENTES) -->
     <section id="faq" class="faq-section reveal">
