@@ -280,6 +280,7 @@ async function carregarFeedbacks() {
             return;
         }
 
+        // Filtra apenas depoimentos que possuem texto válido (ignora vazios, nulos e apenas aspas)
         const validKeys = Object.keys(data).reverse().filter(key => {
             const fb = data[key];
             if (!fb || !fb.comentario) return false;
@@ -301,36 +302,26 @@ async function carregarFeedbacks() {
             const fb = data[key];
             const nota = Math.min(Math.max(parseInt(fb.nota, 10) || 5, 1), 5);
             const estrelasStr = '★'.repeat(nota) + '☆'.repeat(5 - nota);
-            const nomeCliente = escapeHTML(fb.nome || 'Cliente');
-            const inicial = nomeCliente.charAt(0).toUpperCase();
 
             cardsHTML += `
                 <div class="testimonial-card">
-                    <div class="avatar-badge">${inicial}</div>
-                    <div class="stars">${estrelasStr}</div>
+                    <div class="stars" style="color: #FFB800;">${estrelasStr}</div>
                     <p>"${escapeHTML(fb.comentario.trim())}"</p>
-                    <h4>${nomeCliente}</h4>
-                    <div class="testimonial-meta">
-                        <span class="testimonial-plan">${escapeHTML(fb.plano || '')}</span>
-                        <span class="verified-badge"><i class="fas fa-check-circle"></i> Verificado</span>
-                    </div>
+                    <h4>${escapeHTML(fb.nome || 'Cliente')}</h4>
+                    <span>${escapeHTML(fb.plano || '')}</span>
                 </div>
             `;
         });
 
         container.innerHTML = `
             <div class="carousel-wrapper" onmouseenter="pararAutoPlay()" onmouseleave="iniciarAutoPlay()">
-                <button type="button" class="carousel-btn prev-btn" onclick="feedbackAnterior(true)" aria-label="Avaliação Anterior">
-                    <i class="fas fa-chevron-left"></i>
-                </button>
+                <button type="button" class="carousel-btn prev-btn" onclick="feedbackAnterior(true)" aria-label="Avaliação Anterior">‹</button>
                 <div class="carousel-viewport">
                     <div class="carousel-track" id="carouselTrack">
                         ${cardsHTML}
                     </div>
                 </div>
-                <button type="button" class="carousel-btn next-btn" onclick="proximoFeedback(true)" aria-label="Próxima Avaliação">
-                    <i class="fas fa-chevron-right"></i>
-                </button>
+                <button type="button" class="carousel-btn next-btn" onclick="proximoFeedback(true)" aria-label="Próxima Avaliação">›</button>
             </div>
         `;
 
